@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Meal System">
+<meta name="theme-color" content="#1a1a2e">
+<title>What Should I Eat?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{overscroll-behavior:none;font-family:'Nunito',system-ui,sans-serif;background:#FAFAF7;color:#1a1a1a;min-height:100dvh}
+  button{font-family:inherit;border:none;cursor:pointer}
+  input{font-family:inherit}
+
+  .header{background:linear-gradient(135deg,#1a1a2e,#16213e 50%,#0f3460);padding:max(env(safe-area-inset-top,14px),14px) 20px 16px;text-align:center;position:relative;overflow:hidden}
+  .header::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(76,175,80,.12) 0%,transparent 50%),radial-gradient(circle at 80% 50%,rgba(124,77,255,.12) 0%,transparent 50%)}
+  .header h1{font-size:24px;font-weight:900;color:#fff;position:relative;letter-spacing:-.5px}
+  .header p{font-size:12px;color:rgba(255,255,255,.5);font-weight:600;position:relative;margin-top:2px}
+
+  .tabs{display:flex;background:#fff;border-bottom:1.5px solid #eee;position:sticky;top:0;z-index:100}
+  .tab-btn{flex:1;padding:10px 4px;background:none;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#bbb;border-bottom:2.5px solid transparent;transition:all .15s}
+  .tab-btn.active{color:#1a1a2e;border-bottom-color:#1a1a2e}
+  .tab-emoji{font-size:16px;display:block;margin-bottom:2px}
+
+  .container{max-width:520px;margin:0 auto;padding:16px 14px 40px}
+  .page{display:none}.page.active{display:block}
+  .section-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#aaa;margin-bottom:10px}
+  .fade-in{animation:fadeIn .2s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ---- EAT TAB ---- */
+  .energy-row{display:flex;gap:8px;margin-bottom:18px}
+  .energy-btn{flex:1;padding:12px 6px;border-radius:14px;border:2.5px solid #e0e0e0;background:#fff;transition:all .2s;text-align:center}
+  .energy-btn.active{transform:scale(1.03)}
+  .energy-btn .emoji{font-size:24px;margin-bottom:2px}
+  .energy-btn .elabel{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:#999}
+
+  .meal-list{display:flex;flex-direction:column;gap:5px}
+  .meal-btn{width:100%;text-align:left;padding:11px 14px;border-radius:10px;border:1.5px solid #eee;background:#fff;transition:all .12s}
+  .meal-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .meal-name{font-size:14px;font-weight:700;color:#333}
+  .meal-meta{display:flex;gap:6px;flex-shrink:0}
+  .meal-cal{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700}
+  .meal-time{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#ccc}
+  .meal-detail{margin-top:8px;padding-top:8px}
+  .meal-stats{display:flex;gap:12px;margin-bottom:4px}
+  .meal-stats span{font-size:11px;color:#888}
+  .meal-stats strong{font-weight:800}
+  .meal-note{font-size:12px;color:#888;font-style:italic;line-height:1.4}
+  .pick-btn{width:100%;margin-top:10px;padding:14px;border-radius:10px;color:#fff;font-size:13px;font-weight:800;letter-spacing:.3px;transition:transform .1s}
+  .pick-btn:active{transform:scale(.97)}
+
+  .counter-card{margin-top:22px;padding:14px 16px;border-radius:12px;background:#fff;border:1.5px solid #eee}
+  .counter-top{display:flex;justify-content:space-between;align-items:center}
+  .counter-info .counter-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#aaa}
+  .counter-info .counter-sub{font-size:9px;color:#ccc;margin-top:2px}
+  .counter-controls{display:flex;align-items:center;gap:12px}
+  .counter-btn{width:34px;height:34px;border-radius:8px;border:1.5px solid #ddd;background:#fafafa;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#888;-webkit-user-select:none}
+  .counter-btn:active{background:#eee}
+  .counter-num{font-size:28px;font-weight:900;font-family:'JetBrains Mono',monospace;min-width:24px;text-align:center;transition:color .3s}
+  .counter-bar{margin-top:8px;height:5px;border-radius:3px;background:#f0f0f0;overflow:hidden}
+  .counter-fill{height:100%;border-radius:3px;transition:all .3s}
+  .counter-msg{font-size:10px;margin-top:5px;font-weight:600}
+
+  /* ---- GROCERY TAB ---- */
+  .grocery-input-row{display:flex;gap:8px;margin-bottom:16px}
+  .grocery-input{flex:1;padding:12px 14px;border-radius:10px;border:1.5px solid #ddd;background:#fff;font-size:15px;font-weight:600;color:#333;outline:none;transition:border-color .15s}
+  .grocery-input:focus{border-color:#1a1a2e}
+  .grocery-input::placeholder{color:#ccc;font-weight:600}
+  .grocery-add-btn{padding:12px 18px;border-radius:10px;background:#1a1a2e;color:#fff;font-size:14px;font-weight:800;flex-shrink:0}
+  .grocery-add-btn:active{opacity:.8}
+
+  .list-item{display:flex;align-items:center;gap:10px;padding:11px 14px;background:#fff;border-radius:10px;border:1.5px solid #eee;margin-bottom:5px;transition:all .15s;-webkit-user-select:none}
+  .list-item.checked{opacity:.5}
+  .list-item.checked .list-text{text-decoration:line-through;color:#bbb}
+  .list-check{width:24px;height:24px;border-radius:7px;border:2px solid #ddd;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s;color:transparent}
+  .list-item.checked .list-check{border-color:#4CAF50;background:#4CAF50;color:#fff}
+  .list-text{font-size:14px;font-weight:600;color:#333;flex:1}
+  .list-delete{width:28px;height:28px;border-radius:6px;background:none;color:#ddd;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:color .15s}
+  .list-delete:active{color:#D32F2F}
+
+  .list-actions{display:flex;gap:8px;margin-top:12px}
+  .list-action-btn{flex:1;padding:10px;border-radius:8px;border:1.5px solid #eee;background:#fff;font-size:11px;font-weight:700;color:#999;text-align:center}
+  .list-action-btn:active{background:#f5f5f5}
+
+  .smart-section{margin-top:20px}
+  .smart-toggle{width:100%;text-align:left;padding:12px 14px;border-radius:10px;border:1.5px solid #eee;background:#fff;font-size:13px;font-weight:700;color:#666;transition:all .12s;margin-bottom:6px}
+  .smart-toggle.open{border-color:#1a1a2e;background:#f8f8f5}
+  .smart-content{display:none;padding:0;margin-bottom:8px}
+  .smart-content.visible{display:block}
+
+  .smart-group{margin-bottom:10px;border-radius:10px;overflow:hidden;border:1.5px solid #eee;background:#fff}
+  .smart-group-header{padding:8px 14px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+  .smart-item{padding:9px 14px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;gap:8px;cursor:pointer;-webkit-user-select:none}
+  .smart-item:last-child{border-bottom:none}
+  .smart-item:active{background:#f5f5f5}
+  .smart-item-text{font-size:13px;font-weight:600;color:#333;flex:1}
+  .smart-item-why{font-size:10px;color:#aaa;font-style:italic;max-width:140px;text-align:right}
+  .smart-item-add{font-size:18px;color:#4CAF50;font-weight:800;flex-shrink:0;width:24px;text-align:center}
+  .smart-item.added .smart-item-add{color:#ccc}
+  .smart-item.added .smart-item-text{color:#bbb}
+
+  .meal-unlock{margin-top:10px;padding:12px 14px;border-radius:10px;border:1.5px solid #eee;background:#fff}
+  .meal-unlock-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#aaa;margin-bottom:8px}
+  .unlock-item{padding:5px 0;border-bottom:1px solid #f8f8f8;font-size:12px;color:#555;display:flex;align-items:baseline;gap:6px}
+  .unlock-item:last-child{border-bottom:none}
+  .unlock-arrow{color:#4CAF50;font-weight:800;font-size:10px;flex-shrink:0}
+  .unlock-ingredients{color:#999;font-size:11px}
+
+  /* ---- REFERENCE TAB ---- */
+  .expand-section{display:flex;flex-direction:column;gap:6px}
+  .expand-btn{width:100%;text-align:left;padding:12px 14px;border-radius:10px;border:1.5px solid #eee;background:#fff;font-size:13px;font-weight:700;color:#666;transition:all .12s}
+  .expand-content{padding:10px 14px;border-radius:10px;background:#fff;border:1.5px solid #f0f0f0}
+
+  .flavor-row{padding:5px 0;border-bottom:1px solid #f5f5f5;display:flex;gap:10px;align-items:center}
+  .flavor-row:last-child{border-bottom:none}
+  .flavor-tag{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;min-width:60px;padding:3px 6px;border-radius:4px;text-align:center;color:#fff}
+  .flavor-fix{font-size:12px;color:#666}
+  .boost-row{padding:5px 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;align-items:baseline}
+  .boost-row:last-child{border-bottom:none}
+  .boost-name{font-size:12px;font-weight:700;color:#333}
+  .boost-to{font-size:11px;color:#bbb}
+  .boost-gain{font-size:11px;font-weight:700;color:#E65100;font-family:'JetBrains Mono',monospace;flex-shrink:0}
+  .bowl-card{padding:8px 0;border-bottom:1px solid #f5f5f5}
+  .bowl-card:last-child{border-bottom:none}
+  .bowl-profile{font-size:12px;font-weight:800;margin-bottom:2px}
+  .bowl-detail{font-size:11px;color:#888;line-height:1.4}
+
+  .app-footer{margin-top:24px;padding:16px;border-radius:12px;background:linear-gradient(135deg,#1a1a2e,#16213e);text-align:center}
+  .app-footer .main{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+  .app-footer .sub{font-size:10px;color:rgba(255,255,255,.4)}
+
+  .empty-state{text-align:center;padding:24px;color:#ccc;font-size:13px;font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>What Should I Eat?</h1>
+  <p>You have food. You have options. Pick one.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('eat')"><span class="tab-emoji">🍚</span>Eat</button>
+  <button class="tab-btn" onclick="switchTab('grocery')"><span class="tab-emoji">🛒</span>Shop</button>
+  <button class="tab-btn" onclick="switchTab('ref')"><span class="tab-emoji">📋</span>Reference</button>
+</div>
+
+<div class="container">
+
+  <!-- ========== EAT ========== -->
+  <div class="page active" id="page-eat">
+    <div class="section-label">Energy level right now</div>
+    <div class="energy-row" id="energy-row"></div>
+    <div id="options-area"></div>
+    <div class="counter-card">
+      <div class="counter-top">
+        <div class="counter-info"><div class="counter-label">Meals today</div><div class="counter-sub">Target: 4 food events in your window</div></div>
+        <div class="counter-controls">
+          <button class="counter-btn" onclick="changeMC(-1)">−</button>
+          <span class="counter-num" id="mc-num">0</span>
+          <button class="counter-btn" onclick="changeMC(1)">+</button>
+        </div>
+      </div>
+      <div class="counter-bar"><div class="counter-fill" id="mc-fill"></div></div>
+      <div class="counter-msg" id="mc-msg"></div>
+    </div>
+  </div>
+
+  <!-- ========== SHOP ========== -->
+  <div class="page" id="page-grocery">
+    <div class="grocery-input-row">
+      <input class="grocery-input" id="grocery-input" type="text" placeholder="Add item..." enterkeyhint="done">
+      <button class="grocery-add-btn" onclick="addItem()">Add</button>
+    </div>
+    <div id="list-area"></div>
+    <div class="list-actions" id="list-actions" style="display:none">
+      <button class="list-action-btn" onclick="clearCheckedItems()">Clear checked</button>
+      <button class="list-action-btn" onclick="clearAllItems()">Clear all</button>
+    </div>
+
+    <div class="smart-section">
+      <button class="smart-toggle" id="smart-toggle-wf" onclick="toggleSmart('wf')">
+        🌿 Whole Foods — while you're here...
+      </button>
+      <div class="smart-content" id="smart-wf"></div>
+
+      <button class="smart-toggle" id="smart-toggle-af" onclick="toggleSmart('af')">
+        📦 Amazon Fresh — restocking ideas
+      </button>
+      <div class="smart-content" id="smart-af"></div>
+
+      <button class="smart-toggle" id="smart-toggle-meals" onclick="toggleSmart('meals')">
+        🍜 What these ingredients unlock
+      </button>
+      <div class="smart-content" id="smart-meals"></div>
+    </div>
+  </div>
+
+  <!-- ========== REFERENCE ========== -->
+  <div class="page" id="page-ref">
+    <div class="expand-section" id="ref-panels"></div>
+  </div>
+
+  <div class="app-footer">
+    <div class="main">Eating something always beats eating nothing.</div>
+    <div class="sub">Every option here is taking care of yourself.</div>
+  </div>
+</div>
+
+<script>
+/**
+ * ============================================================
+ *  CONFIG — Hey Claude, edit this to update everything.
+ *  The UI renders from these objects automatically.
+ * ============================================================
+ */
+const CONFIG = {
+  meals: {
+    low: {
+      label: "Low Spoons", emoji: "🫠", color: "#4CAF50", dark: "#2E7D32", light: "#E8F5E9",
+      subtitle: "Grab. Eat. Done.",
+      options: [
+        { name: "Perfect Bar", cal: "300-330", protein: "15-17g", time: "0 min", note: "Desk drawer MVP." },
+        { name: "PB Toast + Honey", cal: "~400", protein: "10g", time: "2 min", note: "Thick layer, no measuring." },
+        { name: "Yogurt Bowl", cal: "~500", protein: "40g", time: "2 min", note: "Add collagen + hemp hearts from the tray." },
+        { name: "Apple + PB (generous)", cal: "~350", protein: "7g", time: "1 min", note: "Slice or don't." },
+        { name: "Dark Chocolate + Nuts", cal: "~400", protein: "8g", time: "0 min", note: "This counts as eating." },
+        { name: "Dates + PB", cal: "~300", protein: "6g", time: "1 min", note: "3 dates, stuff with PB." },
+        { name: "Trail Mix (big handful)", cal: "~500", protein: "12g", time: "0 min", note: "A cup = real calories." },
+      ]
+    },
+    medium: {
+      label: "Some Energy", emoji: "🍳", color: "#FF9800", dark: "#E65100", light: "#FFF3E0",
+      subtitle: "5-10 min. Assembly, not cooking.",
+      options: [
+        { name: "Rice Bowl + Protein + Sauce", cal: "~600-700", protein: "25-35g", time: "5 min", note: "Frozen rice → microwave → topping → sauce." },
+        { name: "Miso Soup + Edamame + Egg", cal: "~350", protein: "25g", time: "5 min", note: "Miso paste + hot water + frozen edamame + jammy egg." },
+        { name: "Canned Salmon Toast", cal: "~450", protein: "25g", time: "4 min", note: "Salmon + mayo + Everything Bagel on toast." },
+        { name: "Frozen Gyoza Pan-Fry", cal: "~400", protein: "15g", time: "7 min", note: "From frozen → pan → soy-vinegar dip." },
+        { name: "Udon + Egg + Miso Broth", cal: "~450", protein: "20g", time: "5 min", note: "Boil udon, make broth, crack egg in." },
+        { name: "Curry Pouch on Rice", cal: "~550", protein: "15g", time: "4 min", note: "Microwave rice + pour curry. Full meal." },
+        { name: "Chicken Strips + Frozen Veg", cal: "~450", protein: "30g", time: "8 min", note: "Air fryer or microwave." },
+        { name: "Chickpea + Tahini + Rice", cal: "~550", protein: "18g", time: "5 min", note: "Drain can → rice → tahini → lemon." },
+      ]
+    },
+    high: {
+      label: "Feeling It", emoji: "🔥", color: "#7C4DFF", dark: "#4A148C", light: "#EDE7F6",
+      subtitle: "Cook something good. Freeze the extra.",
+      options: [
+        { name: "Japanese Curry", cal: "~700", protein: "35g", time: "30 min", note: "Golden Curry + chicken thigh + potato + carrot. Freezes perfectly." },
+        { name: "Soy-Braised Pork Belly", cal: "~600", protein: "25g", time: "45 min", note: "Soy + mirin + sake + ginger + star anise. Freeze with liquid." },
+        { name: "Bulgogi", cal: "~550", protein: "30g", time: "15 min", note: "Pull marinated bag from freezer → pan-fry." },
+        { name: "Miso Salmon", cal: "~500", protein: "35g", time: "20 min", note: "Broil from thawed. White miso + mirin glaze." },
+        { name: "Real Stir-Fry", cal: "~600", protein: "25g", time: "15 min", note: "Fresh aromatics, proper wok heat." },
+        { name: "Batch Jammy Eggs (6-8)", cal: "~70 each", protein: "6g each", time: "10 min", note: "6.5 min boil. Lasts 5 days in fridge." },
+        { name: "Batch Rice → Freeze", cal: "~300/bag", protein: "5g", time: "25 min", note: "2-3 cups dry → portion flat while hot → freeze." },
+      ]
+    }
+  },
+
+  // Smart suggestions — these appear as "while you're here" prompts, not rigid checklists
+  // Users tap + to add any of these to their active list
+  smartSuggestions: {
+    wholefoods: [
+      { name: "Staples", color: "#00674B", items: [
+        { name: "Eggs", why: "Always need eggs" },
+        { name: "Hodo tofu (pre-marinated)", why: "Zero-prep protein" },
+        { name: "Kimchi", why: "Lasts weeks, instant flavor" },
+        { name: "Fresh ginger root", why: "Freeze whole, grate from frozen" },
+        { name: "Gochujang", why: "One-ingredient flavor bomb" },
+        { name: "Furikake", why: "Transforms plain rice" },
+        { name: "White miso", why: "Soups, marinades, dressings" },
+      ]},
+      { name: "Worth the Premium", color: "#00674B", items: [
+        { name: "Hot bar containers (2-3)", why: "Instant meals, 2-3 days" },
+        { name: "Pre-cut veg + hummus", why: "You're paying for the cutting" },
+        { name: "Prepared grain salad", why: "High cal, zero effort" },
+        { name: "Living herbs (basil/cilantro)", why: "Last 3 weeks vs 3 days" },
+        { name: "Rotisserie chicken", why: "Protein for days" },
+      ]},
+      { name: "Novelty / Exploration", color: "#00674B", items: [
+        { name: "Frozen bao buns", why: "Steam from frozen, 8 min" },
+        { name: "Frozen scallion pancakes", why: "Pan-fry, 4 min/side" },
+        { name: "Lap cheong (Chinese sausage)", why: "Sweet/savory, high cal" },
+        { name: "Interesting cheese", why: "Dopamine snack" },
+        { name: "Fly By Jing chili crisp", why: "Premium upgrade" },
+        { name: "Ponzu", why: "Instant acid + umami" },
+      ]},
+    ],
+    amazon: [
+      { name: "Core Restock", color: "#E68A00", items: [
+        { name: "Eggs (18-pack)", why: "Foundation protein" },
+        { name: "Whole grain bread", why: "Toast base" },
+        { name: "Full-fat yogurt / Siggi's", why: "Yogurt bowl base" },
+        { name: "PB (large jar)", why: "Goes on everything" },
+        { name: "Perfect Bars", why: "Zero-effort protein" },
+        { name: "Frozen edamame (shelled)", why: "17g protein/cup, 2 min" },
+        { name: "Frozen chicken strips", why: "Air fryer backup" },
+        { name: "Apples", why: "Grab-and-eat" },
+      ]},
+      { name: "Pantry & Flavor", color: "#E68A00", items: [
+        { name: "Rice (jasmine or short grain)", why: "Batch cook + freeze" },
+        { name: "Soy sauce", why: "If running low" },
+        { name: "Sesame oil", why: "If running low" },
+        { name: "Chili crisp", why: "If running low" },
+        { name: "Miso paste", why: "Soups + marinades" },
+        { name: "Canned salmon (2-3)", why: "Shelf-stable protein" },
+        { name: "Nuts / trail mix", why: "Calorie catch-up" },
+        { name: "Dark chocolate", why: "Essential" },
+      ]},
+      { name: "Frozen Backup", color: "#E68A00", items: [
+        { name: "Frozen salmon fillets", why: "Cook from frozen" },
+        { name: "Frozen gyoza", why: "Pan-fry, 6 min" },
+        { name: "Frozen stir-fry veg", why: "Instant vegetables" },
+        { name: "Frozen blueberries", why: "Yogurt topping" },
+        { name: "Curry simmer pouches", why: "Pour over rice" },
+        { name: "Frozen udon", why: "Quick noodle soup" },
+      ]},
+    ],
+  },
+
+  // What meals specific ingredients unlock
+  mealUnlocks: [
+    { ingredients: "Eggs + rice + soy sauce", unlocks: "Tamago gohan, fried rice, jammy egg bowls" },
+    { ingredients: "Miso paste + edamame", unlocks: "Miso soup in 3 minutes" },
+    { ingredients: "Canned salmon + bread + Everything Bagel", unlocks: "Salmon toast (450 cal, 25g protein)" },
+    { ingredients: "Gochujang + sesame oil + rice", unlocks: "Korean-style bowl with any protein" },
+    { ingredients: "Coconut curry pouch + rice", unlocks: "Full curry meal, 4 minutes" },
+    { ingredients: "Chicken thighs + Golden Curry blocks", unlocks: "Japanese curry (freezes 6+ portions)" },
+    { ingredients: "White miso + salmon fillets", unlocks: "Miso-glazed salmon, restaurant quality" },
+    { ingredients: "Tahini + chickpeas + lemon", unlocks: "Mediterranean bowl, no cooking" },
+    { ingredients: "Furikake + rice + nori", unlocks: "Japanese rice bowl, zero cooking" },
+  ],
+
+  flavors: [
+    { missing: "Umami", fix: "soy sauce · miso · fish sauce · parmesan", color: "#5D4037" },
+    { missing: "Acid", fix: "rice vinegar · lime · kimchi · pickled ginger", color: "#F57F17" },
+    { missing: "Heat", fix: "chili crisp · gochujang · sambal · jalapeño", color: "#D32F2F" },
+    { missing: "Fat", fix: "sesame oil · olive oil · tahini · butter · nuts", color: "#FF8F00" },
+    { missing: "Aroma", fix: "furikake · toasted sesame · ginger · herbs", color: "#7B1FA2" },
+  ],
+
+  boosts: [
+    { add: "Olive oil (1 tbsp)", to: "any savory food", gain: "+120 cal" },
+    { add: "Hemp hearts (3 tbsp)", to: "yogurt, bowls", gain: "+170 cal +10g" },
+    { add: "Extra PB (generous)", to: "toast, yogurt", gain: "+190 cal +7g" },
+    { add: "Tahini drizzle", to: "bowls, veggies", gain: "+180 cal" },
+    { add: "Collagen scoop", to: "yogurt, coffee", gain: "+40 cal +10g" },
+    { add: "Handful of nuts", to: "anywhere", gain: "+200 cal" },
+  ],
+
+  bowls: [
+    { profile: "Japanese", condiments: "Soy + sesame + furikake + nori", proteins: "Salmon, tofu, jammy egg", color: "#D32F2F" },
+    { profile: "Korean", condiments: "Gochujang + sesame + kimchi", proteins: "Bulgogi, fried egg, tofu", color: "#E65100" },
+    { profile: "Thai", condiments: "Coconut curry + lime + basil", proteins: "Chicken thigh, tofu", color: "#2E7D32" },
+    { profile: "Chinese-ish", condiments: "Chili crisp + soy + scallion", proteins: "Pork belly, egg, lap cheong", color: "#C62828" },
+    { profile: "Mediterranean", condiments: "Tahini + lemon + olive oil", proteins: "Chickpeas, salmon", color: "#1565C0" },
+  ],
+};
+/* ============ CONFIG END ============ */
+
+// ---- STATE ----
+let energy=null, selMeal=null, mc=0, openRef=null, openSmart=null;
+let groceryList = []; // [{text, checked}]
+
+function load(){
+  try{
+    const s=JSON.parse(localStorage.getItem('ms2')||'{}');
+    if(s.mc) mc=s.mc;
+    if(s.list) groceryList=s.list;
+  }catch(e){}
+}
+function save(){
+  try{localStorage.setItem('ms2',JSON.stringify({mc,list:groceryList}))}catch(e){}
+}
+load();
+
+// ---- TABS ----
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['eat','grocery','ref'][i]===t));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+t).classList.add('active');
+  if(t==='grocery') document.getElementById('grocery-input').focus();
+}
+
+// ---- EAT TAB ----
+function initEat(){
+  document.getElementById('energy-row').innerHTML=Object.entries(CONFIG.meals).map(([k,t])=>
+    `<button class="energy-btn" data-l="${k}" onclick="setE('${k}')"><div class="emoji">${t.emoji}</div><div class="elabel">${t.label}</div></button>`
+  ).join('');
+}
+function setE(l){
+  energy=l;selMeal=null;
+  document.querySelectorAll('.energy-btn').forEach(b=>{
+    const a=b.dataset.l===l,t=CONFIG.meals[b.dataset.l];
+    b.classList.toggle('active',a);
+    b.style.borderColor=a?t.color:'#e0e0e0';b.style.background=a?t.light:'#fff';
+    b.querySelector('.elabel').style.color=a?t.dark:'#999';
+  });
+  renderOpts();
+}
+function renderOpts(){
+  const a=document.getElementById('options-area');
+  if(!energy){a.innerHTML='';return}
+  const t=CONFIG.meals[energy];
+  let h=`<div class="fade-in"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><div class="section-label" style="margin:0">Your options</div><div style="font-size:11px;font-weight:700;color:${t.color}">${t.subtitle}</div></div><div class="meal-list">`;
+  t.options.forEach((m,i)=>{
+    const act=selMeal===i;
+    h+=`<button class="meal-btn" onclick="selM(${i})" style="${act?`border-color:${t.color};background:${t.light};padding:13px 14px`:''}"><div class="meal-top"><span class="meal-name" style="${act?`color:${t.dark}`:''}">${m.name}</span><div class="meal-meta"><span class="meal-cal" style="color:${t.color}">${m.cal}</span><span class="meal-time">${m.time}</span></div></div>${act?`<div class="meal-detail" style="border-top:1px solid ${t.color}33"><div class="meal-stats"><span><strong style="color:${t.dark}">${m.protein}</strong> protein</span><span><strong style="color:${t.dark}">${m.time}</strong> active</span></div><div class="meal-note">${m.note}</div></div>`:''}</button>`;
+  });
+  h+=`</div><button class="pick-btn" onclick="pickR()" style="background:linear-gradient(135deg,${t.color},${t.dark})">🎲 Can't decide? Pick for me.</button></div>`;
+  a.innerHTML=h;
+}
+function selM(i){selMeal=selMeal===i?null:i;renderOpts()}
+function pickR(){
+  if(!energy)return;const o=CONFIG.meals[energy].options;let n;
+  do{n=Math.floor(Math.random()*o.length)}while(o.length>1&&n===selMeal);
+  selMeal=n;renderOpts();
+  setTimeout(()=>{const el=document.querySelector('.meal-btn[style*="border-color"]');if(el)el.scrollIntoView({behavior:'smooth',block:'center'})},50);
+}
+function changeMC(d){mc=Math.max(0,mc+d);updMC();save()}
+function updMC(){
+  const n=document.getElementById('mc-num'),f=document.getElementById('mc-fill'),m=document.getElementById('mc-msg');
+  const p=Math.min(100,(mc/4)*100),c=mc>=4?'#4CAF50':mc>=2?'#FF9800':mc>0?'#D32F2F':'#ccc';
+  const g=mc>=4?'#4CAF50,#66BB6A':mc>=2?'#FF9800,#FFB74D':'#D32F2F,#EF5350';
+  n.textContent=mc;n.style.color=c;f.style.width=p+'%';f.style.background=`linear-gradient(90deg,${g})`;
+  if(!mc)m.textContent='';else if(mc<4){m.textContent=`${4-mc} more to go`;m.style.color='#aaa'}
+  else{m.textContent='✓ In range. Anything else is bonus.';m.style.color='#4CAF50'}
+}
+
+// ---- GROCERY TAB ----
+const inp=document.getElementById('grocery-input');
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addItem()}});
+
+function addItem(text){
+  const val=text||inp.value.trim();
+  if(!val)return;
+  // Check for duplicates (case insensitive)
+  if(groceryList.some(it=>it.text.toLowerCase()===val.toLowerCase()&&!it.checked))return;
+  groceryList.unshift({text:val,checked:false});
+  if(!text)inp.value='';
+  save();renderList();
+}
+function toggleItem(i){
+  groceryList[i].checked=!groceryList[i].checked;
+  // Move checked items to bottom
+  const unchecked=groceryList.filter(x=>!x.checked);
+  const checked=groceryList.filter(x=>x.checked);
+  groceryList=[...unchecked,...checked];
+  save();renderList();
+}
+function deleteItem(i){
+  groceryList.splice(i,1);
+  save();renderList();
+}
+function clearCheckedItems(){
+  groceryList=groceryList.filter(x=>!x.checked);
+  save();renderList();
+}
+function clearAllItems(){
+  groceryList=[];save();renderList();
+}
+
+function renderList(){
+  const area=document.getElementById('list-area');
+  const actions=document.getElementById('list-actions');
+  if(!groceryList.length){
+    area.innerHTML='<div class="empty-state">Your list is empty.<br>Type above or tap suggestions below.</div>';
+    actions.style.display='none';
+    return;
+  }
+  actions.style.display='flex';
+  let h='';
+  groceryList.forEach((it,i)=>{
+    h+=`<div class="list-item ${it.checked?'checked':''}" onclick="toggleItem(${i})">
+      <div class="list-check">${it.checked?'✓':''}</div>
+      <span class="list-text">${esc(it.text)}</span>
+      <button class="list-delete" onclick="event.stopPropagation();deleteItem(${i})">×</button>
+    </div>`;
+  });
+  area.innerHTML=h;
+  // Update smart suggestions to show which items are already on the list
+  if(openSmart)renderSmartContent(openSmart);
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function isOnList(name){
+  return groceryList.some(it=>it.text.toLowerCase()===name.toLowerCase()&&!it.checked);
+}
+
+function addFromSmart(name,btn){
+  if(isOnList(name))return;
+  addItem(name);
+  btn.textContent='✓';btn.style.color='#ccc';
+  btn.parentElement.classList.add('added');
+}
+
+function toggleSmart(key){
+  const wasOpen=openSmart===key;
+  // Close all
+  ['wf','af','meals'].forEach(k=>{
+    document.getElementById('smart-'+k).classList.remove('visible');
+    document.getElementById('smart-toggle-'+k).classList.remove('open');
+  });
+  if(!wasOpen){
+    openSmart=key;
+    document.getElementById('smart-toggle-'+key).classList.add('open');
+    renderSmartContent(key);
+    document.getElementById('smart-'+key).classList.add('visible');
+  } else {
+    openSmart=null;
+  }
+}
+
+function renderSmartContent(key){
+  const el=document.getElementById('smart-'+key);
+  if(key==='meals'){
+    let h='<div class="meal-unlock"><div class="meal-unlock-title">Ingredient → Meal Unlocks</div>';
+    CONFIG.mealUnlocks.forEach(m=>{
+      h+=`<div class="unlock-item"><span class="unlock-arrow">→</span><div><strong>${m.ingredients}</strong><br><span class="unlock-ingredients">${m.unlocks}</span></div></div>`;
+    });
+    h+='</div>';
+    el.innerHTML=h;
+    return;
+  }
+
+  const groups=key==='wf'?CONFIG.smartSuggestions.wholefoods:CONFIG.smartSuggestions.amazon;
+  let h='';
+  groups.forEach(g=>{
+    h+=`<div class="smart-group"><div class="smart-group-header" style="background:${g.color}"><span>${g.name}</span></div>`;
+    g.items.forEach(it=>{
+      const onList=isOnList(it.name);
+      h+=`<div class="smart-item ${onList?'added':''}" onclick="if(!${onList})addFromSmart('${it.name.replace(/'/g,"\\'")}',this.querySelector('.smart-item-add'))">
+        <span class="smart-item-text">${it.name}</span>
+        ${it.why?`<span class="smart-item-why">${it.why}</span>`:''}
+        <span class="smart-item-add">${onList?'✓':'+'}</span>
+      </div>`;
+    });
+    h+=`</div>`;
+  });
+  el.innerHTML=h;
+}
+
+// ---- REFERENCE TAB ----
+function initRef(){
+  const p=document.getElementById('ref-panels');
+  let h='';
+  h+=`<button class="expand-btn" onclick="togR('flavor')">🧂 Flavor Fix — food tastes boring?</button><div class="expand-content" id="ref-flavor" style="display:none">`;
+  CONFIG.flavors.forEach(f=>h+=`<div class="flavor-row"><span class="flavor-tag" style="background:${f.color}">${f.missing}</span><span class="flavor-fix">${f.fix}</span></div>`);
+  h+=`</div>`;
+  h+=`<button class="expand-btn" onclick="togR('calorie')">⚡ Invisible Calorie Boosts</button><div class="expand-content" id="ref-calorie" style="display:none">`;
+  CONFIG.boosts.forEach(b=>h+=`<div class="boost-row"><div><span class="boost-name">${b.add}</span> <span class="boost-to">→ ${b.to}</span></div><span class="boost-gain">${b.gain}</span></div>`);
+  h+=`</div>`;
+  h+=`<button class="expand-btn" onclick="togR('bowls')">🍜 Rice Bowl Rotations</button><div class="expand-content" id="ref-bowls" style="display:none">`;
+  CONFIG.bowls.forEach(b=>h+=`<div class="bowl-card"><div class="bowl-profile" style="color:${b.color}">${b.profile}</div><div class="bowl-detail">${b.condiments}<br>Best with: ${b.proteins}</div></div>`);
+  h+=`</div>`;
+  p.innerHTML=h;
+}
+function togR(panel){
+  ['flavor','calorie','bowls'].forEach(p=>{
+    document.getElementById('ref-'+p).style.display=(p===panel&&openRef!==panel)?'block':'none';
+  });
+  openRef=openRef===panel?null:panel;
+}
+
+// ---- INIT ----
+initEat();initRef();updMC();renderList();
+</script>
+</body>
+</html>
