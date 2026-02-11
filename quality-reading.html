@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Reading Sources</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fdfaf5;
+            --text: #1a1a1a;
+            --accent: #c84630;
+            --subtle: #8b7355;
+            --border: #d4cfc4;
+            --highlight: #fff9e6;
+        }
+
+```
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Crimson Pro', serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        padding: 0;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+    }
+
+    header {
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 2rem;
+        margin-bottom: 3rem;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+    }
+
+    .subtitle {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.875rem;
+        color: var(--subtle);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .category {
+        margin-bottom: 3rem;
+        animation: slideUp 0.6s ease-out backwards;
+    }
+
+    .category:nth-child(1) { animation-delay: 0.1s; }
+    .category:nth-child(2) { animation-delay: 0.2s; }
+    .category:nth-child(3) { animation-delay: 0.3s; }
+    .category:nth-child(4) { animation-delay: 0.4s; }
+    .category:nth-child(5) { animation-delay: 0.5s; }
+
+    .category-title {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.75rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.25rem;
+        font-weight: 500;
+    }
+
+    .source {
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border);
+        transition: transform 0.2s ease;
+    }
+
+    .source:last-child {
+        border-bottom: none;
+    }
+
+    .source:hover {
+        transform: translateX(4px);
+    }
+
+    .source-name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        line-height: 1.3;
+    }
+
+    .source-name a {
+        color: var(--text);
+        text-decoration: none;
+        border-bottom: 2px solid var(--accent);
+        transition: all 0.2s ease;
+        padding-bottom: 2px;
+    }
+
+    .source-name a:hover {
+        color: var(--accent);
+        border-bottom-color: transparent;
+    }
+
+    .source-description {
+        font-size: 1.125rem;
+        color: var(--subtle);
+        margin-bottom: 0.75rem;
+    }
+
+    .source-meta {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.75rem;
+        color: var(--subtle);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .tag {
+        display: inline-block;
+        background: var(--highlight);
+        padding: 0.25rem 0.5rem;
+        margin-right: 0.5rem;
+        border-radius: 2px;
+        font-size: 0.7rem;
+    }
+
+    footer {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 2px solid var(--border);
+        text-align: center;
+        color: var(--subtle);
+        font-size: 0.875rem;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            padding: 1.5rem 1rem;
+        }
+
+        header {
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .category {
+            margin-bottom: 2rem;
+        }
+
+        .source {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="subtitle">Curated Reading</div>
+            <h1>Quality Longform Sources</h1>
+        </header>
+
+```
+    <main>
+        <section class="category">
+            <h2 class="category-title">Deep Essays & Analysis</h2>
+            
+            <article class="source">
+                <h3 class="source-name"><a href="https://aeon.co/essays" target="_blank" rel="noopener">Aeon</a></h3>
+                <p class="source-description">Thoughtful essays on philosophy, science, psychology, and culture. Each piece is carefully researched and beautifully written, typically 2,000-4,000 words.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Science</span>
+                    <span class="tag">Philosophy</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://noemamag.com/" target="_blank" rel="noopener">Noema</a></h3>
+                <p class="source-description">Philosophy, governance, technology, and climate from the Berggruen Institute. Intellectual but accessible, focused on big questions about society and future.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Philosophy</span>
+                    <span class="tag">Tech</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://worksinprogress.co/" target="_blank" rel="noopener">Works in Progress</a></h3>
+                <p class="source-description">Deep investigations into technology, infrastructure, progress, and policy. Well-researched pieces on how things actually work and how they could work better.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Tech</span>
+                    <span class="tag">Infrastructure</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://asteriskmag.com/" target="_blank" rel="noopener">Asterisk</a></h3>
+                <p class="source-description">Rigorous reporting on global problems, science, and policy. Evidence-based approach to understanding complex issues from effective altruism perspective.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Policy</span>
+                    <span class="tag">Science</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://emergencemagazine.org/" target="_blank" rel="noopener">Emergence</a></h3>
+                <p class="source-description">Stunning literary essays exploring the threads connecting ecology, culture, and spirituality. Gorgeously designed with original artwork and photography.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Nature</span>
+                    <span class="tag">Culture</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="category">
+            <h2 class="category-title">Curated Collections</h2>
+            
+            <article class="source">
+                <h3 class="source-name"><a href="https://longreads.com/" target="_blank" rel="noopener">Longreads</a></h3>
+                <p class="source-description">Daily curation of the best longform journalism from across the web. Their editors' picks surface excellent stories you'd otherwise miss.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Aggregator</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://longform.org/" target="_blank" rel="noopener">Longform</a></h3>
+                <p class="source-description">Curated recommendations of the best nonfiction writing. Includes both recent pieces and archival gems. Newsletter and podcast available.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Aggregator</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://thebrowser.com/" target="_blank" rel="noopener">The Browser</a></h3>
+                <p class="source-description">Five outstanding articles recommended daily, across all subjects. Brief context provided for each. Worth the subscription.</p>
+                <div class="source-meta">
+                    <span class="tag">Paid</span>
+                    <span class="tag">Daily Picks</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://aldaily.com/" target="_blank" rel="noopener">Arts & Letters Daily</a></h3>
+                <p class="source-description">Updated daily with links to articles, essays, and book reviews from around the web. Academic but not stuffy, wide-ranging topics.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Academic</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="category">
+            <h2 class="category-title">Culture & Ideas</h2>
+            
+            <article class="source">
+                <h3 class="source-name"><a href="https://www.nplusonemag.com/" target="_blank" rel="noopener">n+1</a></h3>
+                <p class="source-description">Literary and intellectual magazine covering politics, literature, and culture with sharp, sophisticated writing. Some articles free, full access by subscription.</p>
+                <div class="source-meta">
+                    <span class="tag">Partial Paywall</span>
+                    <span class="tag">Literary</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://thebaffler.com/" target="_blank" rel="noopener">The Baffler</a></h3>
+                <p class="source-description">Cultural criticism and political commentary with attitude. Skeptical of both Silicon Valley and conventional wisdom.</p>
+                <div class="source-meta">
+                    <span class="tag">Partial Paywall</span>
+                    <span class="tag">Criticism</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://thepointmag.com/" target="_blank" rel="noopener">The Point</a></h3>
+                <p class="source-description">Philosophy and culture magazine that takes ideas seriously. Explores fundamental questions about how to live and what to value.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Philosophy</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://publicbooks.org/" target="_blank" rel="noopener">Public Books</a></h3>
+                <p class="source-description">Book reviews and essays connecting scholarship to public life. Makes academic work accessible without dumbing it down.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Reviews</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://www.bostonreview.net/" target="_blank" rel="noopener">Boston Review</a></h3>
+                <p class="source-description">Political and literary magazine mixing reporting, essays, and fiction. Progressive perspective with serious intellectual engagement.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Politics</span>
+                    <span class="tag">Literature</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="category">
+            <h2 class="category-title">Established Magazines</h2>
+            
+            <article class="source">
+                <h3 class="source-name"><a href="https://www.newyorker.com/" target="_blank" rel="noopener">The New Yorker</a></h3>
+                <p class="source-description">Gold standard for longform journalism, profiles, and cultural criticism. Deep reporting combined with literary storytelling.</p>
+                <div class="source-meta">
+                    <span class="tag">Paywall</span>
+                    <span class="tag">Premium</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://www.theatlantic.com/" target="_blank" rel="noopener">The Atlantic</a></h3>
+                <p class="source-description">Magazine covering politics, culture, technology, and more. Strong reported features and thoughtful analysis. Metered paywall.</p>
+                <div class="source-meta">
+                    <span class="tag">Paywall</span>
+                    <span class="tag">News & Culture</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://harpers.org/" target="_blank" rel="noopener">Harper's</a></h3>
+                <p class="source-description">Oldest general-interest magazine in America. Known for narrative journalism, essays, and the Harper's Index. Intellectual and contrarian.</p>
+                <div class="source-meta">
+                    <span class="tag">Paywall</span>
+                    <span class="tag">Literary</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://www.smithsonianmag.com/" target="_blank" rel="noopener">Smithsonian</a></h3>
+                <p class="source-description">History, science, arts, and culture from the Smithsonian Institution. Well-researched features on fascinating subjects.</p>
+                <div class="source-meta">
+                    <span class="tag">Partial Paywall</span>
+                    <span class="tag">Science & History</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="category">
+            <h2 class="category-title">Investigative & Reported</h2>
+            
+            <article class="source">
+                <h3 class="source-name"><a href="https://www.propublica.org/" target="_blank" rel="noopener">ProPublica</a></h3>
+                <p class="source-description">Nonprofit investigative newsroom producing deeply reported stories on abuses of power and betrayals of public trust. All free.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Investigative</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://www.theguardian.com/us/long-reads" target="_blank" rel="noopener">Guardian Long Reads</a></h3>
+                <p class="source-description">Dedicated section for in-depth features and investigations from The Guardian. International perspective, all free to read.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">International</span>
+                </div>
+            </article>
+
+            <article class="source">
+                <h3 class="source-name"><a href="https://features.apmreports.org/" target="_blank" rel="noopener">APM Reports</a></h3>
+                <p class="source-description">In-depth documentary journalism in audio and text. Investigative series on education, justice, and public affairs.</p>
+                <div class="source-meta">
+                    <span class="tag">Free</span>
+                    <span class="tag">Audio & Text</span>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>Bookmark this page for when you need something worthwhile to read.</p>
+    </footer>
+</div>
+```
+
+</body>
+</html>
