@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-600 Study Plan Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #4ade80;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .week {
+            margin-bottom: 30px;
+        }
+
+        .week-header {
+            background: #f3f4f6;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .week-header h2 {
+            color: #1f2937;
+            font-size: 1.3rem;
+        }
+
+        .week-progress {
+            background: #e5e7eb;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #4b5563;
+            font-weight: 600;
+        }
+
+        .day {
+            margin-bottom: 15px;
+            border-left: 3px solid #e5e7eb;
+            padding-left: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .day.completed {
+            border-left-color: #4ade80;
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox:hover {
+            border-color: #667eea;
+        }
+
+        .day.completed .checkbox {
+            background: #4ade80;
+            border-color: #4ade80;
+        }
+
+        .checkbox::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .day.completed .checkbox::after {
+            opacity: 1;
+        }
+
+        .day-title {
+            font-weight: 600;
+            color: #1f2937;
+            flex-grow: 1;
+        }
+
+        .day-time {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .day-description {
+            color: #4b5563;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-left: 36px;
+        }
+
+        .day-description ul {
+            margin-top: 8px;
+            margin-left: 20px;
+        }
+
+        .day-description li {
+            margin-bottom: 4px;
+        }
+
+        .cost-summary {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .cost-summary h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .cost-summary p {
+            color: #78350f;
+            line-height: 1.6;
+        }
+
+        .tips {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .tips h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .tips ul {
+            margin-left: 20px;
+            color: #1e3a8a;
+        }
+
+        .tips li {
+            margin-bottom: 6px;
+        }
+
+        .reset-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>DP-600 Study Plan</h1>
+            <p>2-Week ADHD-Optimized Certification Tracker</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="overallProgress">0%</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="cost-summary">
+                <h3>💰 Investment Summary</h3>
+                <p><strong>Total Cost:</strong> ~$195-215 (Exam $165 + Practice Tests $30-50)</p>
+                <p><strong>Time Investment:</strong> 22-27 hours over 2 weeks</p>
+                <p><strong>ROI:</strong> Only Fabric-specific cert + knowledge gaps filled = worth it for Fast-Fabric positioning</p>
+            </div>
+
+            <div class="week" id="week1">
+                <div class="week-header">
+                    <h2>Week 1: Gap Discovery → Targeted Learning</h2>
+                    <span class="week-progress" id="week1Progress">0/7</span>
+                </div>
+
+                <div class="day" data-day="1">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 1: Diagnostic First</span>
+                        <span class="day-time">1-2 hours</span>
+                    </div>
+                    <div class="day-description">
+                        <ul>
+                            <li>Take free diagnostic test (MeasureUp/Whizlabs)</li>
+                            <li>Use existing knowledge - don't study first</li>
+                            <li>Document weak areas by module</li>
+                            <li>Goal: Get heat map of actual gaps</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day" data-day="2">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 2-3: Microsoft Learn (Targeted)</span>
+                        <span class="day-time">3-4 hours</span>
+                    </div>
+                    <div class="day-description">
+                        Skip modules you crushed. Focus on:
+                        <ul>
+                            <li>Real-Time Analytics/KQL databases</li>
+                            <li>Data Activator</li>
+                            <li>Eventhouse/streaming</li>
+                            <li>Advanced OneLake features (shortcuts, mirroring)</li>
+                            <li>Use 45-min sessions with breaks</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day" data-day="3">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 4-5: Hands-On Labs</span>
+                        <span class="day-time">3-4 hours</span>
+                    </div>
+                    <div class="day-description">
+                        Spin up Fabric workspace and USE the features:
+                        <ul>
+                            <li>Create KQL database, run queries</li>
+                            <li>Set up Data Activator rule</li>
+                            <li>Configure shortcuts/mirroring</li>
+                            <li>Immediate dopamine from "it works"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day" data-day="4">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 6-7: Round 1 Review</span>
+                        <span class="day-time">2 hours</span>
+                    </div>
+                    <div class="day-description">
+                        <ul>
+                            <li>Revisit diagnostic weak areas</li>
+                            <li>Flash cards for terminology</li>
+                            <li>Watch MS Learn videos for fuzzy concepts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="week" id="week2">
+                <div class="week-header">
+                    <h2>Week 2: Practice Exam Loop → Exam Ready</h2>
+                    <span class="week-progress" id="week2Progress">0/6</span>
+                </div>
+
+                <div class="day" data-day="5">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 8: Full Practice Exam #1</span>
+                        <span class="day-time">2-3 hours</span>
+                    </div>
+                    <div class="day-description">
+                        <ul>
+                            <li>Buy practice test package ($30-50)</li>
+                            <li>Take full timed exam (180 mins)</li>
+                            <li>Don't look up answers during - simulate real conditions</li>
+                            <li>Score yourself, identify NEW gaps</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day" data-day="6">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 9-10: Deep Dive Weak Areas</span>
+                        <span class="day-time">4-5 hours</span>
+                    </div>
+                    <div class="day-description">
+                        Based on Practice Exam #1:
+                        <ul>
+                            <li>Return to Microsoft Learn for specific modules</li>
+                            <li>Hands-on for anything you got wrong</li>
+                            <li>Focus on "Microsoft logic" - how they phrase tricks</li>
+                            <li>Track progress visually</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day" data-day="7">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 11-12: Concept Reinforcement</span>
+                        <span class="day-time">3 hours</span>
+                    </div>
+                    <div class="day-description">
+                        <ul>
+                            <li>Review exam objectives document</li>
+                            <li>Practice scenarios: "Client wants real-time dashboards"</li>
+                            <li>Spark notebook optimization questions</li>
+                            <li>Capacity/SKU planning scenarios</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day" data-day="8">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 13: Full Practice Exam #2</span>
+                        <span class="day-time">2-3 hours</span>
+                    </div>
+                    <div class="day-description">
+                        <ul>
+                            <li>Same conditions as Exam #1</li>
+                            <li>Goal: 80%+ pass rate</li>
+                            <li>If 85%+, you're ready!</li>
+                            <li>If 70-80%, identify final gaps for Day 14</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day" data-day="9">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 14: Final Cram</span>
+                        <span class="day-time">1-2 hours</span>
+                    </div>
+                    <div class="day-description">
+                        <ul>
+                            <li>Focus ONLY on remaining weak spots</li>
+                            <li>Review incorrect answers from both practice exams</li>
+                            <li>Skim OneLake security, workspace permissions</li>
+                            <li>Schedule real exam for Day 15-17</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day" data-day="10">
+                    <div class="day-header">
+                        <div class="checkbox"></div>
+                        <span class="day-title">Day 15-17: EXAM DAY! 🎯</span>
+                        <span class="day-time">3 hours</span>
+                    </div>
+                    <div class="day-description">
+                        <ul>
+                            <li>Take the DP-600 exam</li>
+                            <li>You've got this!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips">
+                <h3>🧠 ADHD-Specific Tactics</h3>
+                <ul>
+                    <li><strong>Pomodoro timers:</strong> 45 min study, 15 min break</li>
+                    <li><strong>Visual progress tracker:</strong> This page! Check it frequently</li>
+                    <li><strong>Hands-on bias:</strong> If reading feels like slog, jump to labs</li>
+                    <li><strong>Practice test as video game:</strong> Beat your high score</li>
+                    <li><strong>Immediate rewards:</strong> Coffee/snack after each module</li>
+                    <li><strong>No marathon sessions:</strong> Cap at 2 hours/day max</li>
+                </ul>
+            </div>
+
+            <button class="reset-button" onclick="resetProgress()">Reset All Progress</button>
+        </div>
+    </div>
+
+    <script>
+        // Load progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem('dp600Progress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                progress.forEach(dayNum => {
+                    const day = document.querySelector(`[data-day="${dayNum}"]`);
+                    if (day) day.classList.add('completed');
+                });
+            }
+            updateProgress();
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const completed = Array.from(document.querySelectorAll('.day.completed'))
+                .map(day => day.dataset.day);
+            localStorage.setItem('dp600Progress', JSON.stringify(completed));
+        }
+
+        // Toggle day completion
+        document.querySelectorAll('.day-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const day = this.parentElement;
+                day.classList.toggle('completed');
+                saveProgress();
+                updateProgress();
+            });
+        });
+
+        // Update progress bars
+        function updateProgress() {
+            const totalDays = document.querySelectorAll('.day').length;
+            const completedDays = document.querySelectorAll('.day.completed').length;
+            const percentage = Math.round((completedDays / totalDays) * 100);
+            
+            const progressFill = document.getElementById('overallProgress');
+            progressFill.style.width = percentage + '%';
+            progressFill.textContent = percentage + '%';
+
+            // Week 1 progress
+            const week1Days = document.querySelectorAll('#week1 .day').length;
+            const week1Completed = document.querySelectorAll('#week1 .day.completed').length;
+            document.getElementById('week1Progress').textContent = `${week1Completed}/${week1Days}`;
+
+            // Week 2 progress
+            const week2Days = document.querySelectorAll('#week2 .day').length;
+            const week2Completed = document.querySelectorAll('#week2 .day.completed').length;
+            document.getElementById('week2Progress').textContent = `${week2Completed}/${week2Days}`;
+        }
+
+        // Reset all progress
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress?')) {
+                localStorage.removeItem('dp600Progress');
+                document.querySelectorAll('.day').forEach(day => {
+                    day.classList.remove('completed');
+                });
+                updateProgress();
+            }
+        }
+
+        // Initialize on page load
+        loadProgress();
+    </script>
+</body>
+</html>
