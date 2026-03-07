@@ -422,6 +422,7 @@ const CONFIG = {
 // ---- STATE ----
 let energy=null, selMeal=null, mc=0, openRef=null, openSmart=null;
 let groceryList = []; // [{text, checked}]
+let planData = {};
 
 function load(){
   try{
@@ -429,9 +430,13 @@ function load(){
     if(s.mc) mc=s.mc;
     if(s.list) groceryList=s.list;
   }catch(e){}
+  try{const p=JSON.parse(localStorage.getItem('ms2-plan')||'{}');planData=p}catch(e){}
 }
 function save(){
   try{localStorage.setItem('ms2',JSON.stringify({mc,list:groceryList}))}catch(e){}
+}
+function savePlan(){
+  try{localStorage.setItem('ms2-plan',JSON.stringify(planData))}catch(e){}
 }
 load();
 
