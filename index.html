@@ -6,170 +6,227 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Meal System">
-<meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#0c0c1d">
 <title>What Should I Eat?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --bg:           #0c0c1d;
+    --bg-raised:    #13132b;
+    --bg-surface:   #1a1a38;
+    --text:         #e8e8f0;
+    --text-dim:     #9fa0c4;
+    --text-faint:   #6b6b9e;
+    --border:       rgba(255,255,255,0.06);
+    --border-hi:    rgba(255,255,255,0.11);
+    --accent:       #818cf8;
+    --accent-dim:   rgba(129,140,248,0.13);
+    --green:        #34d399;
+    --green-dim:    rgba(52,211,153,0.12);
+    --amber:        #fbbf24;
+    --amber-dim:    rgba(251,191,36,0.12);
+    --red:          #f87171;
+    --red-dim:      rgba(248,113,113,0.12);
+    --blue:         #60a5fa;
+    --blue-dim:     rgba(96,165,250,0.12);
+    --font:         'DM Sans', -apple-system, sans-serif;
+    --mono:         'DM Mono', 'SF Mono', monospace;
+  }
+
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  html,body{overscroll-behavior:none;font-family:'Nunito',system-ui,sans-serif;background:#FAFAF7;color:#1a1a1a;min-height:100dvh}
+  html,body{overscroll-behavior:none;font-family:var(--font);background:var(--bg);color:var(--text);min-height:100dvh}
   button{font-family:inherit;border:none;cursor:pointer}
   input{font-family:inherit}
 
+  body::before{content:'';position:fixed;inset:0;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px;pointer-events:none;z-index:9999}
+
+  .life-nav{display:flex;align-items:center;gap:1rem;padding:0.65rem 1.25rem;background:var(--bg-raised);border-bottom:1px solid var(--border-hi);position:sticky;top:0;z-index:300}
+  .life-nav-back{color:var(--accent);text-decoration:none;font-size:0.82rem;font-weight:500}
+  .life-nav-back:hover{text-decoration:underline}
+  .life-nav-title{color:var(--text-dim);font-size:0.82rem;font-family:var(--mono)}
+
   .header{background:linear-gradient(135deg,#1a1a2e,#16213e 50%,#0f3460);padding:max(env(safe-area-inset-top,14px),14px) 20px 16px;text-align:center;position:relative;overflow:hidden}
   .header::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(76,175,80,.12) 0%,transparent 50%),radial-gradient(circle at 80% 50%,rgba(124,77,255,.12) 0%,transparent 50%)}
-  .header h1{font-size:24px;font-weight:900;color:#fff;position:relative;letter-spacing:-.5px}
-  .header p{font-size:12px;color:rgba(255,255,255,.5);font-weight:600;position:relative;margin-top:2px}
+  .header h1{font-size:24px;font-weight:700;color:#fff;position:relative;letter-spacing:-.5px}
+  .header p{font-size:12px;color:rgba(255,255,255,.5);font-weight:500;position:relative;margin-top:2px}
 
-  .tabs{display:flex;background:#fff;border-bottom:1.5px solid #eee;position:sticky;top:0;z-index:100}
-  .tab-btn{flex:1;padding:10px 4px;background:none;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#bbb;border-bottom:2.5px solid transparent;transition:all .15s}
-  .tab-btn.active{color:#1a1a2e;border-bottom-color:#1a1a2e}
+  .tabs{display:flex;background:var(--bg-raised);border-bottom:1.5px solid var(--border-hi);position:sticky;top:40px;z-index:100}
+  .tab-btn{flex:1;padding:10px 4px;background:none;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-faint);border-bottom:2.5px solid transparent;transition:all .15s}
+  .tab-btn.active{color:var(--text);border-bottom-color:var(--accent)}
   .tab-emoji{font-size:16px;display:block;margin-bottom:2px}
 
   .container{max-width:520px;margin:0 auto;padding:16px 14px 40px}
   .page{display:none}.page.active{display:block}
-  .section-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#aaa;margin-bottom:10px}
+  .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-faint);margin-bottom:10px}
   .fade-in{animation:fadeIn .2s ease}
   @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
   /* ---- EAT TAB ---- */
   .energy-row{display:flex;gap:8px;margin-bottom:18px}
-  .energy-btn{flex:1;padding:12px 6px;border-radius:14px;border:2.5px solid #e0e0e0;background:#fff;transition:all .2s;text-align:center}
+  .energy-btn{flex:1;padding:12px 6px;border-radius:14px;border:2px solid var(--border-hi);background:var(--bg-raised);transition:all .2s;text-align:center}
   .energy-btn.active{transform:scale(1.03)}
   .energy-btn .emoji{font-size:24px;margin-bottom:2px}
-  .energy-btn .elabel{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:#999}
+  .energy-btn .elabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--text-faint)}
 
   .meal-list{display:flex;flex-direction:column;gap:5px}
-  .meal-btn{width:100%;text-align:left;padding:11px 14px;border-radius:10px;border:1.5px solid #eee;background:#fff;transition:all .12s}
+  .meal-btn{width:100%;text-align:left;padding:11px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-raised);transition:all .12s}
   .meal-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .meal-name{font-size:14px;font-weight:700;color:#333}
+  .meal-name{font-size:14px;font-weight:600;color:var(--text)}
   .meal-meta{display:flex;gap:6px;flex-shrink:0}
-  .meal-cal{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700}
-  .meal-time{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#ccc}
+  .meal-cal{font-family:var(--mono);font-size:10px;font-weight:700}
+  .meal-time{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text-faint)}
   .meal-detail{margin-top:8px;padding-top:8px}
   .meal-stats{display:flex;gap:12px;margin-bottom:4px}
-  .meal-stats span{font-size:11px;color:#888}
-  .meal-stats strong{font-weight:800}
-  .meal-note{font-size:12px;color:#888;font-style:italic;line-height:1.4}
-  .pick-btn{width:100%;margin-top:10px;padding:14px;border-radius:10px;color:#fff;font-size:13px;font-weight:800;letter-spacing:.3px;transition:transform .1s}
+  .meal-stats span{font-size:11px;color:var(--text-dim)}
+  .meal-stats strong{font-weight:700}
+  .meal-note{font-size:12px;color:var(--text-dim);font-style:italic;line-height:1.4}
+  .pick-btn{width:100%;margin-top:10px;padding:14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;letter-spacing:.3px;transition:transform .1s}
   .pick-btn:active{transform:scale(.97)}
 
-  .counter-card{margin-top:22px;padding:14px 16px;border-radius:12px;background:#fff;border:1.5px solid #eee}
+  .counter-card{margin-top:22px;padding:14px 16px;border-radius:12px;background:var(--bg-raised);border:1px solid var(--border-hi)}
   .counter-top{display:flex;justify-content:space-between;align-items:center}
-  .counter-info .counter-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#aaa}
-  .counter-info .counter-sub{font-size:9px;color:#ccc;margin-top:2px}
+  .counter-info .counter-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim)}
+  .counter-info .counter-sub{font-size:9px;color:var(--text-faint);margin-top:2px}
   .counter-controls{display:flex;align-items:center;gap:12px}
-  .counter-btn{width:34px;height:34px;border-radius:8px;border:1.5px solid #ddd;background:#fafafa;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#888;-webkit-user-select:none}
-  .counter-btn:active{background:#eee}
-  .counter-num{font-size:28px;font-weight:900;font-family:'JetBrains Mono',monospace;min-width:24px;text-align:center;transition:color .3s}
-  .counter-bar{margin-top:8px;height:5px;border-radius:3px;background:#f0f0f0;overflow:hidden}
+  .counter-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border-hi);background:var(--bg-surface);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--text-dim);-webkit-user-select:none}
+  .counter-btn:active{background:var(--bg)}
+  .counter-num{font-size:28px;font-weight:700;font-family:var(--mono);min-width:24px;text-align:center;transition:color .3s}
+  .counter-bar{margin-top:8px;height:5px;border-radius:3px;background:var(--bg-surface);overflow:hidden}
   .counter-fill{height:100%;border-radius:3px;transition:all .3s}
   .counter-msg{font-size:10px;margin-top:5px;font-weight:600}
 
   /* ---- GROCERY TAB ---- */
   .grocery-input-row{display:flex;gap:8px;margin-bottom:16px}
-  .grocery-input{flex:1;padding:12px 14px;border-radius:10px;border:1.5px solid #ddd;background:#fff;font-size:15px;font-weight:600;color:#333;outline:none;transition:border-color .15s}
-  .grocery-input:focus{border-color:#1a1a2e}
-  .grocery-input::placeholder{color:#ccc;font-weight:600}
-  .grocery-add-btn{padding:12px 18px;border-radius:10px;background:#1a1a2e;color:#fff;font-size:14px;font-weight:800;flex-shrink:0}
+  .grocery-input{flex:1;padding:12px 14px;border-radius:10px;border:1px solid var(--border-hi);background:var(--bg-raised);font-size:15px;font-weight:500;color:var(--text);outline:none;transition:border-color .15s}
+  .grocery-input:focus{border-color:var(--accent)}
+  .grocery-input::placeholder{color:var(--text-faint);font-weight:500}
+  .grocery-add-btn{padding:12px 18px;border-radius:10px;background:var(--accent);color:var(--bg);font-size:14px;font-weight:700;flex-shrink:0}
   .grocery-add-btn:active{opacity:.8}
 
-  .list-item{display:flex;align-items:center;gap:10px;padding:11px 14px;background:#fff;border-radius:10px;border:1.5px solid #eee;margin-bottom:5px;transition:all .15s;-webkit-user-select:none}
-  .list-item.checked{opacity:.5}
-  .list-item.checked .list-text{text-decoration:line-through;color:#bbb}
-  .list-check{width:24px;height:24px;border-radius:7px;border:2px solid #ddd;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s;color:transparent}
-  .list-item.checked .list-check{border-color:#4CAF50;background:#4CAF50;color:#fff}
-  .list-text{font-size:14px;font-weight:600;color:#333;flex:1}
-  .list-delete{width:28px;height:28px;border-radius:6px;background:none;color:#ddd;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:color .15s}
-  .list-delete:active{color:#D32F2F}
+  .list-item{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg-raised);border-radius:10px;border:1px solid var(--border);margin-bottom:5px;transition:all .15s;-webkit-user-select:none}
+  .list-item.checked{opacity:.4}
+  .list-item.checked .list-text{text-decoration:line-through;color:var(--text-faint)}
+  .list-check{width:24px;height:24px;border-radius:7px;border:2px solid var(--text-faint);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s;color:transparent}
+  .list-item.checked .list-check{border-color:var(--green);background:var(--green);color:var(--bg)}
+  .list-text{font-size:14px;font-weight:500;color:var(--text);flex:1}
+  .list-delete{width:28px;height:28px;border-radius:6px;background:none;color:var(--text-faint);font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:color .15s}
+  .list-delete:active{color:var(--red)}
 
   .list-actions{display:flex;gap:8px;margin-top:12px}
-  .list-action-btn{flex:1;padding:10px;border-radius:8px;border:1.5px solid #eee;background:#fff;font-size:11px;font-weight:700;color:#999;text-align:center}
-  .list-action-btn:active{background:#f5f5f5}
+  .list-action-btn{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg-raised);font-size:11px;font-weight:700;color:var(--text-faint);text-align:center}
+  .list-action-btn:active{background:var(--bg-surface)}
 
   .smart-section{margin-top:20px}
-  .smart-toggle{width:100%;text-align:left;padding:12px 14px;border-radius:10px;border:1.5px solid #eee;background:#fff;font-size:13px;font-weight:700;color:#666;transition:all .12s;margin-bottom:6px}
-  .smart-toggle.open{border-color:#1a1a2e;background:#f8f8f5}
+  .smart-toggle{width:100%;text-align:left;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-raised);font-size:13px;font-weight:600;color:var(--text-dim);transition:all .12s;margin-bottom:6px}
+  .smart-toggle.open{border-color:var(--accent);background:var(--bg-surface)}
   .smart-content{display:none;padding:0;margin-bottom:8px}
   .smart-content.visible{display:block}
 
-  .smart-group{margin-bottom:10px;border-radius:10px;overflow:hidden;border:1.5px solid #eee;background:#fff}
-  .smart-group-header{padding:8px 14px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#fff;display:flex;justify-content:space-between;align-items:center}
-  .smart-item{padding:9px 14px;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;gap:8px;cursor:pointer;-webkit-user-select:none}
+  .smart-group{margin-bottom:10px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg-raised)}
+  .smart-group-header{padding:8px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+  .smart-item{padding:9px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;cursor:pointer;-webkit-user-select:none}
   .smart-item:last-child{border-bottom:none}
-  .smart-item:active{background:#f5f5f5}
-  .smart-item-text{font-size:13px;font-weight:600;color:#333;flex:1}
-  .smart-item-why{font-size:10px;color:#aaa;font-style:italic;max-width:140px;text-align:right}
-  .smart-item-add{font-size:18px;color:#4CAF50;font-weight:800;flex-shrink:0;width:24px;text-align:center}
-  .smart-item.added .smart-item-add{color:#ccc}
-  .smart-item.added .smart-item-text{color:#bbb}
+  .smart-item:active{background:var(--bg-surface)}
+  .smart-item-text{font-size:13px;font-weight:500;color:var(--text);flex:1}
+  .smart-item-why{font-size:10px;color:var(--text-faint);font-style:italic;max-width:140px;text-align:right}
+  .smart-item-add{font-size:18px;color:var(--green);font-weight:700;flex-shrink:0;width:24px;text-align:center}
+  .smart-item.added .smart-item-add{color:var(--text-faint)}
+  .smart-item.added .smart-item-text{color:var(--text-faint)}
 
-  .meal-unlock{margin-top:10px;padding:12px 14px;border-radius:10px;border:1.5px solid #eee;background:#fff}
-  .meal-unlock-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#aaa;margin-bottom:8px}
-  .unlock-item{padding:5px 0;border-bottom:1px solid #f8f8f8;font-size:12px;color:#555;display:flex;align-items:baseline;gap:6px}
+  .meal-unlock{margin-top:10px;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-raised)}
+  .meal-unlock-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-faint);margin-bottom:8px}
+  .unlock-item{padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text-dim);display:flex;align-items:baseline;gap:6px}
   .unlock-item:last-child{border-bottom:none}
-  .unlock-arrow{color:#4CAF50;font-weight:800;font-size:10px;flex-shrink:0}
-  .unlock-ingredients{color:#999;font-size:11px}
+  .unlock-arrow{color:var(--green);font-weight:700;font-size:10px;flex-shrink:0}
+  .unlock-ingredients{color:var(--text-faint);font-size:11px}
 
   /* ---- REFERENCE TAB ---- */
   .expand-section{display:flex;flex-direction:column;gap:6px}
-  .expand-btn{width:100%;text-align:left;padding:12px 14px;border-radius:10px;border:1.5px solid #eee;background:#fff;font-size:13px;font-weight:700;color:#666;transition:all .12s}
-  .expand-content{padding:10px 14px;border-radius:10px;background:#fff;border:1.5px solid #f0f0f0}
+  .expand-btn{width:100%;text-align:left;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-raised);font-size:13px;font-weight:600;color:var(--text-dim);transition:all .12s}
+  .expand-content{padding:10px 14px;border-radius:10px;background:var(--bg-raised);border:1px solid var(--border)}
 
-  .flavor-row{padding:5px 0;border-bottom:1px solid #f5f5f5;display:flex;gap:10px;align-items:center}
+  .flavor-row{padding:5px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center}
   .flavor-row:last-child{border-bottom:none}
-  .flavor-tag{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;min-width:60px;padding:3px 6px;border-radius:4px;text-align:center;color:#fff}
-  .flavor-fix{font-size:12px;color:#666}
-  .boost-row{padding:5px 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;align-items:baseline}
+  .flavor-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;min-width:60px;padding:3px 6px;border-radius:4px;text-align:center;color:#fff}
+  .flavor-fix{font-size:12px;color:var(--text-dim)}
+  .boost-row{padding:5px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline}
   .boost-row:last-child{border-bottom:none}
-  .boost-name{font-size:12px;font-weight:700;color:#333}
-  .boost-to{font-size:11px;color:#bbb}
-  .boost-gain{font-size:11px;font-weight:700;color:#E65100;font-family:'JetBrains Mono',monospace;flex-shrink:0}
-  .bowl-card{padding:8px 0;border-bottom:1px solid #f5f5f5}
+  .boost-name{font-size:12px;font-weight:700;color:var(--text)}
+  .boost-to{font-size:11px;color:var(--text-faint)}
+  .boost-gain{font-size:11px;font-weight:700;color:var(--amber);font-family:var(--mono);flex-shrink:0}
+  .bowl-card{padding:8px 0;border-bottom:1px solid var(--border)}
   .bowl-card:last-child{border-bottom:none}
-  .bowl-profile{font-size:12px;font-weight:800;margin-bottom:2px}
-  .bowl-detail{font-size:11px;color:#888;line-height:1.4}
+  .bowl-profile{font-size:12px;font-weight:700;margin-bottom:2px}
+  .bowl-detail{font-size:11px;color:var(--text-dim);line-height:1.4}
+
+  /* ---- PANTRY TAB ---- */
+  .pantry-hint{font-size:12px;color:var(--text-faint);line-height:1.5;margin-bottom:14px}
+  .pantry-cat-header{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-faint);margin:16px 0 7px}
+  .pantry-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+  .pantry-chip{padding:7px 12px;border-radius:20px;border:1.5px solid var(--border-hi);background:var(--bg-raised);font-size:12px;font-weight:600;color:var(--text-faint);cursor:pointer;transition:all .15s;-webkit-user-select:none;line-height:1}
+  .pantry-chip.stocked{border-color:var(--green);background:var(--green-dim);color:var(--green)}
+  .pantry-chip:active{transform:scale(.94)}
+  /* custom (non-meal) items listed below */
+  .pantry-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-raised);border-radius:10px;border:1px solid var(--green);background:var(--green-dim);margin-bottom:5px;cursor:pointer;-webkit-user-select:none}
+  .pantry-item-name{font-size:13px;font-weight:500;flex:1;color:var(--green)}
+  .pantry-delete{width:26px;height:26px;border-radius:6px;background:none;color:var(--text-faint);font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .pantry-delete:active{color:var(--red)}
+  /* tips link in eat tab */
+  .tips-link{display:block;text-align:center;margin-top:20px;font-size:11px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:.8px;cursor:pointer;padding:8px;border-radius:8px;border:1px solid var(--border)}
+  .tips-link:active{background:var(--bg-raised)}
+
+  /* ---- AVAILABILITY (Eat tab) ---- */
+  .avail-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;padding:2px 6px;border-radius:4px;flex-shrink:0}
+  .avail-yes{background:var(--green-dim);color:var(--green)}
+  .avail-almost{background:var(--amber-dim);color:var(--amber)}
+  .meal-btn.unavail{opacity:.35}
 
   .app-footer{margin-top:24px;padding:16px;border-radius:12px;background:linear-gradient(135deg,#1a1a2e,#16213e);text-align:center}
-  .app-footer .main{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+  .app-footer .main{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
   .app-footer .sub{font-size:10px;color:rgba(255,255,255,.4)}
 
-  .empty-state{text-align:center;padding:24px;color:#ccc;font-size:13px;font-weight:600}
+  .empty-state{text-align:center;padding:24px;color:var(--text-faint);font-size:13px;font-weight:500}
 
   /* ---- PLAN TAB ---- */
   .plan-grid-wrap{overflow-x:auto;margin:0 -4px;padding:0 4px 8px}
   .plan-grid{display:grid;grid-template-columns:56px repeat(7,minmax(68px,1fr));gap:4px;min-width:560px}
-  .plan-col-header{padding:6px 4px;text-align:center;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#aaa}
-  .plan-row-header{display:flex;align-items:center;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#aaa;padding-right:4px}
-  .plan-cell{min-height:50px;padding:5px 6px;border-radius:8px;border:1.5px solid #eee;background:#fff;cursor:pointer;transition:all .12s;display:flex;align-items:center;justify-content:center;text-align:center}
-  .plan-cell:active{background:#f5f5f5}
-  .plan-cell.filled{border-color:#1a1a2e;background:#f8f8f5}
-  .plan-cell .cell-name{font-size:10px;font-weight:700;color:#333;line-height:1.3;word-break:break-word}
-  .plan-cell .cell-plus{font-size:18px;color:#ddd;font-weight:300}
+  .plan-col-header{padding:6px 4px;text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-faint)}
+  .plan-row-header{display:flex;align-items:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-faint);padding-right:4px}
+  .plan-cell{min-height:50px;padding:5px 6px;border-radius:8px;border:1px solid var(--border);background:var(--bg-raised);cursor:pointer;transition:all .12s;display:flex;align-items:center;justify-content:center;text-align:center}
+  .plan-cell:active{background:var(--bg-surface)}
+  .plan-cell.filled{border-color:var(--accent);background:var(--bg-surface)}
+  .plan-cell .cell-name{font-size:10px;font-weight:600;color:var(--text);line-height:1.3;word-break:break-word}
+  .plan-cell .cell-plus{font-size:18px;color:var(--text-faint);font-weight:300}
   .plan-actions{display:flex;gap:8px;margin:12px 0 18px}
-  .plan-clear-btn{flex:1;padding:10px;border-radius:8px;border:1.5px solid #eee;background:#fff;font-size:11px;font-weight:700;color:#999}
-  .plan-clear-btn:active{background:#f5f5f5}
-  .plan-grocery-item{display:flex;align-items:center;gap:8px;padding:9px 14px;background:#fff;border-radius:10px;border:1.5px solid #eee;margin-bottom:5px;font-size:13px;font-weight:600;color:#333}
-  .plan-grocery-dot{width:6px;height:6px;border-radius:50%;background:#1a1a2e;flex-shrink:0}
-  .plan-empty-note{text-align:center;padding:20px;color:#ccc;font-size:13px;font-weight:600}
-  .picker-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;flex-direction:column;justify-content:flex-end}
-  .picker-sheet{background:#fff;border-radius:16px 16px 0 0;max-height:72vh;display:flex;flex-direction:column;overflow:hidden}
-  .picker-header{padding:12px 16px;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-  .picker-title{font-size:13px;font-weight:800;color:#333}
-  .picker-cancel{font-size:12px;font-weight:700;color:#aaa;background:none;padding:4px 8px}
+  .plan-clear-btn{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg-raised);font-size:11px;font-weight:700;color:var(--text-faint)}
+  .plan-clear-btn:active{background:var(--bg-surface)}
+  .plan-grocery-item{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--bg-raised);border-radius:10px;border:1px solid var(--border);margin-bottom:5px;font-size:13px;font-weight:500;color:var(--text)}
+  .plan-grocery-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+  .plan-empty-note{text-align:center;padding:20px;color:var(--text-faint);font-size:13px;font-weight:500}
+  .picker-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;flex-direction:column;justify-content:flex-end}
+  .picker-sheet{background:var(--bg-raised);border-radius:16px 16px 0 0;max-height:72vh;display:flex;flex-direction:column;overflow:hidden}
+  .picker-header{padding:12px 16px;border-bottom:1px solid var(--border-hi);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .picker-title{font-size:13px;font-weight:700;color:var(--text)}
+  .picker-cancel{font-size:12px;font-weight:600;color:var(--text-faint);background:none;padding:4px 8px}
   .picker-list{overflow-y:auto;flex:1;padding:8px 12px}
-  .picker-section-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#bbb;padding:8px 4px 4px}
-  .picker-item{width:100%;text-align:left;padding:10px 12px;border-radius:8px;border:1.5px solid #eee;background:#fff;margin-bottom:4px;display:flex;align-items:baseline;gap:8px;transition:background .1s}
-  .picker-item:active{background:#f5f5f5}
-  .picker-item-name{font-size:13px;font-weight:700;color:#333;flex:1}
-  .picker-item-cal{font-size:10px;font-weight:700;color:#aaa;font-family:'JetBrains Mono',monospace}
-  .picker-item.selected{border-color:#1a1a2e!important;background:#f8f8f5!important}
-  .picker-item.selected .picker-item-name{color:#1a1a2e}
-  .picker-clear-slot{width:100%;text-align:center;padding:10px;border-radius:8px;border:1.5px solid #eee;background:#fff;margin-bottom:8px;font-size:12px;font-weight:700;color:#D32F2F}
-  .picker-clear-slot:active{background:#FEF2F2}
+  .picker-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-faint);padding:8px 4px 4px}
+  .picker-item{width:100%;text-align:left;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-raised);margin-bottom:4px;display:flex;align-items:baseline;gap:8px;transition:background .1s}
+  .picker-item:active{background:var(--bg-surface)}
+  .picker-item-name{font-size:13px;font-weight:600;color:var(--text);flex:1}
+  .picker-item-cal{font-size:10px;font-weight:700;color:var(--text-faint);font-family:var(--mono)}
+  .picker-item.selected{border-color:var(--accent)!important;background:var(--bg-surface)!important}
+  .picker-item.selected .picker-item-name{color:var(--accent)}
+  .picker-clear-slot{width:100%;text-align:center;padding:10px;border-radius:8px;border:1px solid rgba(248,113,113,0.3);background:var(--red-dim);margin-bottom:8px;font-size:12px;font-weight:700;color:var(--red)}
+  .picker-clear-slot:active{background:rgba(248,113,113,0.22)}
 </style>
 </head>
 <body>
+
+<nav class="life-nav">
+  <a href="/dashboard/index.html" class="life-nav-back">← Life OS</a>
+  <span class="life-nav-title">Meal System</span>
+</nav>
 
 <div class="header">
   <h1>What Should I Eat?</h1>
@@ -178,9 +235,9 @@
 
 <div class="tabs">
   <button class="tab-btn active" onclick="switchTab('eat')"><span class="tab-emoji">🍚</span>Eat</button>
-  <button class="tab-btn" onclick="switchTab('grocery')"><span class="tab-emoji">🛒</span>Shop</button>
-  <button class="tab-btn" onclick="switchTab('ref')"><span class="tab-emoji">📋</span>Reference</button>
   <button class="tab-btn" onclick="switchTab('plan')"><span class="tab-emoji">📅</span>Plan</button>
+  <button class="tab-btn" onclick="switchTab('grocery')"><span class="tab-emoji">🛒</span>Shop</button>
+  <button class="tab-btn" onclick="switchTab('pantry')"><span class="tab-emoji">🥫</span>Pantry</button>
 </div>
 
 <div class="container">
@@ -202,6 +259,7 @@
       <div class="counter-bar"><div class="counter-fill" id="mc-fill"></div></div>
       <div class="counter-msg" id="mc-msg"></div>
     </div>
+    <button class="tips-link" onclick="switchTab('ref')">Kitchen Tips — flavor fixes, calorie boosts, bowl rotations ↗</button>
   </div>
 
   <!-- ========== SHOP ========== -->
@@ -212,6 +270,7 @@
     </div>
     <div id="list-area"></div>
     <div class="list-actions" id="list-actions" style="display:none">
+      <button class="list-action-btn" id="add-to-pantry-btn" onclick="addCheckedToPantry()">Add bought to pantry</button>
       <button class="list-action-btn" onclick="clearCheckedItems()">Clear checked</button>
       <button class="list-action-btn" onclick="clearAllItems()">Clear all</button>
     </div>
@@ -234,6 +293,20 @@
     </div>
   </div>
 
+  <!-- ========== PANTRY ========== -->
+  <div class="page" id="page-pantry">
+    <p class="pantry-hint">Tap ingredients you have right now. The Eat tab uses this to show what you can actually make.</p>
+    <div class="grocery-input-row">
+      <input class="grocery-input" id="pantry-input" type="text" placeholder="Something else in your kitchen..." enterkeyhint="done">
+      <button class="grocery-add-btn" onclick="addCustomToPantry()">Add</button>
+    </div>
+    <div id="pantry-categories"></div>
+    <div id="pantry-custom-section" style="display:none">
+      <div class="section-label" style="margin-top:16px">Other Items</div>
+      <div id="pantry-custom-items"></div>
+    </div>
+  </div>
+
   <!-- ========== REFERENCE ========== -->
   <div class="page" id="page-ref">
     <div class="expand-section" id="ref-panels"></div>
@@ -246,7 +319,9 @@
       <div class="plan-grid" id="plan-grid"></div>
     </div>
     <div class="plan-actions">
-      <button class="plan-clear-btn" onclick="clearPlan()">Clear week</button>
+      <button class="plan-clear-btn" onclick="suggestWeek()" style="border-color:var(--accent);color:var(--accent)">Suggest Week</button>
+      <button class="plan-clear-btn" id="build-list-btn" onclick="buildShoppingList()" style="border-color:var(--green);color:var(--green)">Build Shopping List</button>
+      <button class="plan-clear-btn" onclick="clearPlan()">Clear</button>
     </div>
     <div class="section-label">Planned Meals</div>
     <div id="plan-grocery"></div>
@@ -277,43 +352,43 @@
 const CONFIG = {
   meals: {
     low: {
-      label: "Low Spoons", emoji: "🫠", color: "#4CAF50", dark: "#2E7D32", light: "#E8F5E9",
+      label: "Low Spoons", emoji: "🫠", color: "#4CAF50", dark: "#2E7D32", dim: "rgba(76,175,80,0.12)",
       subtitle: "Grab. Eat. Done.",
       options: [
-        { name: "Perfect Bar", cal: "300-330", protein: "15-17g", time: "0 min", note: "Desk drawer MVP." },
-        { name: "PB Toast + Honey", cal: "~400", protein: "10g", time: "2 min", note: "Thick layer, no measuring." },
-        { name: "Yogurt Bowl", cal: "~500", protein: "40g", time: "2 min", note: "Add collagen + hemp hearts from the tray." },
-        { name: "Apple + PB (generous)", cal: "~350", protein: "7g", time: "1 min", note: "Slice or don't." },
-        { name: "Dark Chocolate + Nuts", cal: "~400", protein: "8g", time: "0 min", note: "This counts as eating." },
-        { name: "Dates + PB", cal: "~300", protein: "6g", time: "1 min", note: "3 dates, stuff with PB." },
-        { name: "Trail Mix (big handful)", cal: "~500", protein: "12g", time: "0 min", note: "A cup = real calories." },
+        { name: "Perfect Bar", cal: "300-330", protein: "15-17g", time: "0 min", note: "Desk drawer MVP.", ingredients: ["Perfect Bars"] },
+        { name: "PB Toast + Honey", cal: "~400", protein: "10g", time: "2 min", note: "Thick layer, no measuring.", ingredients: ["whole grain bread", "peanut butter", "honey"] },
+        { name: "Yogurt Bowl", cal: "~500", protein: "40g", time: "2 min", note: "Add collagen + hemp hearts from the tray.", ingredients: ["full-fat yogurt", "collagen powder", "hemp hearts"] },
+        { name: "Apple + PB (generous)", cal: "~350", protein: "7g", time: "1 min", note: "Slice or don't.", ingredients: ["apples", "peanut butter"] },
+        { name: "Dark Chocolate + Nuts", cal: "~400", protein: "8g", time: "0 min", note: "This counts as eating.", ingredients: ["dark chocolate", "mixed nuts"] },
+        { name: "Dates + PB", cal: "~300", protein: "6g", time: "1 min", note: "3 dates, stuff with PB.", ingredients: ["dates", "peanut butter"] },
+        { name: "Trail Mix (big handful)", cal: "~500", protein: "12g", time: "0 min", note: "A cup = real calories.", ingredients: ["trail mix"] },
       ]
     },
     medium: {
-      label: "Some Energy", emoji: "🍳", color: "#FF9800", dark: "#E65100", light: "#FFF3E0",
+      label: "Some Energy", emoji: "🍳", color: "#FF9800", dark: "#E65100", dim: "rgba(255,152,0,0.12)",
       subtitle: "5-10 min. Assembly, not cooking.",
       options: [
-        { name: "Rice Bowl + Protein + Sauce", cal: "~600-700", protein: "25-35g", time: "5 min", note: "Frozen rice → microwave → topping → sauce." },
-        { name: "Miso Soup + Edamame + Egg", cal: "~350", protein: "25g", time: "5 min", note: "Miso paste + hot water + frozen edamame + jammy egg." },
-        { name: "Canned Salmon Toast", cal: "~450", protein: "25g", time: "4 min", note: "Salmon + mayo + Everything Bagel on toast." },
-        { name: "Frozen Gyoza Pan-Fry", cal: "~400", protein: "15g", time: "7 min", note: "From frozen → pan → soy-vinegar dip." },
-        { name: "Udon + Egg + Miso Broth", cal: "~450", protein: "20g", time: "5 min", note: "Boil udon, make broth, crack egg in." },
-        { name: "Curry Pouch on Rice", cal: "~550", protein: "15g", time: "4 min", note: "Microwave rice + pour curry. Full meal." },
-        { name: "Chicken Strips + Frozen Veg", cal: "~450", protein: "30g", time: "8 min", note: "Air fryer or microwave." },
-        { name: "Chickpea + Tahini + Rice", cal: "~550", protein: "18g", time: "5 min", note: "Drain can → rice → tahini → lemon." },
+        { name: "Rice Bowl + Protein + Sauce", cal: "~600-700", protein: "25-35g", time: "5 min", note: "Frozen rice → microwave → topping → sauce.", ingredients: ["frozen rice", "soy sauce", "sesame oil"] },
+        { name: "Miso Soup + Edamame + Egg", cal: "~350", protein: "25g", time: "5 min", note: "Miso paste + hot water + frozen edamame + jammy egg.", ingredients: ["miso paste", "frozen edamame", "eggs"] },
+        { name: "Canned Salmon Toast", cal: "~450", protein: "25g", time: "4 min", note: "Salmon + mayo + Everything Bagel on toast.", ingredients: ["canned salmon", "mayonnaise", "Everything Bagel seasoning", "whole grain bread"] },
+        { name: "Frozen Gyoza Pan-Fry", cal: "~400", protein: "15g", time: "7 min", note: "From frozen → pan → soy-vinegar dip.", ingredients: ["frozen gyoza", "soy sauce", "rice vinegar"] },
+        { name: "Udon + Egg + Miso Broth", cal: "~450", protein: "20g", time: "5 min", note: "Boil udon, make broth, crack egg in.", ingredients: ["frozen udon", "eggs", "miso paste"] },
+        { name: "Curry Pouch on Rice", cal: "~550", protein: "15g", time: "4 min", note: "Microwave rice + pour curry. Full meal.", ingredients: ["curry simmer pouch", "frozen rice"] },
+        { name: "Chicken Strips + Frozen Veg", cal: "~450", protein: "30g", time: "8 min", note: "Air fryer or microwave.", ingredients: ["frozen chicken strips", "frozen stir-fry veg"] },
+        { name: "Chickpea + Tahini + Rice", cal: "~550", protein: "18g", time: "5 min", note: "Drain can → rice → tahini → lemon.", ingredients: ["canned chickpeas", "tahini", "frozen rice", "lemon"] },
       ]
     },
     high: {
-      label: "Feeling It", emoji: "🔥", color: "#7C4DFF", dark: "#4A148C", light: "#EDE7F6",
+      label: "Feeling It", emoji: "🔥", color: "#7C4DFF", dark: "#4A148C", dim: "rgba(124,77,255,0.12)",
       subtitle: "Cook something good. Freeze the extra.",
       options: [
-        { name: "Japanese Curry", cal: "~700", protein: "35g", time: "30 min", note: "Golden Curry + chicken thigh + potato + carrot. Freezes perfectly." },
-        { name: "Soy-Braised Pork Belly", cal: "~600", protein: "25g", time: "45 min", note: "Soy + mirin + sake + ginger + star anise. Freeze with liquid." },
-        { name: "Bulgogi", cal: "~550", protein: "30g", time: "15 min", note: "Pull marinated bag from freezer → pan-fry." },
-        { name: "Miso Salmon", cal: "~500", protein: "35g", time: "20 min", note: "Broil from thawed. White miso + mirin glaze." },
-        { name: "Real Stir-Fry", cal: "~600", protein: "25g", time: "15 min", note: "Fresh aromatics, proper wok heat." },
-        { name: "Batch Jammy Eggs (6-8)", cal: "~70 each", protein: "6g each", time: "10 min", note: "6.5 min boil. Lasts 5 days in fridge." },
-        { name: "Batch Rice → Freeze", cal: "~300/bag", protein: "5g", time: "25 min", note: "2-3 cups dry → portion flat while hot → freeze." },
+        { name: "Japanese Curry", cal: "~700", protein: "35g", time: "30 min", note: "Golden Curry + chicken thigh + potato + carrot. Freezes perfectly.", ingredients: ["Golden Curry blocks", "chicken thighs", "potatoes", "carrots", "onion", "frozen rice"] },
+        { name: "Soy-Braised Pork Belly", cal: "~600", protein: "25g", time: "45 min", note: "Soy + mirin + sake + ginger + star anise. Freeze with liquid.", ingredients: ["pork belly", "soy sauce", "mirin", "sake", "fresh ginger", "star anise"] },
+        { name: "Bulgogi", cal: "~550", protein: "30g", time: "15 min", note: "Pull marinated bag from freezer → pan-fry.", ingredients: ["bulgogi (pre-marinated)", "frozen rice"] },
+        { name: "Miso Salmon", cal: "~500", protein: "35g", time: "20 min", note: "Broil from thawed. White miso + mirin glaze.", ingredients: ["salmon fillets", "white miso", "mirin"] },
+        { name: "Real Stir-Fry", cal: "~600", protein: "25g", time: "15 min", note: "Fresh aromatics, proper wok heat.", ingredients: ["protein of choice", "frozen stir-fry veg", "garlic", "fresh ginger", "soy sauce", "sesame oil"] },
+        { name: "Batch Jammy Eggs (6-8)", cal: "~70 each", protein: "6g each", time: "10 min", note: "6.5 min boil. Lasts 5 days in fridge.", ingredients: ["eggs"] },
+        { name: "Batch Rice → Freeze", cal: "~300/bag", protein: "5g", time: "25 min", note: "2-3 cups dry → portion flat while hot → freeze.", ingredients: ["jasmine rice"] },
       ]
     }
   },
@@ -419,34 +494,67 @@ const CONFIG = {
 };
 /* ============ CONFIG END ============ */
 
+const PANTRY_CATEGORIES = [
+  { label: 'Fresh', items: ['apples','carrots','fresh ginger','garlic','lemon','onion','potatoes'] },
+  { label: 'Proteins & Dairy', items: ['chicken thighs','eggs','full-fat yogurt','pork belly','salmon fillets','canned chickpeas','canned salmon'] },
+  { label: 'Frozen', items: ['bulgogi (pre-marinated)','frozen chicken strips','frozen edamame','frozen gyoza','frozen rice','frozen stir-fry veg','frozen udon'] },
+  { label: 'Pantry & Dry', items: ['collagen powder','curry simmer pouch','Everything Bagel seasoning','Golden Curry blocks','hemp hearts','honey','jasmine rice','mayonnaise','mirin','miso paste','peanut butter','rice vinegar','sake','sesame oil','soy sauce','star anise','tahini','white miso','whole grain bread'] },
+  { label: 'Snacks & Bars', items: ['dark chocolate','dates','mixed nuts','Perfect Bars','trail mix'] },
+];
+
 // ---- STATE ----
 let energy=null, selMeal=null, mc=0, openRef=null, openSmart=null;
 let groceryList = []; // [{text, checked}]
 let planData = {};
+let pantryItems = new Set(); // lowercase ingredient names currently in stock
 
-function load(){
-  try{
-    const s=JSON.parse(localStorage.getItem('ms2')||'{}');
-    if(s.mc) mc=s.mc;
-    if(s.list) groceryList=s.list;
-  }catch(e){}
-  try{const p=JSON.parse(localStorage.getItem('ms2-plan')||'{}');planData=p}catch(e){}
+// ---- PERSISTENCE ----
+// Saves to server (data/ files) + localStorage fallback for offline use.
+const API = '/data/';
+async function serverGet(file){
+  try{const r=await fetch(API+file);if(r.ok)return await r.json()}catch(e){}
+  return null;
+}
+function serverSet(file,data){
+  // fire-and-forget; localStorage is the sync fallback
+  fetch(API+file,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(()=>{});
+}
+
+async function load(){
+  // Try server first, fall back to localStorage
+  const [main,plan,pantry]=await Promise.all([
+    serverGet('ms2.json'),serverGet('plan.json'),serverGet('pantry.json')
+  ]);
+  if(main){if(main.mc)mc=main.mc;if(main.list)groceryList=main.list;}
+  else{try{const s=JSON.parse(localStorage.getItem('ms2')||'{}');if(s.mc)mc=s.mc;if(s.list)groceryList=s.list;}catch(e){}}
+  if(plan) planData=plan;
+  else{try{planData=JSON.parse(localStorage.getItem('ms2-plan')||'{}')}catch(e){}}
+  if(pantry) pantryItems=new Set(pantry);
+  else{try{pantryItems=new Set(JSON.parse(localStorage.getItem('ms2-pantry')||'[]'))}catch(e){}}
 }
 function save(){
-  try{localStorage.setItem('ms2',JSON.stringify({mc,list:groceryList}))}catch(e){}
+  const d={mc,list:groceryList};
+  try{localStorage.setItem('ms2',JSON.stringify(d))}catch(e){}
+  serverSet('ms2.json',d);
 }
 function savePlan(){
   try{localStorage.setItem('ms2-plan',JSON.stringify(planData))}catch(e){}
+  serverSet('plan.json',planData);
 }
-load();
+function savePantry(){
+  const d=[...pantryItems];
+  try{localStorage.setItem('ms2-pantry',JSON.stringify(d))}catch(e){}
+  serverSet('pantry.json',d);
+}
 
 // ---- TABS ----
 function switchTab(t){
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['eat','grocery','ref','plan'][i]===t));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['eat','plan','grocery','pantry'][i]===t));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+t).classList.add('active');
   if(t==='grocery') document.getElementById('grocery-input').focus();
   if(t==='plan') renderPlanGrid();
+  if(t==='pantry'){renderPantry();document.getElementById('pantry-input').focus();}
 }
 
 // ---- EAT TAB ----
@@ -460,8 +568,9 @@ function setE(l){
   document.querySelectorAll('.energy-btn').forEach(b=>{
     const a=b.dataset.l===l,t=CONFIG.meals[b.dataset.l];
     b.classList.toggle('active',a);
-    b.style.borderColor=a?t.color:'#e0e0e0';b.style.background=a?t.light:'#fff';
-    b.querySelector('.elabel').style.color=a?t.dark:'#999';
+    b.style.borderColor=a?t.color:'rgba(255,255,255,0.11)';
+    b.style.background=a?t.dim:'#13132b';
+    b.querySelector('.elabel').style.color=a?t.dark:'#6b6b9e';
   });
   renderOpts();
 }
@@ -470,9 +579,14 @@ function renderOpts(){
   if(!energy){a.innerHTML='';return}
   const t=CONFIG.meals[energy];
   let h=`<div class="fade-in"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><div class="section-label" style="margin:0">Your options</div><div style="font-size:11px;font-weight:700;color:${t.color}">${t.subtitle}</div></div><div class="meal-list">`;
-  t.options.forEach((m,i)=>{
+  const avOrder={yes:0,almost:1,unknown:1,no:2};
+  const sorted=t.options.map((m,i)=>({m,i,av:canMake(m)})).sort((a,b)=>(avOrder[a.av.status]||0)-(avOrder[b.av.status]||0));
+  sorted.forEach(({m,i,av})=>{
     const act=selMeal===i;
-    h+=`<button class="meal-btn" onclick="selM(${i})" style="${act?`border-color:${t.color};background:${t.light};padding:13px 14px`:''}"><div class="meal-top"><span class="meal-name" style="${act?`color:${t.dark}`:''}">${m.name}</span><div class="meal-meta"><span class="meal-cal" style="color:${t.color}">${m.cal}</span><span class="meal-time">${m.time}</span></div></div>${act?`<div class="meal-detail" style="border-top:1px solid ${t.color}33"><div class="meal-stats"><span><strong style="color:${t.dark}">${m.protein}</strong> protein</span><span><strong style="color:${t.dark}">${m.time}</strong> active</span></div><div class="meal-note">${m.note}</div></div>`:''}</button>`;
+    const unavail=av.status==='no';
+    const badge=av.status==='yes'?`<span class="avail-tag avail-yes">✓ In stock</span>`:
+                av.status==='almost'?`<span class="avail-tag avail-almost">Need: ${av.missing[0]}</span>`:'';
+    h+=`<button class="meal-btn${unavail&&!act?' unavail':''}" onclick="selM(${i})" style="${act?`border-color:${t.color};background:${t.dim};padding:13px 14px`:''}"><div class="meal-top"><span class="meal-name" style="${act?`color:${t.color}`:''}">${m.name}</span><div class="meal-meta">${badge}<span class="meal-cal" style="color:${t.color}">${m.cal}</span><span class="meal-time">${m.time}</span></div></div>${act?`<div class="meal-detail" style="border-top:1px solid ${t.color}33"><div class="meal-stats"><span><strong style="color:${t.color}">${m.protein}</strong> protein</span><span><strong style="color:${t.color}">${m.time}</strong> active</span></div><div class="meal-note">${m.note}</div></div>`:''}</button>`;
   });
   h+=`</div><button class="pick-btn" onclick="pickR()" style="background:linear-gradient(135deg,${t.color},${t.dark})">🎲 Can't decide? Pick for me.</button></div>`;
   a.innerHTML=h;
@@ -487,16 +601,99 @@ function pickR(){
 function changeMC(d){mc=Math.max(0,mc+d);updMC();save()}
 function updMC(){
   const n=document.getElementById('mc-num'),f=document.getElementById('mc-fill'),m=document.getElementById('mc-msg');
-  const p=Math.min(100,(mc/4)*100),c=mc>=4?'#4CAF50':mc>=2?'#FF9800':mc>0?'#D32F2F':'#ccc';
-  const g=mc>=4?'#4CAF50,#66BB6A':mc>=2?'#FF9800,#FFB74D':'#D32F2F,#EF5350';
+  const p=Math.min(100,(mc/4)*100),c=mc>=4?'#34d399':mc>=2?'#fbbf24':mc>0?'#f87171':'#6b6b9e';
+  const g=mc>=4?'#34d399,#6ee7b7':mc>=2?'#fbbf24,#fcd34d':'#f87171,#fca5a5';
   n.textContent=mc;n.style.color=c;f.style.width=p+'%';f.style.background=`linear-gradient(90deg,${g})`;
-  if(!mc)m.textContent='';else if(mc<4){m.textContent=`${4-mc} more to go`;m.style.color='#aaa'}
-  else{m.textContent='✓ In range. Anything else is bonus.';m.style.color='#4CAF50'}
+  if(!mc)m.textContent='';else if(mc<4){m.textContent=`${4-mc} more to go`;m.style.color='#9fa0c4'}
+  else{m.textContent='✓ In range. Anything else is bonus.';m.style.color='#34d399'}
+}
+
+// ---- PANTRY ----
+function pantryHas(name){return pantryItems.has(name.toLowerCase())}
+function pantryToggle(name){
+  const k=name.toLowerCase();
+  if(pantryItems.has(k)) pantryItems.delete(k); else pantryItems.add(k);
+  savePantry();renderPantry();
+  if(energy) renderOpts();
+}
+function pantryRemove(name){
+  pantryItems.delete(name.toLowerCase());
+  savePantry();renderPantry();
+  if(energy) renderOpts();
+}
+function addCustomToPantry(){
+  const inp=document.getElementById('pantry-input');
+  const val=inp.value.trim();
+  if(!val)return;
+  pantryItems.add(val.toLowerCase());
+  inp.value='';savePantry();renderPantry();
+  if(energy) renderOpts();
+}
+function addCheckedToPantry(){
+  const bought=groceryList.filter(x=>x.checked);
+  if(!bought.length)return;
+  bought.forEach(it=>pantryItems.add(it.text.toLowerCase()));
+  savePantry();
+  const btn=document.getElementById('add-to-pantry-btn');
+  if(btn){const orig=btn.textContent;btn.textContent=`Added ${bought.length}`;setTimeout(()=>btn.textContent=orig,1500);}
+  if(energy) renderOpts();
+}
+function canMake(meal){
+  if(!meal.ingredients||!meal.ingredients.length||!pantryItems.size) return {status:'unknown'};
+  const missing=meal.ingredients.filter(ing=>!pantryHas(ing));
+  if(!missing.length) return {status:'yes'};
+  if(missing.length<=2) return {status:'almost',missing};
+  return {status:'no',missing};
+}
+function getAllMealIngredients(){
+  const seen=new Set();const items=[];
+  for(const tier of Object.values(CONFIG.meals)){
+    for(const meal of tier.options){
+      if(meal.ingredients){
+        for(const ing of meal.ingredients){
+          if(!seen.has(ing.toLowerCase())){seen.add(ing.toLowerCase());items.push(ing)}
+        }
+      }
+    }
+  }
+  return items.sort((a,b)=>a.localeCompare(b));
+}
+function renderPantry(){
+  const catArea=document.getElementById('pantry-categories');
+  if(catArea){
+    let h='';
+    PANTRY_CATEGORIES.forEach(cat=>{
+      h+=`<div class="pantry-cat-header">${cat.label}</div><div class="pantry-grid">`;
+      cat.items.forEach(ing=>{
+        const has=pantryHas(ing);
+        h+=`<button class="pantry-chip${has?' stocked':''}" onclick="pantryToggle('${ing.replace(/'/g,"\\'")}'">${esc(ing)}</button>`;
+      });
+      h+=`</div>`;
+    });
+    catArea.innerHTML=h;
+  }
+  const allCatItems=new Set(PANTRY_CATEGORIES.flatMap(c=>c.items.map(x=>x.toLowerCase())));
+  const customItems=[...pantryItems].filter(x=>!allCatItems.has(x));
+  const customSection=document.getElementById('pantry-custom-section');
+  const customArea=document.getElementById('pantry-custom-items');
+  if(customSection&&customArea){
+    if(!customItems.length){customSection.style.display='none';return}
+    customSection.style.display='block';
+    let h='';
+    customItems.forEach(ing=>{
+      h+=`<div class="pantry-item" onclick="pantryRemove('${ing.replace(/'/g,"\\'")}')">
+        <span class="pantry-item-name">${esc(ing)}</span>
+        <button class="pantry-delete" onclick="event.stopPropagation();pantryRemove('${ing.replace(/'/g,"\\'")}')">×</button>
+      </div>`;
+    });
+    customArea.innerHTML=h;
+  }
 }
 
 // ---- GROCERY TAB ----
 const inp=document.getElementById('grocery-input');
 inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addItem()}});
+document.getElementById('pantry-input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addCustomToPantry()}});
 
 function addItem(text){
   const val=text||inp.value.trim();
@@ -558,7 +755,7 @@ function isOnList(name){
 function addFromSmart(name,btn){
   if(isOnList(name))return;
   addItem(name);
-  btn.textContent='✓';btn.style.color='#ccc';
+  btn.textContent='✓';btn.style.color='#6b6b9e';
   btn.parentElement.classList.add('added');
 }
 
@@ -666,7 +863,7 @@ function openPicker(key){
     h+=`<div class="picker-section-label">${tier.emoji} ${tier.label}</div>`;
     tier.options.forEach(m=>{
       const sel=planData[key]===m.name;
-      h+=`<button class="picker-item${sel?' selected':''}" style="${sel?'border-color:'+tier.color+';background:'+tier.light:''}" onclick="selectMeal('${m.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">
+      h+=`<button class="picker-item${sel?' selected':''}" style="${sel?'border-color:'+tier.color+';background:'+tier.dim:''}" onclick="selectMeal('${m.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">
         <span class="picker-item-name">${m.name}</span>
         <span class="picker-item-cal">${m.cal}</span>
       </button>`;
@@ -688,9 +885,75 @@ function closePicker(){
   pickerTarget=null;
 }
 
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  return a;
+}
+
+function suggestWeek(){
+  const low=shuffle(CONFIG.meals.low.options);
+  const med=shuffle(CONFIG.meals.medium.options);
+  // Dinner pool: prioritize high-energy (batch cook), pad with medium
+  const dinnerPool=shuffle([...CONFIG.meals.high.options, ...CONFIG.meals.medium.options.slice(0,3)]);
+
+  PLAN_DAYS.forEach((day,i)=>{
+    // Only fill empty slots — don't overwrite user choices
+    if(!planData[day+'-breakfast']) planData[day+'-breakfast']=low[i%low.length].name;
+    if(!planData[day+'-lunch'])     planData[day+'-lunch']=med[i%med.length].name;
+    if(!planData[day+'-dinner'])    planData[day+'-dinner']=dinnerPool[i%dinnerPool.length].name;
+  });
+  savePlan();renderPlanGrid();
+}
+
 function clearPlan(){
   if(!confirm('Clear the entire week?'))return;
   planData={};savePlan();renderPlanGrid();
+}
+
+// Build a lookup: meal name → ingredients array
+function getMealIngredients(mealName){
+  for(const tier of Object.values(CONFIG.meals)){
+    const found=tier.options.find(o=>o.name===mealName);
+    if(found && found.ingredients) return found.ingredients;
+  }
+  return [];
+}
+
+function buildShoppingList(){
+  const plannedMeals=Object.values(planData).filter(Boolean);
+  if(!plannedMeals.length){
+    alert('Plan some meals first, then build your list.');
+    return;
+  }
+  // Collect all ingredients, dedup case-insensitively
+  const allIngredients=[];
+  const seen=new Set();
+  plannedMeals.forEach(mealName=>{
+    getMealIngredients(mealName).forEach(ing=>{
+      const key=ing.toLowerCase();
+      if(!seen.has(key)){
+        seen.add(key);
+        allIngredients.push(ing);
+      }
+    });
+  });
+  // Add any not already on the grocery list
+  let added=0;
+  allIngredients.forEach(ing=>{
+    if(!groceryList.some(it=>it.text.toLowerCase()===ing.toLowerCase()&&!it.checked)){
+      groceryList.push({text:ing,checked:false});
+      added++;
+    }
+  });
+  save();
+  renderList();
+  // Switch to shop tab with feedback
+  const btn=document.getElementById('build-list-btn');
+  btn.textContent=`Added ${added} item${added!==1?'s':''}`;
+  btn.style.borderColor='var(--accent)';btn.style.color='var(--accent)';
+  setTimeout(()=>{btn.textContent='Build Shopping List';btn.style.borderColor='var(--green)';btn.style.color='var(--green)'},2000);
+  switchTab('grocery');
 }
 
 function renderPlanGrocery(){
@@ -704,13 +967,21 @@ function renderPlanGrocery(){
   let h='';
   unique.forEach(m=>{
     const count=meals.filter(x=>x===m).length;
-    h+=`<div class="plan-grocery-item"><span class="plan-grocery-dot"></span><span style="flex:1">${esc(m)}</span>${count>1?`<span style="font-size:10px;color:#aaa;font-family:'JetBrains Mono',monospace">×${count}</span>`:''}</div>`;
+    const ings=getMealIngredients(m);
+    h+=`<div class="plan-grocery-item" style="flex-direction:column;align-items:flex-start;gap:4px">
+      <div style="display:flex;align-items:center;gap:8px;width:100%">
+        <span class="plan-grocery-dot"></span>
+        <span style="flex:1;font-weight:600">${esc(m)}</span>
+        ${count>1?`<span style="font-size:10px;color:#6b6b9e;font-family:var(--mono)">×${count}</span>`:''}
+      </div>
+      ${ings.length?`<div style="padding-left:14px;font-size:11px;color:var(--text-faint)">${ings.join(' · ')}</div>`:''}
+    </div>`;
   });
   area.innerHTML=h;
 }
 
 // ---- INIT ----
-initEat();initRef();updMC();renderList();
+(async()=>{await load();initEat();initRef();updMC();renderList();})();
 </script>
 </body>
 </html>

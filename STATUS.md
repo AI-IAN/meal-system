@@ -1,23 +1,28 @@
 ---
 status: active
-priority: medium
-phase: "Phase 2"
-phase_pct: 25
+priority: high
 updated: 2026-03-07
 ---
 
 # Meal System
 
 ## What it is
-Three HTML apps: meal tracker (index.html), DP-600 study tracker, and quality reading tracker. Served from localhost:8080.
+Mobile-first meal picker app — weekly planning, pantry tracking, and "what can I make right now" filtered by what's in stock.
+
+## How to run
+```bash
+cd ~/ij/projects/meal-system
+python3 server.py
+# MacBook: http://localhost:8080
+# Phone (Tailscale): http://<macbook-tailscale-hostname>:8080
+```
 
 ## Current focus
-- Adding "Plan" tab to index.html — weekly meal grid with grocery list generation
-- Migrating to dark theme with shared Life OS design tokens
+- server.py live — data persists to data/*.json, accessible via Tailscale on phone
+- Pantry tab: chip tiles by category, tap to mark in stock
+- Eat tab: sorted by availability based on pantry state
 
 ## Next up
-- localStorage persistence for plan data (key: ms2-plan)
-- Dashboard reads ms2-plan for summary card
-
-## Blocked / Notes
-Plan tab depends on Life OS dashboard design tokens being finalized first (Phase B-3).
+- Populate pantry.json with actual current stock
+- Plan this week, build grocery list, shop
+- Meal rotation history (avoid repeating last 3 picks)
