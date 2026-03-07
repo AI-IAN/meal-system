@@ -630,6 +630,85 @@ function togR(panel){
   openRef=openRef===panel?null:panel;
 }
 
+// ---- PLAN TAB ----
+const PLAN_DAYS=['mon','tue','wed','thu','fri','sat','sun'];
+const PLAN_DAY_LABELS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const PLAN_SLOTS=['breakfast','lunch','dinner'];
+const PLAN_SLOT_LABELS=['Breakfast','Lunch','Dinner'];
+let pickerTarget=null;
+
+function renderPlanGrid(){
+  const grid=document.getElementById('plan-grid');
+  let h='<div class="plan-col-header"></div>';
+  PLAN_DAY_LABELS.forEach(d=>{h+=`<div class="plan-col-header">${d}</div>`});
+  PLAN_SLOTS.forEach((slot,si)=>{
+    h+=`<div class="plan-row-header">${PLAN_SLOT_LABELS[si]}</div>`;
+    PLAN_DAYS.forEach(day=>{
+      const key=day+'-'+slot,val=planData[key]||null;
+      h+=`<div class="plan-cell${val?' filled':''}" onclick="openPicker('${key}')">`;
+      h+=val?`<span class="cell-name">${esc(val)}</span>`:`<span class="cell-plus">+</span>`;
+      h+=`</div>`;
+    });
+  });
+  grid.innerHTML=h;
+  renderPlanGrocery();
+}
+
+function openPicker(key){
+  pickerTarget=key;
+  const [day,slot]=key.split('-');
+  const dl=PLAN_DAY_LABELS[PLAN_DAYS.indexOf(day)];
+  const sl=PLAN_SLOT_LABELS[PLAN_SLOTS.indexOf(slot)];
+  document.getElementById('picker-title').textContent=`${dl} — ${sl}`;
+  let h='';
+  if(planData[key]) h+=`<button class="picker-clear-slot" onclick="selectMeal(null)">✕ Clear this slot</button>`;
+  Object.values(CONFIG.meals).forEach(tier=>{
+    h+=`<div class="picker-section-label">${tier.emoji} ${tier.label}</div>`;
+    tier.options.forEach(m=>{
+      const sel=planData[key]===m.name;
+      h+=`<button class="picker-item${sel?' selected':''}" style="${sel?'border-color:'+tier.color+';background:'+tier.light:''}" onclick="selectMeal('${m.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">
+        <span class="picker-item-name">${m.name}</span>
+        <span class="picker-item-cal">${m.cal}</span>
+      </button>`;
+    });
+  });
+  document.getElementById('picker-list').innerHTML=h;
+  document.getElementById('picker-overlay').style.display='flex';
+}
+
+function selectMeal(name){
+  if(!pickerTarget)return;
+  if(name===null) delete planData[pickerTarget];
+  else planData[pickerTarget]=name;
+  savePlan();closePicker();renderPlanGrid();
+}
+
+function closePicker(){
+  document.getElementById('picker-overlay').style.display='none';
+  pickerTarget=null;
+}
+
+function clearPlan(){
+  if(!confirm('Clear the entire week?'))return;
+  planData={};savePlan();renderPlanGrid();
+}
+
+function renderPlanGrocery(){
+  const area=document.getElementById('plan-grocery');
+  const meals=Object.values(planData).filter(Boolean);
+  const unique=[...new Set(meals)];
+  if(!unique.length){
+    area.innerHTML='<div class="plan-empty-note">No meals planned yet.<br>Tap cells above to build your week.</div>';
+    return;
+  }
+  let h='';
+  unique.forEach(m=>{
+    const count=meals.filter(x=>x===m).length;
+    h+=`<div class="plan-grocery-item"><span class="plan-grocery-dot"></span><span style="flex:1">${esc(m)}</span>${count>1?`<span style="font-size:10px;color:#aaa;font-family:'JetBrains Mono',monospace">×${count}</span>`:''}</div>`;
+  });
+  area.innerHTML=h;
+}
+
 // ---- INIT ----
 initEat();initRef();updMC();renderList();
 </script>
