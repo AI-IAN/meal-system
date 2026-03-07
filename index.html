@@ -442,10 +442,11 @@ load();
 
 // ---- TABS ----
 function switchTab(t){
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['eat','grocery','ref'][i]===t));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['eat','grocery','ref','plan'][i]===t));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+t).classList.add('active');
   if(t==='grocery') document.getElementById('grocery-input').focus();
+  if(t==='plan') renderPlanGrid();
 }
 
 // ---- EAT TAB ----
