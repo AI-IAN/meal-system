@@ -239,6 +239,28 @@
     <div class="expand-section" id="ref-panels"></div>
   </div>
 
+  <!-- ========== PLAN ========== -->
+  <div class="page" id="page-plan">
+    <div class="section-label">Weekly Meal Plan</div>
+    <div class="plan-grid-wrap">
+      <div class="plan-grid" id="plan-grid"></div>
+    </div>
+    <div class="plan-actions">
+      <button class="plan-clear-btn" onclick="clearPlan()">Clear week</button>
+    </div>
+    <div class="section-label">Planned Meals</div>
+    <div id="plan-grocery"></div>
+    <div id="picker-overlay" class="picker-overlay" style="display:none" onclick="if(event.target===this)closePicker()">
+      <div class="picker-sheet">
+        <div class="picker-header">
+          <span class="picker-title" id="picker-title">Pick a meal</span>
+          <button class="picker-cancel" onclick="closePicker()">Cancel</button>
+        </div>
+        <div class="picker-list" id="picker-list"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="app-footer">
     <div class="main">Eating something always beats eating nothing.</div>
     <div class="sub">Every option here is taking care of yourself.</div>
