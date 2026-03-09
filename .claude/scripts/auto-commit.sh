@@ -24,7 +24,7 @@ if git diff --quiet && git diff --cached --quiet && [ -z "$(git ls-files --other
 fi
 
 # Get relative path for commit message
-REL_PATH=$(realpath --relative-to="$REPO_ROOT" "$FILE_PATH" 2>/dev/null || basename "$FILE_PATH")
+REL_PATH=$(python3 -c "import os; print(os.path.relpath('$FILE_PATH', '$REPO_ROOT'))" 2>/dev/null || basename "$FILE_PATH")
 
 git add -A
 git commit -q -m "auto: update ${REL_PATH}" --no-verify 2>/dev/null
