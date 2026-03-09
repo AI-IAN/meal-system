@@ -1,7 +1,7 @@
 ---
 status: active
 priority: high
-updated: 2026-03-07
+updated: 2026-03-09
 ---
 
 # Meal System
@@ -18,11 +18,10 @@ python3 server.py
 ```
 
 ## Current focus
-- server.py live — data persists to data/*.json, accessible via Tailscale on phone
-- Pantry tab: chip tiles by category, tap to mark in stock
-- Eat tab: sorted by availability based on pantry state
+- App fully built and running — all tabs (Eat, Plan, Shop, Pantry) functional
+- Groceries ordered and arrived — ready to enter into system
 
 ## Next up
-- Populate pantry.json with actual current stock
-- Plan this week, build grocery list, shop
+- Enter grocery haul into pantry.json (mark what's in stock)
+- Plan meals for the week using the Plan tab
 - Meal rotation history (avoid repeating last 3 picks)
