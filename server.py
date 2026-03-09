@@ -4,10 +4,10 @@ Meal System local server.
 Serves the app and handles read/write for JSON data files.
 
 Usage:
-  python3 server.py          # runs on port 8080
+  python3 server.py          # runs on port 8081
   python3 server.py 9090     # custom port
 
-Access from phone via Tailscale: http://<macbook-tailscale-hostname>:8080
+Access from phone via Tailscale: http://<macbook-tailscale-hostname>:8081
 """
 import json
 import sys
