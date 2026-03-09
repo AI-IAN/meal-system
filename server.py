@@ -14,7 +14,7 @@ import sys
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 
-PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8081
 BASE_DIR = Path(__file__).parent
 DATA_DIR = BASE_DIR / 'data'
 DATA_DIR.mkdir(exist_ok=True)
