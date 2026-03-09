@@ -13,8 +13,8 @@ Mobile-first meal picker app — weekly planning, pantry tracking, and "what can
 ```bash
 cd ~/ij/projects/meal-system
 python3 server.py
-# MacBook: http://localhost:8080
-# Phone (Tailscale): http://<macbook-tailscale-hostname>:8080
+# MacBook: http://localhost:8081
+# Phone (Tailscale): http://<macbook-tailscale-hostname>:8081
 ```
 
 ## Current focus
