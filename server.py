@@ -199,6 +199,56 @@ async def save_plan(request: Request):
 
 
 # ---------------------------------------------------------------------------
+# Shopping list CRUD
+# ---------------------------------------------------------------------------
+
+@app.get("/api/shop")
+async def get_shop():
+    data = read_json("shop.json")
+    return JSONResponse(data if data is not None else [])
+
+
+@app.post("/api/shop")
+async def save_shop(request: Request):
+    body = await request.json()
+    write_json("shop.json", body)
+    return {"ok": True}
+
+
+@app.get("/api/shop/auto")
+async def auto_shop():
+    """Generate shopping list from low pantry items + planned meal ingredients."""
+    pantry = read_json("pantry.json") or []
+    plan = read_json("plan.json") or {}
+    meals_data = read_json("meals.json") or {}
+    meals = meals_data.get("meals", []) if isinstance(meals_data, dict) else meals_data
+
+    items = []
+    seen = set()
+
+    # Low pantry items
+    for p in pantry:
+        if isinstance(p, dict) and p.get("qty") in ("low", "0", 0):
+            name = p.get("name", "")
+            if name.lower() not in seen:
+                items.append({"name": name, "reason": "running low", "checked": False})
+                seen.add(name.lower())
+
+    # Planned meal ingredients not in pantry
+    pantry_names = {(p.get("name", "") if isinstance(p, dict) else p).lower() for p in pantry}
+    for planned in plan.get("meals", []):
+        meal_name = planned if isinstance(planned, str) else planned.get("name", "")
+        meal = next((m for m in meals if m.get("name", "").lower() == meal_name.lower()), None)
+        if meal:
+            for ing in meal.get("ingredients", []):
+                if ing.lower() not in pantry_names and ing.lower() not in seen:
+                    items.append({"name": ing, "reason": f"for {meal['name']}", "checked": False})
+                    seen.add(ing.lower())
+
+    return items
+
+
+# ---------------------------------------------------------------------------
 # Legacy backward-compat: GET/POST /data/{filename}
 # ---------------------------------------------------------------------------
 
