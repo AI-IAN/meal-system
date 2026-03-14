@@ -2,9 +2,11 @@
 """
 Meal System — FastAPI backend.
 
-Serves static files, JSON CRUD for meals/pantry/plan,
-SQLite history (meal_log, shop_log), deterministic suggestions,
-and intent detection.
+Serves static files, SQLite CRUD for meals/pantry/plan/history,
+deterministic suggestions, and intent detection.
+
+All data in data/meals.db (catalog, pantry, plan, meal_log, shop_log,
+pantry_snapshots, llm_calls).
 
 Usage:
   python3 server.py          # runs on port 8081
@@ -16,10 +18,8 @@ Access from phone via Tailscale: http://<macbook-tailscale-hostname>:8081
 import json
 import os
 import re
-import sqlite3
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta
-from difflib import get_close_matches
 from pathlib import Path
 from typing import Optional
 
@@ -27,14 +27,13 @@ import aiosqlite
 import httpx
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-# Load .env (check local first, then job-tailor for shared API key)
 BASE_DIR = Path(__file__).parent
 for env_path in [BASE_DIR / ".env", Path.home() / "ij/career/job-tailor/.env"]:
     if env_path.exists():
@@ -45,9 +44,10 @@ for env_path in [BASE_DIR / ".env", Path.home() / "ij/career/job-tailor/.env"]:
         break
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
-DB_PATH = DATA_DIR / "meal_history.db"
+DB_PATH = DATA_DIR / "meals.db"
 
-ALLOWED_LEGACY_FILES = {"ms2.json", "plan.json", "pantry.json"}
+# Reference data (non-catalog extras from meals.json)
+REFERENCE_PATH = DATA_DIR / "meals_reference.json"
 
 # ---------------------------------------------------------------------------
 # Pydantic models
@@ -81,27 +81,128 @@ class Suggestion(BaseModel):
 # SQLite setup
 # ---------------------------------------------------------------------------
 
+SCHEMA = """
+CREATE TABLE IF NOT EXISTS meal_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    meal_name TEXT NOT NULL,
+    logged_at TEXT DEFAULT (datetime('now')),
+    energy_level TEXT,
+    notes TEXT
+);
+CREATE TABLE IF NOT EXISTS shop_log (
+    id INTEGER PRIMARY KEY,
+    items_json TEXT NOT NULL,
+    store TEXT,
+    logged_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS catalog (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    energy TEXT,
+    calories TEXT,
+    protein TEXT,
+    time TEXT,
+    ingredients TEXT,
+    notes TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS pantry (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    qty TEXT NOT NULL,
+    category TEXT,
+    updated_at TEXT DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS plan (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    meal_name TEXT NOT NULL,
+    day TEXT,
+    slot TEXT,
+    week_of TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS pantry_snapshots (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_count INTEGER,
+    low_count INTEGER,
+    snapshot_date TEXT DEFAULT (date('now')),
+    UNIQUE(snapshot_date)
+);
+CREATE TABLE IF NOT EXISTS llm_calls (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    task TEXT,
+    provider TEXT NOT NULL,
+    model TEXT NOT NULL,
+    input_tokens INTEGER,
+    output_tokens INTEGER,
+    cost_cents REAL,
+    duration_ms INTEGER,
+    error TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+"""
+
+
 async def init_db():
     """Create tables if they don't exist."""
     async with aiosqlite.connect(DB_PATH) as db:
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS meal_log (
-                id INTEGER PRIMARY KEY,
-                meal_name TEXT NOT NULL,
-                logged_at TEXT DEFAULT CURRENT_TIMESTAMP,
-                energy_level TEXT,
-                notes TEXT
-            )
-        """)
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS shop_log (
-                id INTEGER PRIMARY KEY,
-                items_json TEXT NOT NULL,
-                store TEXT,
-                logged_at TEXT DEFAULT CURRENT_TIMESTAMP
-            )
-        """)
+        await db.executescript(SCHEMA)
         await db.commit()
+
+
+# ---------------------------------------------------------------------------
+# DB helpers
+# ---------------------------------------------------------------------------
+
+async def db_fetch_all(query: str, params: tuple = ()) -> list[dict]:
+    """Execute a SELECT and return list of dicts."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(query, params)
+        rows = await cursor.fetchall()
+        return [dict(row) for row in rows]
+
+
+async def db_fetch_one(query: str, params: tuple = ()) -> Optional[dict]:
+    """Execute a SELECT and return one dict or None."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(query, params)
+        row = await cursor.fetchone()
+        return dict(row) if row else None
+
+
+async def db_execute(query: str, params: tuple = ()):
+    """Execute a write query (INSERT/UPDATE/DELETE)."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute(query, params)
+        await db.commit()
+
+
+async def db_executemany(query: str, params_list: list[tuple]):
+    """Execute a write query for many rows."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.executemany(query, params_list)
+        await db.commit()
+
+
+# ---------------------------------------------------------------------------
+# JSON helpers (only for shop.json and reference data now)
+# ---------------------------------------------------------------------------
+
+def read_json(filename: str) -> any:
+    """Read a JSON file from data/, return None if missing."""
+    path = DATA_DIR / filename
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
+def write_json(filename: str, data: any) -> None:
+    """Write data as JSON to data/."""
+    path = DATA_DIR / filename
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
 
 # ---------------------------------------------------------------------------
@@ -125,25 +226,7 @@ async def ask_local(prompt: str, system: str = "", model: str = "qwen3.5:latest"
             )
             return resp.json()["response"]
     except Exception:
-        return None  # caller falls back to Haiku or returns error
-
-
-# ---------------------------------------------------------------------------
-# JSON helpers
-# ---------------------------------------------------------------------------
-
-def read_json(filename: str) -> any:
-    """Read a JSON file from data/, return None if missing."""
-    path = DATA_DIR / filename
-    if not path.exists():
         return None
-    return json.loads(path.read_text())
-
-
-def write_json(filename: str, data: any) -> None:
-    """Write data as JSON to data/."""
-    path = DATA_DIR / filename
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
 
 # ---------------------------------------------------------------------------
@@ -172,43 +255,112 @@ app.add_middleware(
 )
 
 # ---------------------------------------------------------------------------
-# JSON CRUD — new API
+# Catalog (meals) API — from SQLite catalog table
 # ---------------------------------------------------------------------------
+
+def _catalog_row_to_meal(row: dict) -> dict:
+    """Convert a catalog DB row to the frontend meal dict format."""
+    return {
+        "id": row["id"],
+        "name": row["name"],
+        "energy": row.get("energy"),
+        "cal": row.get("calories"),
+        "protein": row.get("protein"),
+        "time": row.get("time"),
+        "ingredients": json.loads(row["ingredients"]) if row.get("ingredients") else [],
+        "note": row.get("notes"),
+    }
+
 
 @app.get("/api/meals")
 async def get_meals():
-    data = read_json("meals.json")
-    return JSONResponse(data if data is not None else [])
+    """Return full meals data: catalog from DB + reference data from JSON."""
+    rows = await db_fetch_all("SELECT * FROM catalog ORDER BY name")
+    meals = [_catalog_row_to_meal(r) for r in rows]
 
+    # Merge in reference data (shopping_suggestions, meal_unlocks, etc.)
+    result = {"meals": meals}
+    if REFERENCE_PATH.exists():
+        try:
+            ref = json.loads(REFERENCE_PATH.read_text())
+            result.update(ref)
+        except Exception:
+            pass
+    return JSONResponse(result)
+
+
+# ---------------------------------------------------------------------------
+# Pantry API — from SQLite pantry table
+# ---------------------------------------------------------------------------
 
 @app.get("/api/pantry")
 async def get_pantry():
-    data = read_json("pantry.json")
-    return JSONResponse(data if data is not None else [])
+    rows = await db_fetch_all("SELECT id, name, qty, category FROM pantry ORDER BY category, name")
+    return JSONResponse(rows)
 
 
 @app.post("/api/pantry")
 async def save_pantry(request: Request):
+    """Replace entire pantry with provided list."""
     body = await request.json()
-    write_json("pantry.json", body)
-    return {"ok": True}
-
-
-@app.get("/api/plan")
-async def get_plan():
-    data = read_json("plan.json")
-    return JSONResponse(data if data is not None else {})
-
-
-@app.post("/api/plan")
-async def save_plan(request: Request):
-    body = await request.json()
-    write_json("plan.json", body)
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute("DELETE FROM pantry")
+        for item in body:
+            if isinstance(item, dict):
+                await db.execute(
+                    "INSERT INTO pantry (name, qty, category) VALUES (?, ?, ?)",
+                    (item.get("name", ""), item.get("qty", ""), item.get("category")),
+                )
+            elif isinstance(item, str):
+                await db.execute(
+                    "INSERT INTO pantry (name, qty) VALUES (?, ?)",
+                    (item, "1"),
+                )
+        # Take a pantry snapshot
+        count = (await (await db.execute("SELECT COUNT(*) FROM pantry")).fetchone())[0]
+        low = (await (await db.execute("SELECT COUNT(*) FROM pantry WHERE qty = 'low'")).fetchone())[0]
+        await db.execute(
+            "INSERT OR REPLACE INTO pantry_snapshots (item_count, low_count, snapshot_date) "
+            "VALUES (?, ?, date('now'))",
+            (count, low),
+        )
+        await db.commit()
     return {"ok": True}
 
 
 # ---------------------------------------------------------------------------
-# Shopping list CRUD
+# Plan API — from SQLite plan table
+# ---------------------------------------------------------------------------
+
+@app.get("/api/plan")
+async def get_plan():
+    rows = await db_fetch_all("SELECT meal_name, day, slot, week_of FROM plan ORDER BY id")
+    # Return in the same shape the frontend expects: {"meals": [...]}
+    meals = [r["meal_name"] for r in rows]
+    return JSONResponse({"meals": meals})
+
+
+@app.post("/api/plan")
+async def save_plan(request: Request):
+    """Replace plan with provided data."""
+    body = await request.json()
+    planned_meals = body.get("meals", []) if isinstance(body, dict) else []
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute("DELETE FROM plan")
+        for entry in planned_meals:
+            if isinstance(entry, str):
+                await db.execute("INSERT INTO plan (meal_name) VALUES (?)", (entry,))
+            elif isinstance(entry, dict):
+                await db.execute(
+                    "INSERT INTO plan (meal_name, day, slot) VALUES (?, ?, ?)",
+                    (entry.get("name", ""), entry.get("day"), entry.get("slot")),
+                )
+        await db.commit()
+    return {"ok": True}
+
+
+# ---------------------------------------------------------------------------
+# Shopping list CRUD (still JSON — no migration needed)
 # ---------------------------------------------------------------------------
 
 @app.get("/api/shop")
@@ -227,31 +379,31 @@ async def save_shop(request: Request):
 @app.get("/api/shop/auto")
 async def auto_shop():
     """Generate shopping list from low pantry items + planned meal ingredients."""
-    pantry = read_json("pantry.json") or []
-    plan = read_json("plan.json") or {}
-    meals_data = read_json("meals.json") or {}
-    meals = meals_data.get("meals", []) if isinstance(meals_data, dict) else meals_data
+    pantry = await db_fetch_all("SELECT name, qty FROM pantry")
+    plan_rows = await db_fetch_all("SELECT meal_name FROM plan")
+    catalog = await db_fetch_all("SELECT name, ingredients FROM catalog")
 
     items = []
     seen = set()
 
     # Low pantry items
     for p in pantry:
-        if isinstance(p, dict) and p.get("qty") in ("low", "0", 0):
-            name = p.get("name", "")
+        if p["qty"] in ("low", "0"):
+            name = p["name"]
             if name.lower() not in seen:
                 items.append({"name": name, "reason": "running low", "checked": False})
                 seen.add(name.lower())
 
     # Planned meal ingredients not in pantry
-    pantry_names = {(p.get("name", "") if isinstance(p, dict) else p).lower() for p in pantry}
-    for planned in plan.get("meals", []):
-        meal_name = planned if isinstance(planned, str) else planned.get("name", "")
-        meal = next((m for m in meals if m.get("name", "").lower() == meal_name.lower()), None)
+    pantry_names = {p["name"].lower() for p in pantry}
+    catalog_by_name = {m["name"].lower(): m for m in catalog}
+    for row in plan_rows:
+        meal = catalog_by_name.get(row["meal_name"].lower())
         if meal:
-            for ing in meal.get("ingredients", []):
+            ingredients = json.loads(meal["ingredients"]) if meal["ingredients"] else []
+            for ing in ingredients:
                 if ing.lower() not in pantry_names and ing.lower() not in seen:
-                    items.append({"name": ing, "reason": f"for {meal['name']}", "checked": False})
+                    items.append({"name": ing, "reason": f"for {row['meal_name']}", "checked": False})
                     seen.add(ing.lower())
 
     return items
@@ -259,12 +411,21 @@ async def auto_shop():
 
 # ---------------------------------------------------------------------------
 # Legacy backward-compat: GET/POST /data/{filename}
+# These now proxy to the SQLite-backed endpoints where applicable.
 # ---------------------------------------------------------------------------
+
+ALLOWED_LEGACY_FILES = {"ms2.json", "plan.json", "pantry.json"}
+
 
 @app.get("/data/{filename}")
 async def legacy_get_data(filename: str):
     if filename not in ALLOWED_LEGACY_FILES:
         raise HTTPException(400, "File not allowed")
+    if filename == "pantry.json":
+        return await get_pantry()
+    elif filename == "plan.json":
+        return await get_plan()
+    # ms2.json — try reading from disk (might not exist anymore)
     data = read_json(filename)
     return JSONResponse(data) if data is not None else JSONResponse(None)
 
@@ -273,6 +434,10 @@ async def legacy_get_data(filename: str):
 async def legacy_post_data(filename: str, request: Request):
     if filename not in ALLOWED_LEGACY_FILES:
         raise HTTPException(400, "File not allowed")
+    if filename == "pantry.json":
+        return await save_pantry(request)
+    elif filename == "plan.json":
+        return await save_plan(request)
     body = await request.json()
     write_json(filename, body)
     return {"ok": True}
@@ -285,47 +450,38 @@ async def legacy_post_data(filename: str, request: Request):
 @app.post("/api/log-meal")
 async def log_meal(req: LogMealRequest):
     """Log a meal to history and deplete pantry ingredients."""
-    # Insert into meal_log
     async with aiosqlite.connect(DB_PATH) as db:
+        # Insert into meal_log
         await db.execute(
             "INSERT INTO meal_log (meal_name, energy_level, notes) VALUES (?, ?, ?)",
             (req.meal_name, req.energy_level, req.notes),
         )
+
+        # Look up meal ingredients from catalog
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            "SELECT ingredients FROM catalog WHERE LOWER(name) = LOWER(?)",
+            (req.meal_name,),
+        )
+        row = await cursor.fetchone()
+
+        if row and row["ingredients"]:
+            meal_ingredients = {i.lower() for i in json.loads(row["ingredients"])}
+
+            # Get pantry items that match
+            cursor = await db.execute("SELECT id, name, qty FROM pantry")
+            pantry_rows = await cursor.fetchall()
+            for p in pantry_rows:
+                if p["name"].lower() in meal_ingredients:
+                    # Mark as low (conservative depletion)
+                    qty = p["qty"]
+                    if qty not in ("low", "0"):
+                        await db.execute(
+                            "UPDATE pantry SET qty = 'low', updated_at = datetime('now') WHERE id = ?",
+                            (p["id"],),
+                        )
+
         await db.commit()
-
-    # Deplete pantry ingredients for this meal
-    meals_data = read_json("meals.json") or {}
-    meals = meals_data.get("meals", []) if isinstance(meals_data, dict) else meals_data
-    pantry = read_json("pantry.json") or []
-
-    # Find the meal in catalog
-    meal = None
-    for m in meals:
-        if m.get("name", "").lower() == req.meal_name.lower():
-            meal = m
-            break
-
-    if meal and pantry:
-        meal_ingredients = {i.lower() for i in meal.get("ingredients", [])}
-        # Remove matching items or decrement quantities
-        updated_pantry = []
-        for item in pantry:
-            name = (item.get("name", "") if isinstance(item, dict) else item).lower()
-            if name in meal_ingredients:
-                # If item has a numeric qty, decrement; otherwise remove
-                if isinstance(item, dict) and isinstance(item.get("qty"), (int, float)):
-                    item["qty"] = max(0, item["qty"] - 1)
-                    if item["qty"] > 0:
-                        updated_pantry.append(item)
-                # If qty is a string like "plenty" or item is just a string, remove it
-                # (conservative: mark as "low" instead of removing)
-                elif isinstance(item, dict):
-                    item["qty"] = "low"
-                    updated_pantry.append(item)
-                # Simple string item — remove it
-            else:
-                updated_pantry.append(item)
-        write_json("pantry.json", updated_pantry)
 
     return {"ok": True, "meal_name": req.meal_name}
 
@@ -338,23 +494,17 @@ async def log_meal(req: LogMealRequest):
 async def get_history():
     """Return meal history for the last 30 days."""
     cutoff = (datetime.now() - timedelta(days=30)).isoformat()
-    async with aiosqlite.connect(DB_PATH) as db:
-        db.row_factory = aiosqlite.Row
-        cursor = await db.execute(
-            "SELECT id, meal_name, logged_at, energy_level, notes "
-            "FROM meal_log WHERE logged_at >= ? ORDER BY logged_at DESC",
-            (cutoff,),
-        )
-        rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
+    return await db_fetch_all(
+        "SELECT id, meal_name, logged_at, energy_level, notes "
+        "FROM meal_log WHERE logged_at >= ? ORDER BY logged_at DESC",
+        (cutoff,),
+    )
 
 
 @app.delete("/api/history/{entry_id}")
 async def delete_history(entry_id: int):
     """Delete a meal log entry by ID."""
-    async with aiosqlite.connect(DB_PATH) as db:
-        await db.execute("DELETE FROM meal_log WHERE id = ?", (entry_id,))
-        await db.commit()
+    await db_execute("DELETE FROM meal_log WHERE id = ?", (entry_id,))
     return {"ok": True}
 
 
@@ -368,77 +518,57 @@ async def get_suggestions(energy: Optional[str] = None):
     Deterministic "what can I make?" logic.
     Score = pantry match % + days-since-last-eaten bonus + energy filter.
     """
-    meals_data = read_json("meals.json") or {}
-    meals = meals_data.get("meals", []) if isinstance(meals_data, dict) else meals_data
-    pantry = read_json("pantry.json") or []
+    catalog = await db_fetch_all("SELECT * FROM catalog")
+    pantry = await db_fetch_all("SELECT name FROM pantry")
 
-    if not meals:
+    if not catalog:
         return []
 
-    # Build pantry set (normalize names)
-    pantry_names = set()
-    for item in pantry:
-        if isinstance(item, dict):
-            pantry_names.add(item.get("name", "").lower())
-        elif isinstance(item, str):
-            pantry_names.add(item.lower())
+    pantry_names = {p["name"].lower() for p in pantry}
 
     # Get recent meal history for rotation scoring
     last_eaten: dict[str, datetime] = {}
     try:
-        async with aiosqlite.connect(DB_PATH) as db:
-            db.row_factory = aiosqlite.Row
-            cursor = await db.execute(
-                "SELECT meal_name, MAX(logged_at) as last_at FROM meal_log "
-                "GROUP BY meal_name"
-            )
-            for row in await cursor.fetchall():
-                try:
-                    last_eaten[row["meal_name"].lower()] = datetime.fromisoformat(
-                        row["last_at"]
-                    )
-                except (ValueError, TypeError):
-                    pass
+        rows = await db_fetch_all(
+            "SELECT meal_name, MAX(logged_at) as last_at FROM meal_log GROUP BY meal_name"
+        )
+        for row in rows:
+            try:
+                last_eaten[row["meal_name"].lower()] = datetime.fromisoformat(row["last_at"])
+            except (ValueError, TypeError):
+                pass
     except Exception:
-        pass  # DB might not exist yet
+        pass
 
     now = datetime.now()
     results: list[dict] = []
 
-    for meal in meals:
-        name = meal.get("name", "")
-        ingredients = [i.lower() for i in meal.get("ingredients", [])]
-        meal_energy = meal.get("energy", "").lower()
+    for meal in catalog:
+        name = meal["name"]
+        ingredients = json.loads(meal["ingredients"]) if meal.get("ingredients") else []
+        ingredients_lower = [i.lower() for i in ingredients]
+        meal_energy = (meal.get("energy") or "").lower()
 
-        # Energy filter
         if energy and meal_energy and meal_energy != energy.lower():
             continue
-
-        if not ingredients:
+        if not ingredients_lower:
             continue
 
-        # Pantry match
-        available = [i for i in ingredients if i in pantry_names]
-        missing = [i for i in ingredients if i not in pantry_names]
-        match_pct = len(available) / len(ingredients) if ingredients else 0
+        available = [i for i in ingredients_lower if i in pantry_names]
+        missing = [i for i in ingredients_lower if i not in pantry_names]
+        match_pct = len(available) / len(ingredients_lower)
 
-        # Days since last eaten (more days = higher bonus, capped at 14)
         last = last_eaten.get(name.lower())
-        if last:
-            days_since = (now - last).days
-        else:
-            days_since = 14  # never eaten = treat as 14 days ago
-        rotation_bonus = min(days_since, 14) / 14  # 0..1
+        days_since = (now - last).days if last else 14
+        rotation_bonus = min(days_since, 14) / 14
 
-        # Combined score: 60% pantry match, 40% rotation
         score = round(match_pct * 0.6 + rotation_bonus * 0.4, 3)
 
-        # Build reasoning strings
         reasons = []
         if match_pct == 1.0:
             reasons.append("You have everything you need")
         elif match_pct >= 0.5:
-            reasons.append(f"You have {len(available)} of {len(ingredients)} ingredients")
+            reasons.append(f"You have {len(available)} of {len(ingredients_lower)} ingredients")
         else:
             reasons.append(f"Missing {len(missing)} ingredients")
 
@@ -464,7 +594,6 @@ async def get_suggestions(energy: Optional[str] = None):
             ).model_dump()
         )
 
-    # Sort by score descending
     results.sort(key=lambda x: x["score"], reverse=True)
     return results
 
@@ -474,18 +603,13 @@ async def get_suggestions(energy: Optional[str] = None):
 # ---------------------------------------------------------------------------
 
 INTENT_PATTERNS = [
-    # Meal logging
     (r"^i\s+(made|ate|had|cooked|finished)\s+(.+)", "log_meal"),
     (r"^just\s+(ate|had|made)\s+(.+)", "log_meal"),
-    # Pantry add (comma-separated list)
     (r"^(?:bought|got|picked up|grabbed)\s+(.+)", "pantry_add"),
-    (r"^(.+,\s*.+)$", "pantry_add"),  # "eggs, rice, salmon"
-    # Shopping list
+    (r"^(.+,\s*.+)$", "pantry_add"),
     (r"^(?:need|buy|get|add to list)\s+(.+)", "shop_add"),
-    # Energy/mood filter
     (r"\b(quick|easy|fast|simple|light)\b", "energy_filter"),
     (r"\b(hearty|filling|big|heavy)\b", "energy_filter"),
-    # Suggestion request
     (r"^(?:what|what's|whats)\s+(?:for|should|can)\b", "suggest"),
     (r"^(?:surprise me|something|anything)", "suggest"),
 ]
@@ -493,10 +617,6 @@ INTENT_PATTERNS = [
 
 @app.post("/api/parse-input")
 async def parse_input(req: ParseInputRequest):
-    """
-    Intent detection: regex/keyword first, return 'unknown' if no match.
-    Phase 4 will add Qwen for ambiguous inputs.
-    """
     text = req.text.strip()
     if not text:
         return ParseInputResponse(intent="empty", confidence=1.0)
@@ -506,7 +626,6 @@ async def parse_input(req: ParseInputRequest):
         if match:
             entities: dict = {}
             if intent == "log_meal":
-                # Extract meal name from last capture group
                 entities["meal"] = match.group(match.lastindex).strip()
             elif intent == "pantry_add":
                 raw = match.group(match.lastindex).strip()
@@ -524,7 +643,6 @@ async def parse_input(req: ParseInputRequest):
                 intent=intent, confidence=0.9, entities=entities
             )
 
-    # No regex match — return unknown (Phase 4: call ask_local here)
     return ParseInputResponse(intent="unknown", confidence=0.0, entities={})
 
 
