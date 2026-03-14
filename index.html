@@ -211,7 +211,7 @@ body::after{
   width:100%;padding:15px 50px 15px 18px;
   font-size:16px;color:var(--text);
 }
-.input-field::placeholder{color:var(--text-faint)}
+.input-field::placeholder{color:var(--text-faint);transition:opacity 0.3s}
 .submit-btn{
   position:absolute;right:6px;top:50%;transform:translateY(-50%);
   width:34px;height:34px;border-radius:10px;
@@ -341,66 +341,306 @@ body::after{
 }
 .btn-skip:hover{color:var(--text);border-color:var(--border-hi)}
 
-/* ═══════════ ALTERNATIVES ═══════════ */
-.alts{display:flex;flex-direction:column;gap:6px}
+/* ═══════════ ALTERNATIVES — tight scannable list ═══════════ */
+.alts{display:flex;flex-direction:column;gap:4px}
 .alt{
-  display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:8px;
-  padding:12px 14px;
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;
+  padding:10px 14px;
   background:var(--bg-card);
   border:1px solid var(--border);
-  border-radius:12px;
+  border-radius:10px;
   cursor:pointer;
   transition:all 0.2s;
 }
 .alt:hover{border-color:var(--border-hi);background:var(--bg-surface)}
-.alt-rank{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:12px;color:var(--text-faint);text-align:center;
-}
-.alt-name{font-size:14px;font-weight:500}
-.alt-detail{
-  font-family:'IBM Plex Mono', monospace;
+.alt-left{display:flex;flex-direction:column;gap:2px;min-width:0}
+.alt-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.alt-note{
   font-size:11px;color:var(--text-faint);
-  margin-top:1px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-style:italic;
 }
-.alt-status{
-  display:flex;align-items:center;gap:4px;
+.alt-right{
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
+}
+.alt-protein{
   font-family:'IBM Plex Mono', monospace;
-  font-size:10px;color:var(--text-faint);
+  font-size:11px;color:var(--text-dim);
 }
-.alt-status .d{width:6px;height:6px;border-radius:50%}
+.alt-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 
 /* Expanded alt detail */
 .alt-expand{
-  padding:14px;margin-top:-6px;margin-bottom:6px;
+  padding:14px;margin-top:-4px;margin-bottom:4px;
   background:var(--bg-card);
   border:1px solid var(--border-hi);
   border-top:none;
-  border-radius:0 0 12px 12px;
+  border-radius:0 0 10px 10px;
   animation:fadeUp 0.15s ease;
 }
 .alt-expand .tp-reason{font-size:15px;margin-bottom:10px}
 .alt-expand .ingredients{margin-bottom:12px}
 .alt-expand .btn{padding:9px;font-size:12px}
 
-/* ═══════════ STUB PANELS ═══════════ */
-.stub{
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;gap:12px;
-  padding:60px 20px;min-height:50vh;
+/* ═══════════ PANTRY PANEL ═══════════ */
+.pantry-bar{
+  display:flex;gap:8px;margin-bottom:16px;
 }
-.stub svg{width:48px;height:48px;color:var(--text-faint);opacity:0.2}
-.stub-title{font-size:18px;font-weight:600}
-.stub-desc{font-size:13px;color:var(--text-dim);max-width:260px;line-height:1.6}
-.stub-badge{
+.pantry-bar input{
+  flex:1;padding:12px 16px;
+  font-size:14px;
+  background:var(--bg-raised);
+  border:1px solid var(--border-hi);
+  border-radius:12px;
+  color:var(--text);
+  transition:border-color 0.2s;
+}
+.pantry-bar input:focus{border-color:var(--accent-1)}
+.pantry-bar input::placeholder{color:var(--text-faint)}
+.pantry-bar button{
+  padding:0 16px;border-radius:12px;
+  background:var(--accent-gradient);color:#0a0a0a;
+  font-size:13px;font-weight:600;white-space:nowrap;
+}
+
+.pantry-stats{
   font-family:'IBM Plex Mono', monospace;
   font-size:11px;color:var(--text-faint);
-  padding:6px 14px;border-radius:8px;
+  margin-bottom:16px;
+}
+
+.pantry-category{margin-bottom:16px}
+.pantry-cat-header{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 0;cursor:pointer;
+  font-size:12px;font-weight:600;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--text-faint);
+  user-select:none;
+}
+.pantry-cat-header .arrow{
+  transition:transform 0.2s;font-size:10px;
+}
+.pantry-cat-header.collapsed .arrow{transform:rotate(-90deg)}
+.pantry-cat-count{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;color:var(--text-faint);
   background:var(--bg-surface);
+  padding:1px 6px;border-radius:4px;
+}
+.pantry-items{display:flex;flex-direction:column;gap:3px}
+.pantry-items.hidden{display:none}
+
+.pantry-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 12px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.pantry-item:hover{border-color:var(--border-hi)}
+.pantry-item-name{flex:1;font-size:13px;font-weight:500}
+.pantry-qty{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;font-weight:500;
+  padding:2px 7px;border-radius:5px;
+}
+.pantry-qty.plenty{background:var(--ready-dim);color:var(--ready)}
+.pantry-qty.low{background:rgba(240,184,64,0.12);color:var(--partial)}
+.pantry-qty.num{background:var(--accent-dim);color:var(--accent-text)}
+
+/* ═══════════ PLAN PANEL ═══════════ */
+.plan-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.plan-actions{display:flex;gap:8px}
+.plan-btn{
+  padding:8px 16px;border-radius:10px;
+  font-size:12px;font-weight:600;
+  background:var(--accent-gradient);color:#0a0a0a;
+  transition:all 0.15s;
+}
+.plan-btn:active{transform:scale(0.97)}
+.plan-btn.secondary{
+  background:var(--bg-surface);color:var(--text-dim);
+  border:1px solid var(--border);
+}
+
+.plan-list{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.plan-item{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  transition:all 0.2s;
+}
+.plan-item:hover{border-color:var(--border-hi)}
+.plan-move{
+  display:flex;flex-direction:column;gap:2px;
+  color:var(--text-faint);font-size:10px;
+}
+.plan-move button{
+  padding:2px 4px;border-radius:4px;
+  color:var(--text-faint);font-size:10px;
+  transition:color 0.15s;
+}
+.plan-move button:hover{color:var(--accent-text)}
+.plan-info{flex:1;min-width:0}
+.plan-info .name{font-size:14px;font-weight:500}
+.plan-info .meta{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-faint);
+  margin-top:2px;
+}
+.plan-info .note{
+  font-size:11px;color:var(--text-faint);font-style:italic;
+  margin-top:2px;
+}
+.plan-remove{
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-faint);font-size:14px;
+  transition:all 0.15s;
+}
+.plan-remove:hover{color:var(--missing);background:rgba(232,80,80,0.08)}
+
+.plan-totals{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-faint);
+  padding:10px 14px;
+  background:var(--bg-surface);
+  border-radius:8px;
+  text-align:center;
+}
+
+.plan-empty{
+  text-align:center;padding:60px 20px;
+  color:var(--text-faint);font-size:14px;line-height:1.6;
+}
+
+/* ═══════════ SHOP PANEL ═══════════ */
+.shop-top{
+  display:flex;gap:8px;margin-bottom:12px;
+}
+.shop-top input{
+  flex:1;padding:12px 16px;font-size:14px;
+  background:var(--bg-raised);
+  border:1px solid var(--border-hi);
+  border-radius:12px;color:var(--text);
+  transition:border-color 0.2s;
+}
+.shop-top input:focus{border-color:var(--accent-1)}
+.shop-top input::placeholder{color:var(--text-faint)}
+.shop-top .shop-add-btn{
+  padding:0 16px;border-radius:12px;
+  background:var(--accent-gradient);color:#0a0a0a;
+  font-size:13px;font-weight:600;white-space:nowrap;
+}
+.shop-auto-btn{
+  width:100%;padding:10px;border-radius:10px;
+  font-size:12px;font-weight:600;
+  background:var(--bg-surface);color:var(--text-dim);
+  border:1px solid var(--border);
+  margin-bottom:16px;
+  transition:all 0.15s;
+}
+.shop-auto-btn:hover{color:var(--accent-text);border-color:var(--accent-dim)}
+
+.shop-stats{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-faint);
+  margin-bottom:12px;
+}
+
+.shop-group-label{
+  font-size:10px;font-weight:600;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--text-faint);
+  margin:16px 0 6px;
+}
+.shop-group-label:first-child{margin-top:4px}
+
+.shop-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  margin-bottom:3px;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.shop-item:hover{border-color:var(--border-hi)}
+.shop-item.checked{opacity:0.4}
+.shop-item.checked .shop-item-name{text-decoration:line-through}
+.shop-check{
+  width:18px;height:18px;border-radius:5px;
+  border:2px solid var(--border-hi);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all 0.15s;
+  font-size:11px;color:transparent;
+}
+.shop-item.checked .shop-check{
+  background:var(--accent-gradient);
+  border-color:transparent;color:#0a0a0a;
+}
+.shop-item-name{flex:1;font-size:13px;font-weight:500}
+.shop-item-reason{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;color:var(--text-faint);
+  white-space:nowrap;
+}
+.shop-bottom{
+  display:flex;gap:8px;margin-top:16px;
+}
+.shop-bottom button{
+  flex:1;padding:10px;border-radius:10px;
+  font-size:12px;font-weight:600;
+  transition:all 0.15s;
+}
+.shop-bottom button:active{transform:scale(0.97)}
+.shop-pantry-btn{background:var(--accent-gradient);color:#0a0a0a}
+.shop-clear-btn{
+  background:var(--bg-surface);color:var(--text-dim);
+  border:1px solid var(--border);
+}
+
+.shop-empty{
+  text-align:center;padding:60px 20px;
+  color:var(--text-faint);font-size:14px;line-height:1.6;
 }
 
 /* ═══════════ HISTORY PANEL ═══════════ */
+.log-summary{
+  display:flex;gap:16px;
+  padding:12px 16px;margin-bottom:16px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:10px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-dim);
+}
+.log-summary-item{display:flex;flex-direction:column;gap:2px}
+.log-summary-item .val{font-size:18px;font-weight:600;color:var(--text)}
+.log-summary-item .lbl{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em}
+
+.variety-bar{
+  margin-bottom:16px;
+  padding:10px 14px;
+  background:var(--bg-surface);border-radius:8px;
+}
+.variety-text{
+  font-size:12px;color:var(--text-dim);margin-bottom:6px;
+}
+.variety-track{
+  height:4px;background:var(--bg-raised);border-radius:2px;overflow:hidden;
+}
+.variety-fill{
+  height:100%;background:var(--accent-gradient);border-radius:2px;
+  transition:width 0.4s ease;
+}
+
 .history-group{
   font-family:'IBM Plex Mono', monospace;
   font-size:10px;font-weight:500;letter-spacing:0.08em;
@@ -416,8 +656,11 @@ body::after{
 }
 .h-dot{
   width:7px;height:7px;border-radius:50%;flex-shrink:0;
-  background:var(--accent-gradient);
 }
+.h-dot.low{background:var(--ready)}
+.h-dot.med{background:var(--partial)}
+.h-dot.high{background:var(--accent-text)}
+.h-dot.none{background:var(--text-faint)}
 .h-info{flex:1;min-width:0}
 .h-name{font-size:13px;font-weight:500}
 .h-time{font-family:'IBM Plex Mono', monospace;font-size:11px;color:var(--text-faint)}
@@ -428,7 +671,7 @@ body::after{
 .h-energy.low{background:var(--ready-dim);color:var(--ready)}
 .h-energy.med{background:rgba(240,184,64,0.1);color:var(--partial)}
 .h-energy.high{background:var(--accent-dim);color:var(--accent-text)}
-.h-empty{text-align:center;padding:60px 20px;color:var(--text-faint);font-size:13px}
+.h-empty{text-align:center;padding:60px 20px;color:var(--text-faint);font-size:14px;line-height:1.6}
 
 /* ═══════════ TOAST ═══════════ */
 .toast{
@@ -505,7 +748,7 @@ body::after{
       </h1>
     </div>
 
-    <div class="input-area">
+    <div class="input-area" id="input-area">
       <div class="input-wrap">
         <input class="input-field" type="text" id="main-input" placeholder="What sounds good?" autocomplete="off">
         <button class="submit-btn" id="submit-btn" aria-label="Submit">
@@ -516,6 +759,7 @@ body::after{
         <button class="hint" data-hint="something quick">something quick</button>
         <button class="hint" data-hint="use what's fresh">use what's fresh</button>
         <button class="hint" data-hint="high protein">high protein</button>
+        <button class="hint" data-hint="what can I make?">what can I make?</button>
         <button class="hint" data-hint="surprise me">surprise me</button>
       </div>
       <div class="context" id="context"></div>
@@ -535,37 +779,40 @@ body::after{
 
     <!-- PANTRY -->
     <div class="panel" id="panel-pantry">
-      <div class="stub">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/><path d="M10 3V1M14 3V1"/></svg>
-        <div class="stub-title">Pantry</div>
-        <div class="stub-desc">Quick-stock your kitchen with natural language. Type what you bought and we'll sort it.</div>
-        <div class="stub-badge">Phase 3</div>
+      <div class="pantry-bar">
+        <input type="text" id="pantry-input" placeholder="What did you buy?" autocomplete="off">
+        <button id="pantry-add-btn">Add</button>
       </div>
+      <div class="pantry-stats" id="pantry-stats"></div>
+      <div id="pantry-categories"></div>
     </div>
 
     <!-- PLAN -->
     <div class="panel" id="panel-plan">
-      <div class="stub">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="4" x2="9" y2="1"/><line x1="15" y1="4" x2="15" y2="1"/><circle cx="8" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/><circle cx="16" cy="13" r="1" fill="currentColor"/><circle cx="8" cy="17" r="1" fill="currentColor"/></svg>
-        <div class="stub-title">Plan</div>
-        <div class="stub-desc">Your next few meals, rolling forward. No grids — just what's coming up.</div>
-        <div class="stub-badge">Phase 3</div>
+      <div class="plan-header">
+        <div class="label" style="margin:0">Next up</div>
+        <div class="plan-actions">
+          <button class="plan-btn" id="plan-suggest-btn">Suggest</button>
+          <button class="plan-btn secondary" id="plan-clear-btn">Clear</button>
+        </div>
       </div>
+      <div id="plan-list-wrap"></div>
     </div>
 
     <!-- SHOP -->
     <div class="panel" id="panel-shop">
-      <div class="stub">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        <div class="stub-title">Shop</div>
-        <div class="stub-desc">Auto-generated from what's low and what you're planning to cook.</div>
-        <div class="stub-badge">Phase 3</div>
+      <div class="shop-top">
+        <input type="text" id="shop-input" placeholder="Add to list..." autocomplete="off">
+        <button class="shop-add-btn" id="shop-add-btn">Add</button>
       </div>
+      <button class="shop-auto-btn" id="shop-auto-btn">Build list from pantry + plan</button>
+      <div id="shop-list-wrap"></div>
     </div>
 
     <!-- LOG -->
     <div class="panel" id="panel-log">
-      <div class="label" style="margin-top:8px">Meal history</div>
+      <div id="log-summary-wrap"></div>
+      <div id="log-variety-wrap"></div>
       <div id="history-list">
         <div class="skel skel-row"></div>
         <div class="skel skel-row"></div>
@@ -611,6 +858,12 @@ let pantryItems = [];
 let historyData = [];
 let mealsToday = 0;
 let allMeals = [];
+let planData = { meals: [] };
+let shopData = [];
+let placeholderTimer = null;
+
+/* ═══════════ UTIL ═══════════ */
+function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML }
 
 /* ═══════════ THEME ═══════════ */
 const dots = document.querySelectorAll('.theme-dot');
@@ -628,12 +881,18 @@ setTheme(localStorage.getItem('ms-theme') || 'lime');
 const navBtns = document.querySelectorAll('.nav-btn');
 const panels = document.querySelectorAll('.panel');
 const greeting = document.getElementById('greeting');
+const inputArea = document.getElementById('input-area');
 
 function switchPanel(name) {
   panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
   navBtns.forEach(b => b.classList.toggle('active', b.dataset.panel === name));
+  // Show greeting + input only on Eat
   greeting.style.display = name === 'eat' ? '' : 'none';
+  inputArea.style.display = name === 'eat' ? '' : 'none';
   if (name === 'log') loadHistory();
+  if (name === 'pantry') renderPantry();
+  if (name === 'plan') renderPlan();
+  if (name === 'shop') renderShop();
 }
 navBtns.forEach(b => b.addEventListener('click', () => switchPanel(b.dataset.panel)));
 
@@ -652,6 +911,57 @@ async function api(path, opts) {
     if (!r.ok) throw new Error(r.status);
     return await r.json();
   } catch(e) { console.error('API:', path, e); return null }
+}
+
+/* ═══════════ DYNAMIC PLACEHOLDER ═══════════ */
+function getPlaceholders() {
+  const hr = new Date().getHours();
+  const hints = [];
+
+  // Time-based
+  if (hr >= 5 && hr < 11) hints.push('Breakfast ideas?');
+  else if (hr >= 11 && hr < 14) hints.push('Something for lunch?');
+  else if (hr >= 17 && hr < 21) hints.push("What's for dinner?");
+  else if (hr >= 21 || hr < 5) hints.push('Late-night snack?');
+
+  // Pantry-aware
+  const proteins = pantryItems.filter(p =>
+    p.category === 'proteins-dairy' && p.qty !== 'low' && p.qty !== '0'
+  );
+  if (proteins.length > 0) {
+    const pick = proteins[Math.floor(Math.random() * proteins.length)];
+    hints.push(`You've got ${pick.name} \u2014 use it tonight?`);
+  }
+
+  // Based on top suggestion
+  if (suggestions.length > dismissedIdx) {
+    const top = suggestions[dismissedIdx];
+    hints.push(`How about ${top.meal_name}?`);
+  }
+
+  // Always include the classic
+  hints.push('What sounds good?');
+
+  return hints;
+}
+
+let currentPlaceholderIdx = 0;
+function rotatePlaceholder() {
+  const el = document.getElementById('main-input');
+  if (document.activeElement === el && el.value) return; // don't rotate while typing
+  const hints = getPlaceholders();
+  currentPlaceholderIdx = (currentPlaceholderIdx + 1) % hints.length;
+  el.style.opacity = '1';
+  el.setAttribute('placeholder', hints[currentPlaceholderIdx]);
+  // Fade effect via a class would be complex; just swap instantly — the 5s interval is smooth enough
+}
+
+function startPlaceholderRotation() {
+  // Set initial
+  const hints = getPlaceholders();
+  if (hints.length) document.getElementById('main-input').setAttribute('placeholder', hints[0]);
+  if (placeholderTimer) clearInterval(placeholderTimer);
+  placeholderTimer = setInterval(rotatePlaceholder, 5000);
 }
 
 /* ═══════════ GREETING SUBTITLE ═══════════ */
@@ -677,8 +987,9 @@ function renderContext() {
 
 /* ═══════════ LOAD CONTEXT DATA ═══════════ */
 async function loadContext() {
-  const [pantry, hist, mealsResp] = await Promise.all([
-    api('/api/pantry'), api('/api/history'), api('/api/meals')
+  const [pantry, hist, mealsResp, plan, shop] = await Promise.all([
+    api('/api/pantry'), api('/api/history'), api('/api/meals'),
+    api('/api/plan'), api('/api/shop')
   ]);
   if (pantry) pantryItems = pantry;
   if (hist) {
@@ -689,8 +1000,11 @@ async function loadContext() {
   if (mealsResp) {
     allMeals = mealsResp.meals || mealsResp || [];
   }
+  if (plan) planData = plan.meals ? plan : { meals: plan.meals || [] };
+  if (shop) shopData = Array.isArray(shop) ? shop : [];
   updateGreetingSub();
   renderContext();
+  startPlaceholderRotation();
 }
 
 /* ═══════════ SUGGESTIONS ═══════════ */
@@ -712,6 +1026,7 @@ async function loadSuggestions(energy) {
     return { ...s, ...(meal ? {cal: meal.cal, protein: meal.protein, time: meal.time, note: meal.note, energy: meal.energy} : {}) };
   });
   renderSuggestions();
+  startPlaceholderRotation(); // refresh placeholders with new top pick
 }
 
 function renderSuggestions() {
@@ -738,19 +1053,22 @@ function renderSuggestions() {
     h += '<div class="label">Also works</div>';
     h += '<div class="alts">';
     alts.forEach((s, i) => {
-      const rank = dismissedIdx + i + 2;
       const miss = (s.ingredients_missing||[]).length;
       const avail = (s.ingredients_available||[]).length;
       const total = avail + miss;
       const color = miss === 0 ? 'var(--ready)' : miss <= 2 ? 'var(--partial)' : 'var(--missing)';
-      const statusText = miss === 0 ? 'ready' : `${avail}/${total}`;
+      const note = s.note || '';
+      const protein = s.protein || '';
 
       h += `<div class="alt" data-idx="${dismissedIdx+i+1}">`;
-      h += `<div class="alt-rank">${rank}</div>`;
-      h += `<div><div class="alt-name">${esc(s.meal_name)}</div>`;
-      if (s.cal || s.time) h += `<div class="alt-detail">${esc(s.cal||'')}${s.cal&&s.time?' \u00b7 ':''}${esc(s.time||'')}</div>`;
+      h += `<div class="alt-left">`;
+      h += `<div class="alt-name">${esc(s.meal_name)}</div>`;
+      if (note) h += `<div class="alt-note">${esc(note)}</div>`;
       h += `</div>`;
-      h += `<div class="alt-status"><i class="d" style="background:${color}"></i>${statusText}</div>`;
+      h += `<div class="alt-right">`;
+      if (protein) h += `<span class="alt-protein">${esc(protein)}</span>`;
+      h += `<i class="alt-dot" style="background:${color}"></i>`;
+      h += `</div>`;
       h += `</div>`;
 
       // Expandable
@@ -813,6 +1131,7 @@ function renderTopPick(s) {
 
   h += '<div class="actions">';
   h += `<button class="btn btn-go" onclick="logMeal('${esc(name)}','${esc(s.energy||'')}')">Ate this</button>`;
+  h += `<button class="btn btn-skip" onclick="addToPlan('${esc(name)}')">Plan it</button>`;
   h += `<button class="btn btn-skip" onclick="dismiss()">Not that</button>`;
   h += '</div></div>';
   return h;
@@ -832,7 +1151,10 @@ function renderExpandedAlt(s) {
     miss.forEach(i => h += `<span class="ing"><i class="d n"></i>${esc(i)}</span>`);
     h += '</div>';
   }
-  h += `<div class="actions"><button class="btn btn-go" onclick="logMeal('${esc(name)}','${esc(s.energy||'')}')">Ate this</button></div>`;
+  h += '<div class="actions">';
+  h += `<button class="btn btn-go" onclick="logMeal('${esc(name)}','${esc(s.energy||'')}')">Ate this</button>`;
+  h += `<button class="btn btn-skip" onclick="addToPlan('${esc(name)}')">Plan it</button>`;
+  h += '</div>';
   return h;
 }
 
@@ -882,6 +1204,15 @@ async function handleInput() {
     await loadSuggestions();
   } else if (intent === 'energy_filter') {
     await loadSuggestions((r.entities&&r.entities.energy)||'low');
+  } else if (intent === 'shop_add') {
+    const items = (r.entities&&r.entities.items)||[];
+    if (items.length) {
+      items.forEach(name => {
+        shopData.push({name, reason:'manual', checked:false});
+      });
+      await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
+      toast(`Added ${items.join(', ')} to shopping list`);
+    }
   } else {
     toast("Didn't catch that \u2014 try \"something quick\" or \"I ate the rice bowl\"", true);
   }
@@ -895,13 +1226,405 @@ document.querySelectorAll('.hint').forEach(h => {
   h.addEventListener('click', () => { input.value = h.dataset.hint; handleInput() });
 });
 
-/* ═══════════ HISTORY ═══════════ */
+/* ═══════════════════════════════════════════
+   PANTRY PANEL
+   ═══════════════════════════════════════════ */
+const PANTRY_CATEGORIES = {
+  'fresh': 'Fresh',
+  'proteins-dairy': 'Proteins & Dairy',
+  'frozen': 'Frozen',
+  'pantry-dry': 'Pantry & Dry',
+  'snacks-bars': 'Snacks & Bars'
+};
+const pantryCollapsed = {};
+
+function renderPantry() {
+  // Stats
+  const stocked = pantryItems.filter(p => p.qty !== '0' && p.qty !== 0).length;
+  const low = pantryItems.filter(p => p.qty === 'low').length;
+  document.getElementById('pantry-stats').textContent = `${stocked} items stocked \u00b7 ${low} running low`;
+
+  // Group by category
+  const groups = {};
+  for (const cat of Object.keys(PANTRY_CATEGORIES)) groups[cat] = [];
+  pantryItems.forEach(item => {
+    const cat = item.category || 'pantry-dry';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(item);
+  });
+
+  // Sort within category: available first, then low
+  for (const cat of Object.keys(groups)) {
+    groups[cat].sort((a, b) => {
+      const aLow = a.qty === 'low' || a.qty === '0' || a.qty === 0 ? 1 : 0;
+      const bLow = b.qty === 'low' || b.qty === '0' || b.qty === 0 ? 1 : 0;
+      if (aLow !== bLow) return aLow - bLow;
+      return (a.name||'').localeCompare(b.name||'');
+    });
+  }
+
+  let h = '';
+  for (const [cat, label] of Object.entries(PANTRY_CATEGORIES)) {
+    const items = groups[cat] || [];
+    if (items.length === 0) continue;
+
+    const collapsed = pantryCollapsed[cat];
+    h += `<div class="pantry-category">`;
+    h += `<div class="pantry-cat-header${collapsed?' collapsed':''}" data-cat="${esc(cat)}">`;
+    h += `<span class="arrow">\u25BC</span>`;
+    h += `<span>${esc(label)}</span>`;
+    h += `<span class="pantry-cat-count">${items.length}</span>`;
+    h += `</div>`;
+    h += `<div class="pantry-items${collapsed?' hidden':''}">`;
+    items.forEach((item, idx) => {
+      const qtyClass = item.qty === 'plenty' ? 'plenty' : item.qty === 'low' ? 'low' : 'num';
+      const qtyLabel = typeof item.qty === 'number' ? `\u00d7${item.qty}` : item.qty || 'plenty';
+      h += `<div class="pantry-item" data-name="${esc(item.name)}" data-cat="${esc(cat)}">`;
+      h += `<span class="pantry-item-name">${esc(item.name)}</span>`;
+      h += `<span class="pantry-qty ${qtyClass}">${esc(qtyLabel)}</span>`;
+      h += `</div>`;
+    });
+    h += `</div></div>`;
+  }
+
+  document.getElementById('pantry-categories').innerHTML = h;
+
+  // Bind collapse
+  document.querySelectorAll('.pantry-cat-header').forEach(hdr => {
+    hdr.addEventListener('click', () => {
+      const cat = hdr.dataset.cat;
+      pantryCollapsed[cat] = !pantryCollapsed[cat];
+      hdr.classList.toggle('collapsed');
+      hdr.nextElementSibling.classList.toggle('hidden');
+    });
+  });
+
+  // Bind item tap to cycle qty
+  document.querySelectorAll('.pantry-item').forEach(el => {
+    el.addEventListener('click', () => cyclePantryQty(el.dataset.name));
+  });
+}
+
+async function cyclePantryQty(name) {
+  const idx = pantryItems.findIndex(p => p.name === name);
+  if (idx === -1) return;
+  const item = pantryItems[idx];
+  if (item.qty === 'plenty') {
+    item.qty = 'low';
+    toast(`${name} marked low`);
+  } else if (item.qty === 'low') {
+    pantryItems.splice(idx, 1);
+    toast(`${name} removed`);
+  } else {
+    item.qty = 'low';
+    toast(`${name} marked low`);
+  }
+  await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(pantryItems)});
+  updateGreetingSub();
+  renderContext();
+  renderPantry();
+}
+
+// Pantry add bar
+document.getElementById('pantry-add-btn').addEventListener('click', addPantryItems);
+document.getElementById('pantry-input').addEventListener('keydown', e => { if (e.key==='Enter') addPantryItems() });
+
+async function addPantryItems() {
+  const input = document.getElementById('pantry-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  const items = text.split(',').map(s => s.trim()).filter(Boolean);
+  if (!items.length) return;
+
+  const added = items.map(name => ({name, qty:'plenty', category:'pantry-dry'}));
+  pantryItems.push(...added);
+
+  if (await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(pantryItems)})) {
+    toast(`Added ${items.join(', ')}`);
+    updateGreetingSub();
+    renderContext();
+    renderPantry();
+  }
+}
+
+/* ═══════════════════════════════════════════
+   PLAN PANEL
+   ═══════════════════════════════════════════ */
+function renderPlan() {
+  const wrap = document.getElementById('plan-list-wrap');
+  const meals = planData.meals || [];
+
+  if (meals.length === 0) {
+    wrap.innerHTML = '<div class="plan-empty">No meals planned. Hit Suggest or pick from Eat.</div>';
+    return;
+  }
+
+  let h = '<div class="plan-list">';
+  meals.forEach((mealName, idx) => {
+    const meal = allMeals.find(m => m.name.toLowerCase() === mealName.toLowerCase());
+    const cal = meal ? meal.cal : '';
+    const protein = meal ? meal.protein : '';
+    const energy = meal ? meal.energy : '';
+    const note = meal ? meal.note : '';
+    const eLbl = energy === 'low' ? 'easy' : energy === 'medium' ? 'medium' : energy === 'high' ? 'cooking' : '';
+
+    h += `<div class="plan-item">`;
+    h += `<div class="plan-move">`;
+    if (idx > 0) h += `<button onclick="movePlan(${idx},-1)">\u25B2</button>`;
+    if (idx < meals.length - 1) h += `<button onclick="movePlan(${idx},1)">\u25BC</button>`;
+    h += `</div>`;
+    h += `<div class="plan-info">`;
+    h += `<div class="name">${esc(mealName)}</div>`;
+    const metaParts = [eLbl, cal, protein].filter(Boolean);
+    if (metaParts.length) h += `<div class="meta">${metaParts.map(m=>esc(m)).join(' \u00b7 ')}</div>`;
+    if (note) h += `<div class="note">${esc(note)}</div>`;
+    h += `</div>`;
+    h += `<button class="plan-remove" onclick="removePlan(${idx})">\u2715</button>`;
+    h += `</div>`;
+  });
+  h += '</div>';
+
+  // Totals
+  let totalCal = 0, totalProtein = 0, counted = 0;
+  meals.forEach(mealName => {
+    const meal = allMeals.find(m => m.name.toLowerCase() === mealName.toLowerCase());
+    if (meal) {
+      const c = parseFloat((meal.cal||'').replace(/[^0-9.]/g,''));
+      const p = parseFloat((meal.protein||'').replace(/[^0-9.]/g,''));
+      if (!isNaN(c)) totalCal += c;
+      if (!isNaN(p)) totalProtein += p;
+      counted++;
+    }
+  });
+  if (counted > 0) {
+    h += `<div class="plan-totals">${meals.length} meals planned \u00b7 ~${Math.round(totalCal)} cal \u00b7 ~${Math.round(totalProtein)}g protein</div>`;
+  }
+
+  wrap.innerHTML = h;
+}
+
+async function addToPlan(name) {
+  if (!planData.meals) planData.meals = [];
+  if (planData.meals.length >= 5) {
+    toast('Plan is full (5 meals max). Remove one first.', true);
+    return;
+  }
+  planData.meals.push(name);
+  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+  toast(`Added ${name} to plan`);
+  renderPlan();
+}
+
+async function removePlan(idx) {
+  const name = planData.meals[idx];
+  planData.meals.splice(idx, 1);
+  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+  toast(`Removed ${name}`);
+  renderPlan();
+}
+
+async function movePlan(idx, dir) {
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= planData.meals.length) return;
+  const tmp = planData.meals[idx];
+  planData.meals[idx] = planData.meals[newIdx];
+  planData.meals[newIdx] = tmp;
+  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+  renderPlan();
+}
+
+// Suggest button
+document.getElementById('plan-suggest-btn').addEventListener('click', async () => {
+  const data = await api('/api/suggestions');
+  if (!data || !data.length) { toast('No suggestions available', true); return }
+  const good = data.filter(s => s.score > 0.5).slice(0, 3);
+  if (!good.length) { toast('Nothing scored high enough. Stock your pantry!', true); return }
+  if (!planData.meals) planData.meals = [];
+  const added = [];
+  for (const s of good) {
+    if (planData.meals.length >= 5) break;
+    if (!planData.meals.some(m => m.toLowerCase() === s.meal_name.toLowerCase())) {
+      planData.meals.push(s.meal_name);
+      added.push(s.meal_name);
+    }
+  }
+  if (added.length) {
+    await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+    toast(`Added ${added.join(', ')}`);
+    renderPlan();
+  } else {
+    toast('Those are already in your plan');
+  }
+});
+
+// Clear button
+document.getElementById('plan-clear-btn').addEventListener('click', async () => {
+  planData.meals = [];
+  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+  toast('Plan cleared');
+  renderPlan();
+});
+
+/* ═══════════════════════════════════════════
+   SHOP PANEL
+   ═══════════════════════════════════════════ */
+function renderShop() {
+  const wrap = document.getElementById('shop-list-wrap');
+
+  if (!shopData.length) {
+    wrap.innerHTML = '<div class="shop-empty">No items on the list. Build from pantry + plan, or add manually.</div>';
+    return;
+  }
+
+  // Group by reason type
+  const lowItems = shopData.filter(i => i.reason === 'running low');
+  const planItems = shopData.filter(i => i.reason && i.reason !== 'running low' && i.reason !== 'manual');
+  const manualItems = shopData.filter(i => i.reason === 'manual' || !i.reason);
+
+  const totalCount = shopData.length;
+  const checkedCount = shopData.filter(i => i.checked).length;
+
+  let h = `<div class="shop-stats">${totalCount} items \u00b7 ${checkedCount} checked</div>`;
+
+  function renderGroup(label, items) {
+    if (!items.length) return '';
+    let g = `<div class="shop-group-label">${esc(label)}</div>`;
+    items.forEach((item, i) => {
+      const globalIdx = shopData.indexOf(item);
+      g += `<div class="shop-item${item.checked?' checked':''}" data-idx="${globalIdx}">`;
+      g += `<div class="shop-check">${item.checked?'\u2713':''}</div>`;
+      g += `<span class="shop-item-name">${esc(item.name)}</span>`;
+      if (item.reason && item.reason !== 'manual') g += `<span class="shop-item-reason">${esc(item.reason)}</span>`;
+      g += `</div>`;
+    });
+    return g;
+  }
+
+  h += renderGroup('Running low', lowItems);
+  h += renderGroup('For planned meals', planItems);
+  h += renderGroup('Manual', manualItems);
+
+  h += '<div class="shop-bottom">';
+  h += '<button class="shop-pantry-btn" id="shop-to-pantry">Add checked to pantry</button>';
+  h += '<button class="shop-clear-btn" id="shop-clear-checked">Clear checked</button>';
+  h += '</div>';
+
+  wrap.innerHTML = h;
+
+  // Bind check toggles
+  wrap.querySelectorAll('.shop-item').forEach(el => {
+    el.addEventListener('click', async () => {
+      const idx = parseInt(el.dataset.idx);
+      shopData[idx].checked = !shopData[idx].checked;
+      await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
+      renderShop();
+    });
+  });
+
+  // Add checked to pantry
+  document.getElementById('shop-to-pantry').addEventListener('click', async () => {
+    const checked = shopData.filter(i => i.checked);
+    if (!checked.length) { toast('Check some items first'); return }
+    const newItems = checked.map(i => ({name: i.name, qty: 'plenty', category: 'pantry-dry'}));
+    pantryItems.push(...newItems);
+    await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(pantryItems)});
+    shopData = shopData.filter(i => !i.checked);
+    await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
+    toast(`Added ${checked.length} items to pantry`);
+    updateGreetingSub();
+    renderContext();
+    renderShop();
+  });
+
+  // Clear checked
+  document.getElementById('shop-clear-checked').addEventListener('click', async () => {
+    const removed = shopData.filter(i => i.checked).length;
+    if (!removed) { toast('Nothing checked'); return }
+    shopData = shopData.filter(i => !i.checked);
+    await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
+    toast(`Cleared ${removed} items`);
+    renderShop();
+  });
+}
+
+// Shop manual add
+document.getElementById('shop-add-btn').addEventListener('click', addShopItems);
+document.getElementById('shop-input').addEventListener('keydown', e => { if (e.key==='Enter') addShopItems() });
+
+async function addShopItems() {
+  const inp = document.getElementById('shop-input');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  const items = text.split(',').map(s => s.trim()).filter(Boolean);
+  items.forEach(name => shopData.push({name, reason:'manual', checked:false}));
+  await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
+  toast(`Added ${items.join(', ')}`);
+  renderShop();
+}
+
+// Auto-generate
+document.getElementById('shop-auto-btn').addEventListener('click', async () => {
+  const auto = await api('/api/shop/auto');
+  if (!auto || !auto.length) { toast('Nothing to add \u2014 pantry and plan look good!'); return }
+  // Merge without duplicates
+  const existing = new Set(shopData.map(i => i.name.toLowerCase()));
+  let added = 0;
+  auto.forEach(item => {
+    if (!existing.has(item.name.toLowerCase())) {
+      shopData.push(item);
+      existing.add(item.name.toLowerCase());
+      added++;
+    }
+  });
+  await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
+  toast(`Added ${added} items from pantry + plan`);
+  renderShop();
+});
+
+/* ═══════════════════════════════════════════
+   LOG / HISTORY PANEL
+   ═══════════════════════════════════════════ */
 async function loadHistory() {
   const el = document.getElementById('history-list');
+  const summaryWrap = document.getElementById('log-summary-wrap');
+  const varietyWrap = document.getElementById('log-variety-wrap');
   el.innerHTML = '<div class="skel skel-row"></div><div class="skel skel-row"></div>';
-  const data = await api('/api/history');
-  if (!data || !data.length) { el.innerHTML = '<div class="h-empty">No meals logged yet. Eat something!</div>'; return }
 
+  const data = await api('/api/history');
+  if (!data || !data.length) {
+    summaryWrap.innerHTML = '';
+    varietyWrap.innerHTML = '';
+    el.innerHTML = '<div class="h-empty">No meals logged yet. Eat something and tell me about it!</div>';
+    return;
+  }
+
+  // Summary stats
+  const now = new Date();
+  const weekAgo = new Date(now.getTime() - 7 * 86400000).toISOString().slice(0,10);
+  const monthAgo = new Date(now.getTime() - 30 * 86400000).toISOString().slice(0,10);
+  const thisWeek = data.filter(h => (h.logged_at||'').slice(0,10) >= weekAgo);
+  const thisMonth = data.filter(h => (h.logged_at||'').slice(0,10) >= monthAgo);
+
+  summaryWrap.innerHTML = `
+    <div class="log-summary">
+      <div class="log-summary-item"><span class="val">${thisWeek.length}</span><span class="lbl">this week</span></div>
+      <div class="log-summary-item"><span class="val">${thisMonth.length}</span><span class="lbl">this month</span></div>
+    </div>`;
+
+  // Variety indicator
+  const uniqueThisWeek = new Set(thisWeek.map(h => h.meal_name.toLowerCase())).size;
+  const totalMeals = allMeals.length || 21;
+  const varietyPct = Math.min(100, Math.round((uniqueThisWeek / Math.min(totalMeals, 10)) * 100));
+  varietyWrap.innerHTML = `
+    <div class="variety-bar">
+      <div class="variety-text">${uniqueThisWeek} different meal${uniqueThisWeek!==1?'s':''} this week</div>
+      <div class="variety-track"><div class="variety-fill" style="width:${varietyPct}%"></div></div>
+    </div>`;
+
+  // Grouped list
   const today = new Date().toISOString().slice(0,10);
   const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
   const groups = {};
@@ -920,19 +1643,17 @@ async function loadHistory() {
     items.forEach(item => {
       const time = (item.logged_at||'').slice(11,16);
       const e = item.energy_level||'';
-      const cls = e==='low'?'low':e==='medium'?'med':e==='high'?'high':'';
-      h += `<div class="h-item"><i class="h-dot"></i><div class="h-info"><div class="h-name">${esc(item.meal_name)}</div>`;
+      const cls = e==='low'?'low':e==='medium'?'med':e==='high'?'high':'none';
+      const badgeCls = e==='low'?'low':e==='medium'?'med':e==='high'?'high':'';
+      h += `<div class="h-item"><i class="h-dot ${cls}"></i><div class="h-info"><div class="h-name">${esc(item.meal_name)}</div>`;
       if (time) h += `<div class="h-time">${time}</div>`;
       h += `</div>`;
-      if (e && cls) h += `<div class="h-energy ${cls}">${esc(e)}</div>`;
+      if (e && badgeCls) h += `<div class="h-energy ${badgeCls}">${esc(e)}</div>`;
       h += `</div>`;
     });
   }
   el.innerHTML = h;
 }
-
-/* ═══════════ UTIL ═══════════ */
-function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML }
 
 /* ═══════════ INIT ═══════════ */
 (async () => { await loadContext(); await loadSuggestions() })();
