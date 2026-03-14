@@ -340,6 +340,15 @@ async def get_history():
         return [dict(row) for row in rows]
 
 
+@app.delete("/api/history/{entry_id}")
+async def delete_history(entry_id: int):
+    """Delete a meal log entry by ID."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute("DELETE FROM meal_log WHERE id = ?", (entry_id,))
+        await db.commit()
+    return {"ok": True}
+
+
 # ---------------------------------------------------------------------------
 # Suggestions engine (deterministic)
 # ---------------------------------------------------------------------------

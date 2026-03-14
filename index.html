@@ -671,6 +671,14 @@ body::after{
 .h-energy.low{background:var(--ready-dim);color:var(--ready)}
 .h-energy.med{background:rgba(240,184,64,0.1);color:var(--partial)}
 .h-energy.high{background:var(--accent-dim);color:var(--accent-text)}
+.h-del{
+  color:var(--text-faint);font-size:16px;
+  width:24px;height:24px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:all 0.15s;flex-shrink:0;
+}
+.h-item:hover .h-del{opacity:1}
+.h-del:hover{color:var(--missing);background:rgba(232,80,80,0.08)}
 .h-empty{text-align:center;padding:60px 20px;color:var(--text-faint);font-size:14px;line-height:1.6}
 
 /* ═══════════ TOAST ═══════════ */
@@ -1649,10 +1657,25 @@ async function loadHistory() {
       if (time) h += `<div class="h-time">${time}</div>`;
       h += `</div>`;
       if (e && badgeCls) h += `<div class="h-energy ${badgeCls}">${esc(e)}</div>`;
+      h += `<button class="h-del" data-id="${item.id}" title="Remove">&times;</button>`;
       h += `</div>`;
     });
   }
   el.innerHTML = h;
+
+  // Bind delete buttons
+  el.querySelectorAll('.h-del').forEach(btn => {
+    btn.addEventListener('click', async (ev) => {
+      ev.stopPropagation();
+      const id = btn.dataset.id;
+      if (await api(`/api/history/${id}`, {method:'DELETE'})) {
+        toast('Entry removed');
+        mealsToday = Math.max(0, mealsToday - 1);
+        updateGreetingSub(); renderContext();
+        loadHistory();
+      }
+    });
+  });
 }
 
 /* ═══════════ INIT ═══════════ */
