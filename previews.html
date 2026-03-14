@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meal System — Style Previews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Source+Serif+4:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 2.5rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .preview-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: #111;
+  }
+  .preview-label {
+    padding: 1rem 1.25rem 0.75rem;
+    background: #0a0a0a;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .preview-label h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .preview-label p {
+    font-size: 0.75rem;
+    color: #888;
+    line-height: 1.4;
+  }
+  .preview-frame {
+    height: 620px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* ============================================================
+     STYLE 1: SWISS PRECISION
+     ============================================================ */
+  .swiss {
+    background: #ffffff;
+    color: #1a1a1a;
+    font-family: 'Inter', sans-serif;
+    padding: 0;
+  }
+  .swiss .s-header {
+    padding: 2rem 1.5rem 1rem;
+    border-bottom: 2px solid #1a1a1a;
+  }
+  .swiss .s-header h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    text-transform: none;
+    text-align: left;
+    color: #1a1a1a;
+    line-height: 1;
+    margin-bottom: 0;
+  }
+  .swiss .s-header .s-sub {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #999;
+    margin-top: 0.5rem;
+  }
+  .swiss .s-input-row {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .swiss .s-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #1a1a1a;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    background: transparent;
+    outline: none;
+  }
+  .swiss .s-input::placeholder { color: #bbb; }
+  .swiss .s-section {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .swiss .s-label {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: #999;
+    margin-bottom: 0.75rem;
+  }
+  .swiss .s-pick {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-top: 1px solid #f0f0f0;
+  }
+  .swiss .s-pick:first-of-type { border-top: none; }
+  .swiss .s-pick-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .swiss .s-pick-meta {
+    font-size: 0.65rem;
+    color: #999;
+    margin-top: 0.2rem;
+  }
+  .swiss .s-pick-tag {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid #1a1a1a;
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+  .swiss .s-pick-tag.ready { color: #1a1a1a; }
+  .swiss .s-pick-tag.partial { border-color: #ccc; color: #999; }
+  .swiss .s-btn-row {
+    display: flex;
+    gap: 0;
+    border-top: 2px solid #1a1a1a;
+  }
+  .swiss .s-btn {
+    flex: 1;
+    padding: 0.9rem;
+    background: #fff;
+    border: none;
+    border-right: 1px solid #e0e0e0;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    color: #1a1a1a;
+  }
+  .swiss .s-btn:last-child { border-right: none; }
+  .swiss .s-btn:hover { background: #1a1a1a; color: #fff; }
+  .swiss .s-accent { color: #ff0000; }
+  .swiss .s-status {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+  .swiss .s-status.green { background: #1a1a1a; }
+  .swiss .s-status.amber { background: #ccc; }
+  .swiss .s-pantry-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #e0e0e0;
+    border: 1px solid #e0e0e0;
+  }
+  .swiss .s-pantry-item {
+    background: #fff;
+    padding: 0.5rem;
+    font-size: 0.7rem;
+    text-align: center;
+  }
+  .swiss .s-pantry-item.stocked {
+    background: #1a1a1a;
+    color: #fff;
+  }
+  .swiss .s-qty {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.55rem;
+    color: #999;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     STYLE 2: WARM KITCHEN
+     ============================================================ */
+  .warm-kitchen {
+    background: #faf6f1;
+    color: #2d2a26;
+    font-family: 'Outfit', sans-serif;
+    padding: 0;
+  }
+  .wk-header {
+    background: linear-gradient(135deg, #e8c17a 0%, #d4956a 100%);
+    padding: 1.75rem 1.5rem 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .wk-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: repeating-linear-gradient(90deg, #c17d4a 0px, #c17d4a 8px, transparent 8px, transparent 16px);
+  }
+  .wk-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: left;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    margin-bottom: 0;
+  }
+  .wk-header .wk-sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.8);
+    font-weight: 300;
+  }
+  .wk-body { padding: 1.25rem; }
+  .wk-input-wrap {
+    background: #fff;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .wk-input-icon { font-size: 1.1rem; }
+  .wk-input {
+    flex: 1;
+    border: none;
+    font-size: 0.95rem;
+    font-family: 'Outfit', sans-serif;
+    outline: none;
+    color: #2d2a26;
+    background: transparent;
+  }
+  .wk-input::placeholder { color: #c4b8a8; }
+  .wk-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    border-left: 4px solid transparent;
+  }
+  .wk-card.top-pick { border-left-color: #d4956a; }
+  .wk-card-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #c4956a;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .wk-card h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .wk-card-meta {
+    font-size: 0.75rem;
+    color: #9a8e7e;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .wk-card-meta span { display: flex; align-items: center; gap: 0.25rem; }
+  .wk-card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+  }
+  .wk-card-status.ready { background: #e8f5e9; color: #2e7d32; }
+  .wk-card-status.partial { background: #fff3e0; color: #e65100; }
+  .wk-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .wk-btn {
+    flex: 1;
+    padding: 0.7rem;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .wk-btn.primary { background: #d4956a; color: #fff; }
+  .wk-btn.secondary { background: #f0ebe4; color: #6b5e4f; }
+  .wk-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    border-top: 1px solid #ece6dc;
+    margin-top: 1rem;
+  }
+  .wk-nav-item {
+    text-align: center;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #b5a898;
+    font-weight: 500;
+  }
+  .wk-nav-item.active { color: #d4956a; }
+  .wk-nav-item .nav-icon { font-size: 1.2rem; display: block; margin-bottom: 0.15rem; }
+  .wk-pantry-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .wk-chip {
+    padding: 0.35rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    background: #f0ebe4;
+    color: #6b5e4f;
+  }
+  .wk-chip.stocked { background: #d4956a; color: #fff; }
+  .wk-chip .wk-qty { font-size: 0.6rem; opacity: 0.7; margin-left: 0.25rem; }
+
+  /* ============================================================
+     STYLE 3: CATALOG / INDEX CARD
+     ============================================================ */
+  .catalog {
+    background: #e8e0d4;
+    color: #2a2520;
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 0;
+    position: relative;
+  }
+  .cat-tabs {
+    display: flex;
+    background: #d4cabb;
+    padding: 0;
+    gap: 0;
+  }
+  .cat-tab {
+    padding: 0.7rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #7a6f60;
+    cursor: pointer;
+    border: none;
+    background: #d4cabb;
+    font-family: 'Space Grotesk', sans-serif;
+    border-bottom: 3px solid transparent;
+    position: relative;
+  }
+  .cat-tab.active {
+    background: #e8e0d4;
+    color: #2a2520;
+    border-bottom-color: #c0392b;
+    border-radius: 6px 6px 0 0;
+  }
+  .cat-body { padding: 1.25rem; }
+  .cat-search {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 2px solid #c4b8a4;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: 'Space Grotesk', sans-serif;
+    background: #f5f0e6;
+    color: #2a2520;
+    margin-bottom: 1rem;
+    outline: none;
+  }
+  .cat-search::placeholder { color: #b5a898; }
+  .cat-search:focus { border-color: #c0392b; }
+  .cat-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1rem 0 0.75rem;
+  }
+  .cat-divider-line {
+    flex: 1;
+    height: 1px;
+    background: #c4b8a4;
+  }
+  .cat-divider-label {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #9a8e7e;
+    font-weight: 600;
+  }
+  .index-card {
+    background: #f5f0e6;
+    border: 1px solid #c4b8a4;
+    border-radius: 2px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.6rem;
+    position: relative;
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.05);
+  }
+  .index-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: repeating-linear-gradient(90deg, #c0392b 0px, #c0392b 2px, transparent 2px, transparent 6px);
+  }
+  .index-card.alt::before { background: repeating-linear-gradient(90deg, #2980b9 0px, #2980b9 2px, transparent 2px, transparent 6px); }
+  .index-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .index-card .card-detail {
+    font-size: 0.75rem;
+    color: #7a6f60;
+    line-height: 1.5;
+  }
+  .index-card .card-detail strong { color: #2a2520; }
+  .card-tags {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .card-tag {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid #c4b8a4;
+    color: #7a6f60;
+    font-weight: 600;
+  }
+  .card-tag.avail { border-color: #27ae60; color: #27ae60; }
+  .card-tag.need { border-color: #e67e22; color: #e67e22; }
+  .cat-footer {
+    display: flex;
+    gap: 0;
+    border-top: 2px solid #c4b8a4;
+    margin-top: 1rem;
+    background: #d4cabb;
+  }
+  .cat-footer-btn {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    background: transparent;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    color: #7a6f60;
+    cursor: pointer;
+    border-right: 1px solid #c4b8a4;
+  }
+  .cat-footer-btn:last-child { border-right: none; }
+  .cat-footer-btn:hover { background: #c4b8a4; }
+  .cat-footer-btn.active { color: #c0392b; }
+  .cat-qty {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #9a8e7e;
+  }
+
+  /* ============================================================
+     STYLE 4: DINER MENU
+     ============================================================ */
+  .diner {
+    background: #1c1410;
+    color: #f0e6d6;
+    font-family: 'Playfair Display', serif;
+    padding: 0;
+  }
+  .diner-header {
+    text-align: center;
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 2px solid #3a2e22;
+    position: relative;
+  }
+  .diner-header::before, .diner-header::after {
+    content: '✦';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #c89b3c;
+    font-size: 1.2rem;
+  }
+  .diner-header::before { left: 1.5rem; }
+  .diner-header::after { right: 1.5rem; }
+  .diner-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #c89b3c;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    margin-bottom: 0;
+  }
+  .diner-header .diner-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #8a7a66;
+    margin-top: 0.3rem;
+  }
+  .diner-body { padding: 1.25rem 1.5rem; }
+  .diner-input-row {
+    border: 1px solid #3a2e22;
+    border-radius: 0;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.03);
+  }
+  .diner-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #f0e6d6;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+  }
+  .diner-input::placeholder { color: #5a4e42; font-style: italic; }
+  .diner-section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.25rem 0 0.75rem;
+  }
+  .diner-rule { flex: 1; height: 1px; background: #3a2e22; }
+  .diner-section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: #c89b3c;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .diner-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px dotted #2a2218;
+  }
+  .diner-item-left { flex: 1; }
+  .diner-item-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #f0e6d6;
+  }
+  .diner-item-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    color: #8a7a66;
+    font-style: italic;
+    margin-top: 0.15rem;
+  }
+  .diner-item-right {
+    text-align: right;
+    margin-left: 1rem;
+    flex-shrink: 0;
+  }
+  .diner-item-cal {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: #c89b3c;
+    font-weight: 600;
+  }
+  .diner-item-time {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    color: #5a4e42;
+  }
+  .diner-item-status {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.3rem;
+  }
+  .diner-item-status.ready { color: #6a9a5b; }
+  .diner-item-status.partial { color: #c89b3c; }
+  .diner-nav {
+    display: flex;
+    border-top: 2px solid #3a2e22;
+    margin-top: 1rem;
+  }
+  .diner-nav-btn {
+    flex: 1;
+    padding: 0.75rem;
+    background: none;
+    border: none;
+    border-right: 1px solid #2a2218;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #5a4e42;
+    cursor: pointer;
+  }
+  .diner-nav-btn:last-child { border-right: none; }
+  .diner-nav-btn:hover { color: #c89b3c; }
+  .diner-nav-btn.active { color: #c89b3c; }
+  .diner-qty {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    color: #5a4e42;
+  }
+
+  /* ============================================================
+     STYLE 5: PRODUCE STAND / MARKET FRESH
+     ============================================================ */
+  .market {
+    background: #f9f7f2;
+    color: #2c3e2c;
+    font-family: 'Outfit', sans-serif;
+    padding: 0;
+  }
+  .mkt-header {
+    background: #2c3e2c;
+    padding: 1.5rem;
+    position: relative;
+  }
+  .mkt-header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #f9f7f2;
+    text-align: left;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    margin-bottom: 0;
+  }
+  .mkt-header .mkt-sub {
+    font-size: 0.75rem;
+    color: #8faa8f;
+    font-weight: 300;
+  }
+  .mkt-header .mkt-streak {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255,255,255,0.1);
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.65rem;
+    color: #c8e6c9;
+    font-weight: 500;
+  }
+  .mkt-body { padding: 1.25rem; }
+  .mkt-input-wrap {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .mkt-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #d4ddd4;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-family: 'Outfit', sans-serif;
+    background: #fff;
+    color: #2c3e2c;
+    outline: none;
+  }
+  .mkt-input:focus { border-color: #4a7c59; }
+  .mkt-input::placeholder { color: #b5c8b5; }
+  .mkt-send {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: none;
+    background: #4a7c59;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mkt-section-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #8faa8f;
+    font-weight: 600;
+    margin: 1.25rem 0 0.6rem;
+  }
+  .mkt-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid #e8ede8;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .mkt-card.featured {
+    border: 2px solid #4a7c59;
+    position: relative;
+  }
+  .mkt-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .mkt-card-icon.green { background: #e8f5e9; }
+  .mkt-card-icon.orange { background: #fff3e0; }
+  .mkt-card-icon.blue { background: #e3f2fd; }
+  .mkt-card-body { flex: 1; min-width: 0; }
+  .mkt-card-body h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  .mkt-card-body .mkt-detail {
+    font-size: 0.72rem;
+    color: #7a8f7a;
+  }
+  .mkt-card-right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .mkt-card-right .mkt-cal {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4a7c59;
+  }
+  .mkt-card-right .mkt-time {
+    font-size: 0.6rem;
+    color: #b5c8b5;
+  }
+  .mkt-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.6rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    margin-top: 0.3rem;
+  }
+  .mkt-badge.ready { background: #e8f5e9; color: #2e7d32; }
+  .mkt-badge.partial { background: #fff8e1; color: #f57f17; }
+  .mkt-nav {
+    display: flex;
+    padding: 0.6rem 1rem;
+    background: #fff;
+    border-top: 1px solid #e8ede8;
+    justify-content: space-around;
+    margin-top: auto;
+  }
+  .mkt-nav-item {
+    text-align: center;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #b5c8b5;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .mkt-nav-item.active { color: #4a7c59; }
+  .mkt-nav-item .nav-icon { font-size: 1.1rem; display: block; margin-bottom: 0.1rem; }
+  .mkt-qty {
+    font-size: 0.6rem;
+    color: #b5c8b5;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<h1>Meal System — Visual Directions</h1>
+<p class="subtitle">Same content, different aesthetics. Which feels right for a daily-use food app?</p>
+
+<div class="grid">
+
+  <!-- ==================== SWISS ==================== -->
+  <div class="preview-card">
+    <div class="preview-label">
+      <h2>Swiss Precision</h2>
+      <p>Pure white, single red accent, dramatic type scale, rigid grid. Information-dense, zero decoration.</p>
+    </div>
+    <div class="preview-frame">
+      <div class="swiss">
+        <div class="s-header">
+          <h1>What should<br>I eat<span class="s-accent">?</span></h1>
+          <div class="s-sub">3 of 4 meals today · pantry: 18 items</div>
+        </div>
+        <div class="s-input-row">
+          <input class="s-input" placeholder="I'm tired… / bought eggs, rice / made curry last night" readonly>
+        </div>
+        <div class="s-section">
+          <div class="s-label">Top Pick</div>
+          <div class="s-pick">
+            <div>
+              <div class="s-pick-name"><span class="s-status green"></span>Rice Bowl + Salmon</div>
+              <div class="s-pick-meta">420 cal · 32g protein · 15 min · last had 5 days ago</div>
+            </div>
+            <div class="s-pick-tag ready">Ready</div>
+          </div>
+        </div>
+        <div class="s-section">
+          <div class="s-label">Also Works</div>
+          <div class="s-pick">
+            <div>
+              <div class="s-pick-name"><span class="s-status green"></span>Japanese Curry</div>
+              <div class="s-pick-meta">550 cal · 24g protein · 25 min</div>
+            </div>
+            <div class="s-pick-tag ready">Ready</div>
+          </div>
+          <div class="s-pick">
+            <div>
+              <div class="s-pick-name"><span class="s-status amber"></span>Thai Stir Fry</div>
+              <div class="s-pick-meta">380 cal · 28g protein · 20 min · need: fish sauce</div>
+            </div>
+            <div class="s-pick-tag partial">Need 1</div>
+          </div>
+        </div>
+        <div class="s-section">
+          <div class="s-label">Pantry Snapshot</div>
+          <div class="s-pantry-grid">
+            <div class="s-pantry-item stocked">Eggs <div class="s-qty">×6</div></div>
+            <div class="s-pantry-item stocked">Rice <div class="s-qty">plenty</div></div>
+            <div class="s-pantry-item stocked">Salmon <div class="s-qty">×2</div></div>
+            <div class="s-pantry-item">Spinach <div class="s-qty">—</div></div>
+            <div class="s-pantry-item stocked">Miso <div class="s-qty">½ tub</div></div>
+            <div class="s-pantry-item stocked">Soy Sauce <div class="s-qty">plenty</div></div>
+            <div class="s-pantry-item stocked">Ginger <div class="s-qty">×1</div></div>
+            <div class="s-pantry-item">Tofu <div class="s-qty">—</div></div>
+          </div>
+        </div>
+        <div class="s-btn-row">
+          <div class="s-btn">Ate This</div>
+          <div class="s-btn">Not That</div>
+          <div class="s-btn">Pantry</div>
+          <div class="s-btn">Shop</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== WARM KITCHEN ==================== -->
+  <div class="preview-card">
+    <div class="preview-label">
+      <h2>Warm Kitchen</h2>
+      <p>Soft cream tones, terracotta accents, rounded cards. Feels like a well-lit kitchen counter, not an app.</p>
+    </div>
+    <div class="preview-frame">
+      <div class="warm-kitchen">
+        <div class="wk-header">
+          <h1>What should I eat?</h1>
+          <div class="wk-sub">3 of 4 meals today</div>
+        </div>
+        <div class="wk-body">
+          <div class="wk-input-wrap">
+            <span class="wk-input-icon">💬</span>
+            <input class="wk-input" placeholder="I'm tired… / bought eggs / made curry" readonly>
+          </div>
+
+          <div class="wk-card top-pick">
+            <div class="wk-card-label">Top Pick</div>
+            <h3>Rice Bowl + Salmon</h3>
+            <div class="wk-card-meta">
+              <span>🔥 420 cal</span>
+              <span>💪 32g protein</span>
+              <span>⏱ 15 min</span>
+            </div>
+            <div class="wk-card-status ready">✓ Everything in stock</div>
+            <div class="wk-actions">
+              <button class="wk-btn primary">Ate this</button>
+              <button class="wk-btn secondary">Not that</button>
+            </div>
+          </div>
+
+          <div class="wk-card">
+            <h3>Japanese Curry</h3>
+            <div class="wk-card-meta">
+              <span>🔥 550 cal</span>
+              <span>💪 24g protein</span>
+              <span>⏱ 25 min</span>
+            </div>
+            <div class="wk-card-status ready">✓ In stock</div>
+          </div>
+
+          <div class="wk-card">
+            <h3>Thai Stir Fry</h3>
+            <div class="wk-card-meta">
+              <span>🔥 380 cal</span>
+              <span>💪 28g protein</span>
+              <span>⏱ 20 min</span>
+            </div>
+            <div class="wk-card-status partial">Need: fish sauce</div>
+          </div>
+
+          <div style="margin-top: 1rem;">
+            <div class="wk-card-label">Pantry</div>
+            <div class="wk-pantry-chips">
+              <span class="wk-chip stocked">Eggs <span class="wk-qty">×6</span></span>
+              <span class="wk-chip stocked">Rice <span class="wk-qty">plenty</span></span>
+              <span class="wk-chip stocked">Salmon <span class="wk-qty">×2</span></span>
+              <span class="wk-chip">Spinach</span>
+              <span class="wk-chip stocked">Miso <span class="wk-qty">½ tub</span></span>
+              <span class="wk-chip stocked">Soy Sauce</span>
+              <span class="wk-chip stocked">Ginger <span class="wk-qty">×1</span></span>
+              <span class="wk-chip">Tofu</span>
+            </div>
+          </div>
+
+          <div class="wk-nav">
+            <div class="wk-nav-item active"><span class="nav-icon">🍚</span>Eat</div>
+            <div class="wk-nav-item"><span class="nav-icon">📋</span>Plan</div>
+            <div class="wk-nav-item"><span class="nav-icon">🛒</span>Shop</div>
+            <div class="wk-nav-item"><span class="nav-icon">🥫</span>Pantry</div>
+            <div class="wk-nav-item"><span class="nav-icon">📊</span>History</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CATALOG ==================== -->
+  <div class="preview-card">
+    <div class="preview-label">
+      <h2>Catalog / Index Card</h2>
+      <p>Kraft paper tones, tabbed dividers, typed labels, drawer aesthetic. Like flipping through a recipe box.</p>
+    </div>
+    <div class="preview-frame">
+      <div class="catalog">
+        <div class="cat-tabs">
+          <button class="cat-tab active">Eat</button>
+          <button class="cat-tab">Plan</button>
+          <button class="cat-tab">Shop</button>
+          <button class="cat-tab">Pantry</button>
+          <button class="cat-tab">Log</button>
+        </div>
+        <div class="cat-body">
+          <input class="cat-search" placeholder="What's on your mind? (tired, bought eggs, made curry…)" readonly>
+
+          <div class="cat-divider">
+            <span class="cat-divider-line"></span>
+            <span class="cat-divider-label">Best Match</span>
+            <span class="cat-divider-line"></span>
+          </div>
+
+          <div class="index-card">
+            <h3>Rice Bowl + Salmon</h3>
+            <div class="card-detail">
+              <strong>420 cal</strong> · 32g protein · 15 min<br>
+              Last made: 5 days ago · <span class="cat-qty">Salmon ×2, Rice: plenty</span>
+            </div>
+            <div class="card-tags">
+              <span class="card-tag avail">✓ Ready</span>
+              <span class="card-tag">Medium Effort</span>
+            </div>
+          </div>
+
+          <div class="cat-divider">
+            <span class="cat-divider-line"></span>
+            <span class="cat-divider-label">Also Available</span>
+            <span class="cat-divider-line"></span>
+          </div>
+
+          <div class="index-card alt">
+            <h3>Japanese Curry</h3>
+            <div class="card-detail">
+              <strong>550 cal</strong> · 24g protein · 25 min<br>
+              Last made: 3 days ago · <span class="cat-qty">Potatoes ×3, Curry roux: ½ box</span>
+            </div>
+            <div class="card-tags">
+              <span class="card-tag avail">✓ Ready</span>
+              <span class="card-tag">High Effort</span>
+            </div>
+          </div>
+
+          <div class="index-card">
+            <h3>Thai Stir Fry</h3>
+            <div class="card-detail">
+              <strong>380 cal</strong> · 28g protein · 20 min<br>
+              Last made: 8 days ago · <span class="cat-qty">Missing: fish sauce</span>
+            </div>
+            <div class="card-tags">
+              <span class="card-tag need">Need 1</span>
+              <span class="card-tag">Medium Effort</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cat-footer">
+          <button class="cat-footer-btn active">Ate This</button>
+          <button class="cat-footer-btn">Not That</button>
+          <button class="cat-footer-btn">Pick For Me</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DINER ==================== -->
+  <div class="preview-card">
+    <div class="preview-label">
+      <h2>Late Night Diner</h2>
+      <p>Dark warm tones, gold accents, serif headlines, dotted dividers. Like a moody menu at your favorite spot.</p>
+    </div>
+    <div class="preview-frame">
+      <div class="diner">
+        <div class="diner-header">
+          <h1>What'll It Be?</h1>
+          <div class="diner-sub">3 of 4 meals · 18 items stocked</div>
+        </div>
+        <div class="diner-body">
+          <div class="diner-input-row">
+            <span style="color:#5a4e42">›</span>
+            <input class="diner-input" placeholder="tired… bought eggs… made curry last night…" readonly>
+          </div>
+
+          <div class="diner-section-head">
+            <span class="diner-rule"></span>
+            <span class="diner-section-label">Chef's Pick</span>
+            <span class="diner-rule"></span>
+          </div>
+
+          <div class="diner-item">
+            <div class="diner-item-left">
+              <div class="diner-item-name">Rice Bowl + Salmon</div>
+              <div class="diner-item-desc">Soy sauce, ginger, rice. Last had 5 days ago.</div>
+              <div class="diner-item-status ready">✦ ALL IN STOCK</div>
+            </div>
+            <div class="diner-item-right">
+              <div class="diner-item-cal">420</div>
+              <div class="diner-item-time">15 min</div>
+              <div class="diner-qty">Salmon ×2</div>
+            </div>
+          </div>
+
+          <div class="diner-section-head">
+            <span class="diner-rule"></span>
+            <span class="diner-section-label">Also Serving</span>
+            <span class="diner-rule"></span>
+          </div>
+
+          <div class="diner-item">
+            <div class="diner-item-left">
+              <div class="diner-item-name">Japanese Curry</div>
+              <div class="diner-item-desc">Potatoes, carrots, curry roux over rice.</div>
+              <div class="diner-item-status ready">✦ IN STOCK</div>
+            </div>
+            <div class="diner-item-right">
+              <div class="diner-item-cal">550</div>
+              <div class="diner-item-time">25 min</div>
+            </div>
+          </div>
+
+          <div class="diner-item">
+            <div class="diner-item-left">
+              <div class="diner-item-name">Thai Stir Fry</div>
+              <div class="diner-item-desc">Quick wok toss with whatever's in the fridge.</div>
+              <div class="diner-item-status partial">✧ NEED: FISH SAUCE</div>
+            </div>
+            <div class="diner-item-right">
+              <div class="diner-item-cal">380</div>
+              <div class="diner-item-time">20 min</div>
+            </div>
+          </div>
+
+          <div class="diner-item">
+            <div class="diner-item-left">
+              <div class="diner-item-name">Eggs + Toast</div>
+              <div class="diner-item-desc">Scrambled or fried, sourdough, hot sauce.</div>
+              <div class="diner-item-status ready">✦ IN STOCK</div>
+            </div>
+            <div class="diner-item-right">
+              <div class="diner-item-cal">320</div>
+              <div class="diner-item-time">5 min</div>
+              <div class="diner-qty">Eggs ×6</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="diner-nav">
+          <button class="diner-nav-btn active">Eat</button>
+          <button class="diner-nav-btn">Plan</button>
+          <button class="diner-nav-btn">Shop</button>
+          <button class="diner-nav-btn">Pantry</button>
+          <button class="diner-nav-btn">Log</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MARKET FRESH ==================== -->
+  <div class="preview-card">
+    <div class="preview-label">
+      <h2>Market Fresh</h2>
+      <p>Forest green header, clean white cards, natural tones. Healthy and approachable, like a farmer's market app.</p>
+    </div>
+    <div class="preview-frame">
+      <div class="market">
+        <div class="mkt-header">
+          <h1>What should I eat?</h1>
+          <div class="mkt-sub">3 of 4 meals today</div>
+          <div class="mkt-streak">🔥 4 day streak</div>
+        </div>
+        <div class="mkt-body">
+          <div class="mkt-input-wrap">
+            <input class="mkt-input" placeholder="I'm tired… / bought eggs / made curry" readonly>
+            <button class="mkt-send">→</button>
+          </div>
+
+          <div class="mkt-section-label">Top Pick</div>
+          <div class="mkt-card featured">
+            <div class="mkt-card-icon green">🍚</div>
+            <div class="mkt-card-body">
+              <h3>Rice Bowl + Salmon</h3>
+              <div class="mkt-detail">32g protein · last had 5 days ago</div>
+              <div class="mkt-badge ready">✓ Ready · <span class="mkt-qty">Salmon ×2</span></div>
+            </div>
+            <div class="mkt-card-right">
+              <div class="mkt-cal">420</div>
+              <div class="mkt-time">15 min</div>
+            </div>
+          </div>
+
+          <div class="mkt-section-label">Also Works</div>
+          <div class="mkt-card">
+            <div class="mkt-card-icon orange">🍛</div>
+            <div class="mkt-card-body">
+              <h3>Japanese Curry</h3>
+              <div class="mkt-detail">24g protein · last had 3 days ago</div>
+              <div class="mkt-badge ready">✓ Ready</div>
+            </div>
+            <div class="mkt-card-right">
+              <div class="mkt-cal">550</div>
+              <div class="mkt-time">25 min</div>
+            </div>
+          </div>
+
+          <div class="mkt-card">
+            <div class="mkt-card-icon blue">🥘</div>
+            <div class="mkt-card-body">
+              <h3>Thai Stir Fry</h3>
+              <div class="mkt-detail">28g protein · last had 8 days ago</div>
+              <div class="mkt-badge partial">Need: fish sauce</div>
+            </div>
+            <div class="mkt-card-right">
+              <div class="mkt-cal">380</div>
+              <div class="mkt-time">20 min</div>
+            </div>
+          </div>
+
+          <div class="mkt-card">
+            <div class="mkt-card-icon green">🍳</div>
+            <div class="mkt-card-body">
+              <h3>Eggs + Toast</h3>
+              <div class="mkt-detail">18g protein · <span class="mkt-qty">Eggs ×6</span></div>
+              <div class="mkt-badge ready">✓ Ready</div>
+            </div>
+            <div class="mkt-card-right">
+              <div class="mkt-cal">320</div>
+              <div class="mkt-time">5 min</div>
+            </div>
+          </div>
+
+          <div class="mkt-nav">
+            <div class="mkt-nav-item active"><span class="nav-icon">🍚</span>Eat</div>
+            <div class="mkt-nav-item"><span class="nav-icon">📋</span>Plan</div>
+            <div class="mkt-nav-item"><span class="nav-icon">🛒</span>Shop</div>
+            <div class="mkt-nav-item"><span class="nav-icon">🥫</span>Pantry</div>
+            <div class="mkt-nav-item"><span class="nav-icon">📊</span>Log</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
