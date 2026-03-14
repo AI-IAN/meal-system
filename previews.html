@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meal System — Final Round</title>
+<title>Meal System — Color Energy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Space Grotesk', sans-serif;
-    background: #1a1a2e;
+    background: #111;
     color: #e0e0e0;
     min-height: 100vh;
     padding: 2rem;
   }
-  h1 {
+  .page-title {
     text-align: center;
     font-size: 1.5rem;
     font-weight: 300;
@@ -24,21 +24,16 @@
     margin-bottom: 0.5rem;
     color: #fff;
   }
-  .subtitle {
+  .page-sub {
     text-align: center;
-    font-size: 0.85rem;
-    color: #888;
-    margin-bottom: 0.5rem;
-  }
-  .rationale {
-    max-width: 720px;
-    margin: 0 auto 2.5rem;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: #666;
-    line-height: 1.6;
-    text-align: center;
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
   }
-  .rationale strong { color: #999; }
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -50,11 +45,11 @@
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.08);
-    background: #111;
+    background: #0a0a0a;
   }
   .preview-label {
     padding: 1rem 1.25rem 0.75rem;
-    background: #0a0a0a;
+    background: #080808;
     border-bottom: 1px solid rgba(255,255,255,0.06);
   }
   .preview-label h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
@@ -62,413 +57,233 @@
   .preview-frame { height: 740px; overflow-y: auto; overflow-x: hidden; }
 
   /* ============================================================
-     SHARED: Both variations use the same foundation.
-     - Space Grotesk body + Instrument Serif for the greeting
-     - The Prompt's conversational layout
-     - Purpose-built SVG icons
-
-     They differ in: color temperature + accent + card treatment
+     SHARED STRUCTURE — all three use identical HTML/layout.
+     Only CSS custom properties change the palette.
      ============================================================ */
-
-  /* --- VARIATION A: WARM EMBER ---
-     Dark warm charcoal base. Terracotta/ember accent.
-     Cards have subtle left accent bars. Warm and grounded.
-     Choosing this if you want the app to feel like a
-     well-lit kitchen at night — inviting, not techy.
-  */
-  .va {
-    background: #131210;
-    color: #a09c90;
+  .app {
     font-family: 'Space Grotesk', sans-serif;
     padding: 0;
     min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
   }
-  .va .top { padding: 2rem 1.5rem 0; }
-  .va .greeting {
+  .app .top { padding: 2rem 1.5rem 0; }
+  .app .greeting {
     font-family: 'Instrument Serif', serif;
     font-size: 2.1rem;
     font-weight: 400;
-    color: #e8e2d4;
+    color: var(--text-bright);
     line-height: 1.15;
     font-style: italic;
   }
-  .va .greeting b {
+  .app .greeting b {
     font-style: normal;
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
-    color: #d47840;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .va .context {
+  .app .context-row {
     font-size: 0.7rem;
-    color: #4a4842;
+    color: var(--text-dim);
     margin-top: 0.5rem;
     line-height: 1.5;
     font-family: 'IBM Plex Mono', monospace;
-  }
-  .va .context em { font-style: normal; color: #7a7868; }
-  .va .input-area {
-    margin: 1.25rem 1.5rem 0;
-    background: #1a1918;
-    border: 1.5px solid #252420;
-    border-radius: 12px;
-    padding: 0.85rem 1rem;
-    transition: border-color 0.2s;
-  }
-  .va .input-area:focus-within { border-color: #d47840; }
-  .va .the-input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    color: #c8c4b8;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.95rem;
-    outline: none;
-  }
-  .va .the-input::placeholder { color: #2e2d28; }
-  .va .hints {
-    display: flex;
-    gap: 0.35rem;
-    margin-top: 0.6rem;
-    flex-wrap: wrap;
-  }
-  .va .hint {
-    font-size: 0.58rem;
-    padding: 0.22rem 0.5rem;
-    border-radius: 4px;
-    background: #1e1d1a;
-    color: #5a5848;
-    border: 1px solid #252420;
-    cursor: pointer;
-    font-family: 'Space Grotesk', sans-serif;
-  }
-  .va .hint:hover { border-color: #d47840; color: #d47840; }
-  .va .divider {
-    margin: 1.25rem 1.5rem 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #252420 20%, #252420 80%, transparent);
-  }
-  .va .response { padding: 1rem 1.5rem 1.5rem; }
-  .va .section-label {
-    font-size: 0.48rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: #3a3830;
-    margin-bottom: 0.7rem;
-  }
-  .va .pick-card {
-    background: #1a1918;
-    border: 1px solid #252420;
-    border-radius: 14px;
-    padding: 1.1rem;
-    margin-bottom: 1rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .va .pick-card::after {
-    content: '';
-    position: absolute;
-    top: 0.9rem;
-    left: 0;
-    width: 3px;
-    height: 28px;
-    background: #d47840;
-    border-radius: 0 2px 2px 0;
-  }
-  .va .pick-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .va .pick-name {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #e8e2d4;
-  }
-  .va .pick-cal {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.85rem;
-    color: #d47840;
-    font-weight: 500;
-  }
-  .va .pick-why {
-    font-size: 0.72rem;
-    color: #5a5850;
-    margin-top: 0.3rem;
-    line-height: 1.45;
-    font-style: italic;
-    font-family: 'Instrument Serif', serif;
-  }
-  .va .pick-stats {
-    display: flex;
-    gap: 0.6rem;
-    margin-top: 0.6rem;
-    font-size: 0.6rem;
-    font-family: 'IBM Plex Mono', monospace;
-    color: #3a3830;
-  }
-  .va .pick-stats .v { color: #6a6858; }
-  .va .pick-actions {
-    display: flex;
-    gap: 0.4rem;
-    margin-top: 0.75rem;
-  }
-  .va .btn {
-    padding: 0.55rem 1.1rem;
-    border-radius: 8px;
-    border: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .va .btn.eat { background: #d47840; color: #131210; }
-  .va .btn.skip { background: #1e1d1a; color: #5a5848; border: 1px solid #252420; }
-  .va .alt-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-  .va .alt {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.65rem 0.85rem;
-    background: #1a1918;
-    border: 1px solid #1e1d1a;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: border-color 0.15s;
-  }
-  .va .alt:hover { border-color: #2e2d28; }
-  .va .alt-rank {
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    color: #2a2920;
-    width: 18px;
-    text-align: center;
-  }
-  .va .alt-name {
-    flex: 1;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #b8b4a8;
-  }
-  .va .alt-meta {
-    font-size: 0.58rem;
-    font-family: 'IBM Plex Mono', monospace;
-    color: #3a3830;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
-  .va .alt-meta .ready { color: #5a8a50; }
-  .va .alt-meta .partial { color: #d47840; }
-
-  /* --- VARIATION B: COOL SLATE ---
-     Blue-gray base. Copper accent (same hue, cooler context).
-     Cards have top gradient lines instead of left bars.
-     Choosing this if you want it to feel more like a
-     sophisticated tool — calm, precise, modern.
-  */
-  .vb {
-    background: #121418;
-    color: #8e90a0;
-    font-family: 'Space Grotesk', sans-serif;
-    padding: 0;
-    min-height: 100%;
+  .app .ctx-chip {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--accent);
+    font-size: 0.6rem;
+    font-weight: 500;
   }
-  .vb .top { padding: 2rem 1.5rem 0; }
-  .vb .greeting {
-    font-family: 'Instrument Serif', serif;
-    font-size: 2.1rem;
-    font-weight: 400;
-    color: #dce0ea;
-    line-height: 1.15;
-    font-style: italic;
-  }
-  .vb .greeting b {
-    font-style: normal;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    color: #c8885a;
-  }
-  .vb .context {
-    font-size: 0.7rem;
-    color: #3a3c4a;
-    margin-top: 0.5rem;
-    line-height: 1.5;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .vb .context em { font-style: normal; color: #6a6c7a; }
-  .vb .input-area {
+  .app .input-area {
     margin: 1.25rem 1.5rem 0;
-    background: #181a20;
-    border: 1.5px solid #222430;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
     border-radius: 12px;
     padding: 0.85rem 1rem;
     transition: border-color 0.2s;
   }
-  .vb .input-area:focus-within { border-color: #c8885a; }
-  .vb .the-input {
+  .app .input-area:focus-within { border-color: var(--accent); }
+  .app .the-input {
     width: 100%;
     border: none;
     background: transparent;
-    color: #b0b2c0;
+    color: var(--text-bright);
     font-family: 'Space Grotesk', sans-serif;
     font-size: 0.95rem;
     outline: none;
   }
-  .vb .the-input::placeholder { color: #2a2c36; }
-  .vb .hints {
+  .app .the-input::placeholder { color: var(--text-ghost); }
+  .app .hints {
     display: flex;
     gap: 0.35rem;
     margin-top: 0.6rem;
     flex-wrap: wrap;
   }
-  .vb .hint {
-    font-size: 0.58rem;
-    padding: 0.22rem 0.5rem;
-    border-radius: 4px;
-    background: #1c1e26;
-    color: #4a4c5a;
-    border: 1px solid #222430;
+  .app .hint {
+    font-size: 0.6rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 20px;
+    background: var(--hint-bg);
+    color: var(--hint-text);
+    border: 1px solid var(--hint-border);
     cursor: pointer;
     font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    transition: all 0.15s;
   }
-  .vb .hint:hover { border-color: #c8885a; color: #c8885a; }
-  .vb .divider {
+  .app .hint:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+  .app .divider {
     margin: 1.25rem 1.5rem 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #222430 20%, #222430 80%, transparent);
+    background: var(--border);
   }
-  .vb .response { padding: 1rem 1.5rem 1.5rem; }
-  .vb .section-label {
+  .app .response { padding: 1rem 1.5rem 1.5rem; }
+  .app .section-label {
     font-size: 0.48rem;
     text-transform: uppercase;
     letter-spacing: 0.3em;
-    color: #2e3040;
+    color: var(--text-dim);
     margin-bottom: 0.7rem;
   }
-  .vb .pick-card {
-    background: #181a20;
-    border: 1px solid #222430;
+  .app .pick-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 1.1rem;
     margin-bottom: 1rem;
     position: relative;
     overflow: hidden;
   }
-  .vb .pick-card::before {
+  .app .pick-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #c8885a, transparent 50%);
+    height: 3px;
+    background: var(--accent-grad);
   }
-  .vb .pick-top {
+  .app .pick-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    margin-top: 0.15rem;
   }
-  .vb .pick-name {
+  .app .pick-name {
     font-size: 1.15rem;
     font-weight: 700;
-    color: #dce0ea;
+    color: var(--text-bright);
   }
-  .vb .pick-cal {
+  .app .pick-cal {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.85rem;
-    color: #c8885a;
+    color: var(--accent);
     font-weight: 500;
   }
-  .vb .pick-why {
-    font-size: 0.72rem;
-    color: #5a5c6a;
+  .app .pick-why {
+    font-size: 0.75rem;
+    color: var(--text-mid);
     margin-top: 0.3rem;
     line-height: 1.45;
     font-style: italic;
     font-family: 'Instrument Serif', serif;
   }
-  .vb .pick-stats {
+  .app .pick-stats {
     display: flex;
     gap: 0.6rem;
     margin-top: 0.6rem;
     font-size: 0.6rem;
     font-family: 'IBM Plex Mono', monospace;
-    color: #2e3040;
+    color: var(--text-dim);
   }
-  .vb .pick-stats .v { color: #5a5c6a; }
-  .vb .pick-actions {
+  .app .pick-stats .v { color: var(--text-mid); }
+  .app .pick-actions {
     display: flex;
     gap: 0.4rem;
     margin-top: 0.75rem;
   }
-  .vb .btn {
+  .app .btn {
     padding: 0.55rem 1.1rem;
     border-radius: 8px;
     border: none;
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 600;
     cursor: pointer;
+    transition: transform 0.1s;
   }
-  .vb .btn.eat { background: #c8885a; color: #121418; }
-  .vb .btn.skip { background: #1c1e26; color: #4a4c5a; border: 1px solid #222430; }
-  .vb .alt-list {
+  .app .btn:active { transform: scale(0.97); }
+  .app .btn.eat {
+    background: var(--accent-grad);
+    color: var(--btn-text);
+  }
+  .app .btn.skip {
+    background: var(--surface);
+    color: var(--text-mid);
+    border: 1px solid var(--border);
+  }
+  .app .alt-list {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
   }
-  .vb .alt {
+  .app .alt {
     display: flex;
     align-items: center;
     gap: 0.6rem;
     padding: 0.65rem 0.85rem;
-    background: #181a20;
-    border: 1px solid #1c1e26;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
     border-radius: 10px;
     cursor: pointer;
-    transition: border-color 0.15s;
+    transition: all 0.15s;
   }
-  .vb .alt:hover { border-color: #2a2c36; }
-  .vb .alt-rank {
+  .app .alt:hover { border-color: var(--accent-dim); background: var(--surface-hover); }
+  .app .alt-rank {
     font-family: 'Instrument Serif', serif;
     font-size: 1.1rem;
     font-style: italic;
-    color: #222430;
+    color: var(--text-dim);
     width: 18px;
     text-align: center;
   }
-  .vb .alt-name {
+  .app .alt-name {
     flex: 1;
     font-size: 0.85rem;
     font-weight: 500;
-    color: #a0a2b0;
+    color: var(--text-bright);
   }
-  .vb .alt-meta {
+  .app .alt-meta {
     font-size: 0.58rem;
     font-family: 'IBM Plex Mono', monospace;
-    color: #2e3040;
+    color: var(--text-dim);
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
-  .vb .alt-meta .ready { color: #5a8a60; }
-  .vb .alt-meta .partial { color: #c8885a; }
-
-  /* --- SHARED NAV (both use the same icons, scoped by color) --- */
-  .the-nav {
+  .app .alt-meta .ready { color: var(--green); }
+  .app .alt-meta .partial { color: var(--accent); }
+  .app .the-nav {
     display: flex;
     margin: 1.25rem 1.5rem 0;
-    border-top: 1px solid var(--nav-border);
+    border-top: 1px solid var(--border);
     padding-top: 0.15rem;
   }
-  .va .the-nav { --nav-border: #1e1d1a; --nav-dim: #2e2d28; --nav-active: #a09c90; --nav-accent: #d47840; }
-  .vb .the-nav { --nav-border: #1c1e26; --nav-dim: #2a2c36; --nav-active: #8e90a0; --nav-accent: #c8885a; }
-  .nav-btn {
+  .app .nav-btn {
     flex: 1;
     padding: 0.6rem 0;
     background: none;
@@ -478,16 +293,18 @@
     font-size: 0.55rem;
     font-weight: 600;
     letter-spacing: 0.04em;
-    color: var(--nav-dim);
+    color: var(--text-dim);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.2rem;
     margin-top: -1px;
+    transition: color 0.15s;
   }
-  .nav-btn.active { color: var(--nav-active); border-top-color: var(--nav-accent); }
-  .nav-btn svg {
+  .app .nav-btn:hover { color: var(--text-mid); }
+  .app .nav-btn.active { color: var(--text-bright); border-top-color: var(--accent); }
+  .app .nav-btn svg {
     width: 18px;
     height: 18px;
     stroke: currentColor;
@@ -496,35 +313,107 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+
+  /* ============================================================
+     PALETTE A: CITRUS POP
+     Dark base + bright orange→yellow gradient accent.
+     Lime green for ready states. Energetic, fresh, zesty.
+     ============================================================ */
+  .citrus {
+    --bg: #111110;
+    --surface: #1c1c18;
+    --surface-hover: #242420;
+    --border: #2a2a24;
+    --border-soft: #222220;
+    --text-bright: #f5f3e8;
+    --text: #b0ad98;
+    --text-mid: #8a8778;
+    --text-dim: #4a4840;
+    --text-ghost: #2e2d28;
+    --accent: #f0a030;
+    --accent-dim: rgba(240,160,48,0.2);
+    --accent-grad: linear-gradient(135deg, #f07030, #f0c030);
+    --btn-text: #111110;
+    --green: #90d050;
+    --hint-bg: #1c1c18;
+    --hint-text: #6a6858;
+    --hint-border: #2a2a24;
+  }
+
+  /* ============================================================
+     PALETTE B: ELECTRIC BERRY
+     Dark cool base + magenta→pink gradient. Purple for secondary.
+     Bold, playful, a little punk. Not corporate.
+     ============================================================ */
+  .berry {
+    --bg: #100e14;
+    --surface: #1a1820;
+    --surface-hover: #222028;
+    --border: #2a2830;
+    --border-soft: #201e28;
+    --text-bright: #f0edf5;
+    --text: #a8a0b8;
+    --text-mid: #7a7490;
+    --text-dim: #3e3a4a;
+    --text-ghost: #28252e;
+    --accent: #e850a0;
+    --accent-dim: rgba(232,80,160,0.2);
+    --accent-grad: linear-gradient(135deg, #d040e0, #f06090);
+    --btn-text: #100e14;
+    --green: #50d8a0;
+    --hint-bg: #1a1820;
+    --hint-text: #5a5468;
+    --hint-border: #2a2830;
+  }
+
+  /* ============================================================
+     PALETTE C: SUNSET CORAL
+     Warm dark base + coral→peach gradient. Teal for secondary/ready.
+     Warm but vibrant. Like the golden hour, not the midnight.
+     ============================================================ */
+  .sunset {
+    --bg: #121010;
+    --surface: #1e1a18;
+    --surface-hover: #262220;
+    --border: #2e2a26;
+    --border-soft: #242018;
+    --text-bright: #f5efe8;
+    --text: #b8a898;
+    --text-mid: #8a7a6a;
+    --text-dim: #4a4038;
+    --text-ghost: #2e2820;
+    --accent: #f07058;
+    --accent-dim: rgba(240,112,88,0.2);
+    --accent-grad: linear-gradient(135deg, #f06050, #f8a870);
+    --btn-text: #121010;
+    --green: #40c8a0;
+    --hint-bg: #1e1a18;
+    --hint-text: #6a5a4a;
+    --hint-border: #2e2a26;
+  }
 </style>
 </head>
 <body>
 
-<h1>Final Round</h1>
-<p class="subtitle">Same layout, same font, same icons. Two color temperatures.</p>
-<div class="rationale">
-  <strong>What's locked in:</strong> The Prompt layout (conversational, input-first, ranked meal responses with reasoning).
-  Space Grotesk body + Instrument Serif greeting. IBM Plex Mono for data. Purpose-built SVG icons.<br><br>
-  <strong>Why two options:</strong> Color temperature changes how the app <em>feels</em> to use daily.
-  Warm makes it feel like your kitchen. Cool makes it feel like a sharp tool.
-  The accent color (ember vs copper) is the same hue shifted — it's about whether the
-  surrounding context is warm brown-black or cool blue-gray. Worth seeing side by side before committing.
-</div>
+<h1 class="page-title">Color Energy</h1>
+<p class="page-sub">Same layout, fonts, and icons locked in. Three palettes that actually have some life. Each uses a gradient accent — flat colors were part of why everything felt dead.</p>
 
 <div class="grid">
 
-  <!-- ==================== VARIATION A: WARM EMBER ==================== -->
+  <!-- ==================== CITRUS POP ==================== -->
   <div class="preview-card">
     <div class="preview-label">
-      <h2>A: Warm Ember</h2>
-      <p>Warm charcoal base (#131210). Terracotta accent. Left accent bar on hero card. Feels like your kitchen at night.</p>
+      <h2>Citrus Pop</h2>
+      <p>Orange→yellow gradient. Lime green ready states. Fresh, energetic, zesty. Like a squeeze of lemon on everything.</p>
     </div>
     <div class="preview-frame">
-      <div class="va">
+      <div class="app citrus">
         <div class="top">
           <div class="greeting">What are we<br><b>eating?</b></div>
-          <div class="context">
-            <em>3 of 4</em> meals today · <em>18</em> pantry items · <em>salmon</em> use soon
+          <div class="context-row">
+            <span class="ctx-chip">3/4 meals</span>
+            <span class="ctx-chip">18 stocked</span>
+            <span class="ctx-chip">salmon — use soon</span>
           </div>
         </div>
         <div class="input-area">
@@ -544,7 +433,7 @@
               <div class="pick-name">Rice Bowl + Salmon</div>
               <div class="pick-cal">420 cal</div>
             </div>
-            <div class="pick-why">You have everything. Salmon's been in the fridge 2 days — use it tonight.</div>
+            <div class="pick-why">You have everything. Salmon's been in the fridge 2 days — tonight's the night.</div>
             <div class="pick-stats">
               <span><span class="v">32g</span> protein</span>
               <span><span class="v">15</span> min</span>
@@ -556,82 +445,43 @@
               <button class="btn skip">Not that</button>
             </div>
           </div>
-
           <div class="section-label">Also works</div>
           <div class="alt-list">
             <div class="alt">
               <div class="alt-rank">2</div>
               <div class="alt-name">Japanese Curry</div>
-              <div class="alt-meta">
-                <span>550</span>
-                <span>25m</span>
-                <span class="ready">READY</span>
-              </div>
+              <div class="alt-meta"><span>550</span><span>25m</span><span class="ready">READY</span></div>
             </div>
             <div class="alt">
               <div class="alt-rank">3</div>
               <div class="alt-name">Thai Stir Fry</div>
-              <div class="alt-meta">
-                <span>380</span>
-                <span>20m</span>
-                <span class="partial">NEED 1</span>
-              </div>
+              <div class="alt-meta"><span>380</span><span>20m</span><span class="partial">NEED 1</span></div>
             </div>
             <div class="alt">
               <div class="alt-rank">4</div>
               <div class="alt-name">Eggs + Toast</div>
-              <div class="alt-meta">
-                <span>320</span>
-                <span>5m</span>
-                <span class="ready">READY</span>
-              </div>
+              <div class="alt-meta"><span>320</span><span>5m</span><span class="ready">READY</span></div>
             </div>
           </div>
-
           <nav class="the-nav">
             <button class="nav-btn active">
-              <!-- Bowl with steam -->
-              <svg viewBox="0 0 24 24">
-                <path d="M3 14h18a1 1 0 01-1 1H4a1 1 0 01-1-1z"/>
-                <path d="M4 15c0 3.3 2.7 6 6 6h4c3.3 0 6-2.7 6-6"/>
-                <path d="M8 9c0-1.5.8-2 1.5-3M12 9c0-1.5.8-2 1.5-3M16 9c0-1.5.8-2 1.5-3"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M3 14h18a1 1 0 01-1 1H4a1 1 0 01-1-1z"/><path d="M4 15c0 3.3 2.7 6 6 6h4c3.3 0 6-2.7 6-6"/><path d="M8 9c0-1.5.8-2 1.5-3M12 9c0-1.5.8-2 1.5-3M16 9c0-1.5.8-2 1.5-3"/></svg>
               Eat
             </button>
             <button class="nav-btn">
-              <!-- Week grid -->
-              <svg viewBox="0 0 24 24">
-                <rect x="3" y="5" width="18" height="16" rx="2"/>
-                <path d="M3 10h18"/>
-                <path d="M8 5V3M16 5V3"/>
-                <path d="M8 14h2M14 14h2M8 18h2"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 5V3M16 5V3"/><path d="M8 14h2M14 14h2M8 18h2"/></svg>
               Plan
             </button>
             <button class="nav-btn">
-              <!-- Shopping bag -->
-              <svg viewBox="0 0 24 24">
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-                <path d="M3 6h18"/>
-                <path d="M16 10a4 4 0 01-8 0"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>
               Shop
             </button>
             <button class="nav-btn">
-              <!-- Jar -->
-              <svg viewBox="0 0 24 24">
-                <path d="M8 2h8v3H8z"/>
-                <rect x="6" y="5" width="12" height="17" rx="1"/>
-                <path d="M9 11h6M9 15h4"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M8 2h8v3H8z"/><rect x="6" y="5" width="12" height="17" rx="1"/><path d="M9 11h6M9 15h4"/></svg>
               Pantry
             </button>
             <button class="nav-btn">
-              <!-- Clock with list -->
-              <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="9"/>
-                <path d="M12 7v5l3 3"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
               Log
             </button>
           </nav>
@@ -640,18 +490,20 @@
     </div>
   </div>
 
-  <!-- ==================== VARIATION B: COOL SLATE ==================== -->
+  <!-- ==================== ELECTRIC BERRY ==================== -->
   <div class="preview-card">
     <div class="preview-label">
-      <h2>B: Cool Slate</h2>
-      <p>Blue-gray base (#121418). Copper accent. Top gradient line on hero card. Feels like a sophisticated tool.</p>
+      <h2>Electric Berry</h2>
+      <p>Purple→pink gradient. Teal-mint ready states. Bold, a little punk. Makes meal picking feel like a game, not a chore.</p>
     </div>
     <div class="preview-frame">
-      <div class="vb">
+      <div class="app berry">
         <div class="top">
           <div class="greeting">What are we<br><b>eating?</b></div>
-          <div class="context">
-            <em>3 of 4</em> meals today · <em>18</em> pantry items · <em>salmon</em> use soon
+          <div class="context-row">
+            <span class="ctx-chip">3/4 meals</span>
+            <span class="ctx-chip">18 stocked</span>
+            <span class="ctx-chip">salmon — use soon</span>
           </div>
         </div>
         <div class="input-area">
@@ -671,7 +523,7 @@
               <div class="pick-name">Rice Bowl + Salmon</div>
               <div class="pick-cal">420 cal</div>
             </div>
-            <div class="pick-why">You have everything. Salmon's been in the fridge 2 days — use it tonight.</div>
+            <div class="pick-why">You have everything. Salmon's been in the fridge 2 days — tonight's the night.</div>
             <div class="pick-stats">
               <span><span class="v">32g</span> protein</span>
               <span><span class="v">15</span> min</span>
@@ -683,82 +535,133 @@
               <button class="btn skip">Not that</button>
             </div>
           </div>
-
           <div class="section-label">Also works</div>
           <div class="alt-list">
             <div class="alt">
               <div class="alt-rank">2</div>
               <div class="alt-name">Japanese Curry</div>
-              <div class="alt-meta">
-                <span>550</span>
-                <span>25m</span>
-                <span class="ready">READY</span>
-              </div>
+              <div class="alt-meta"><span>550</span><span>25m</span><span class="ready">READY</span></div>
             </div>
             <div class="alt">
               <div class="alt-rank">3</div>
               <div class="alt-name">Thai Stir Fry</div>
-              <div class="alt-meta">
-                <span>380</span>
-                <span>20m</span>
-                <span class="partial">NEED 1</span>
-              </div>
+              <div class="alt-meta"><span>380</span><span>20m</span><span class="partial">NEED 1</span></div>
             </div>
             <div class="alt">
               <div class="alt-rank">4</div>
               <div class="alt-name">Eggs + Toast</div>
-              <div class="alt-meta">
-                <span>320</span>
-                <span>5m</span>
-                <span class="ready">READY</span>
-              </div>
+              <div class="alt-meta"><span>320</span><span>5m</span><span class="ready">READY</span></div>
             </div>
           </div>
-
           <nav class="the-nav">
             <button class="nav-btn active">
-              <!-- Bowl with steam -->
-              <svg viewBox="0 0 24 24">
-                <path d="M3 14h18a1 1 0 01-1 1H4a1 1 0 01-1-1z"/>
-                <path d="M4 15c0 3.3 2.7 6 6 6h4c3.3 0 6-2.7 6-6"/>
-                <path d="M8 9c0-1.5.8-2 1.5-3M12 9c0-1.5.8-2 1.5-3M16 9c0-1.5.8-2 1.5-3"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M3 14h18a1 1 0 01-1 1H4a1 1 0 01-1-1z"/><path d="M4 15c0 3.3 2.7 6 6 6h4c3.3 0 6-2.7 6-6"/><path d="M8 9c0-1.5.8-2 1.5-3M12 9c0-1.5.8-2 1.5-3M16 9c0-1.5.8-2 1.5-3"/></svg>
               Eat
             </button>
             <button class="nav-btn">
-              <!-- Week grid -->
-              <svg viewBox="0 0 24 24">
-                <rect x="3" y="5" width="18" height="16" rx="2"/>
-                <path d="M3 10h18"/>
-                <path d="M8 5V3M16 5V3"/>
-                <path d="M8 14h2M14 14h2M8 18h2"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 5V3M16 5V3"/><path d="M8 14h2M14 14h2M8 18h2"/></svg>
               Plan
             </button>
             <button class="nav-btn">
-              <!-- Shopping bag -->
-              <svg viewBox="0 0 24 24">
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-                <path d="M3 6h18"/>
-                <path d="M16 10a4 4 0 01-8 0"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>
               Shop
             </button>
             <button class="nav-btn">
-              <!-- Jar -->
-              <svg viewBox="0 0 24 24">
-                <path d="M8 2h8v3H8z"/>
-                <rect x="6" y="5" width="12" height="17" rx="1"/>
-                <path d="M9 11h6M9 15h4"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M8 2h8v3H8z"/><rect x="6" y="5" width="12" height="17" rx="1"/><path d="M9 11h6M9 15h4"/></svg>
               Pantry
             </button>
             <button class="nav-btn">
-              <!-- Clock -->
-              <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="9"/>
-                <path d="M12 7v5l3 3"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+              Log
+            </button>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SUNSET CORAL ==================== -->
+  <div class="preview-card">
+    <div class="preview-label">
+      <h2>Sunset Coral</h2>
+      <p>Coral→peach gradient. Teal ready states. Warm but vibrant — golden hour energy. The fun one that still feels grounded.</p>
+    </div>
+    <div class="preview-frame">
+      <div class="app sunset">
+        <div class="top">
+          <div class="greeting">What are we<br><b>eating?</b></div>
+          <div class="context-row">
+            <span class="ctx-chip">3/4 meals</span>
+            <span class="ctx-chip">18 stocked</span>
+            <span class="ctx-chip">salmon — use soon</span>
+          </div>
+        </div>
+        <div class="input-area">
+          <input class="the-input" placeholder="I'm tired… bought groceries… made curry…" readonly>
+          <div class="hints">
+            <button class="hint">something quick</button>
+            <button class="hint">use up salmon</button>
+            <button class="hint">high protein</button>
+            <button class="hint">I bought stuff</button>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="response">
+          <div class="section-label">Suggested for you</div>
+          <div class="pick-card">
+            <div class="pick-top">
+              <div class="pick-name">Rice Bowl + Salmon</div>
+              <div class="pick-cal">420 cal</div>
+            </div>
+            <div class="pick-why">You have everything. Salmon's been in the fridge 2 days — tonight's the night.</div>
+            <div class="pick-stats">
+              <span><span class="v">32g</span> protein</span>
+              <span><span class="v">15</span> min</span>
+              <span>last <span class="v">5d</span> ago</span>
+              <span>salmon <span class="v">×2</span></span>
+            </div>
+            <div class="pick-actions">
+              <button class="btn eat">Ate this</button>
+              <button class="btn skip">Not that</button>
+            </div>
+          </div>
+          <div class="section-label">Also works</div>
+          <div class="alt-list">
+            <div class="alt">
+              <div class="alt-rank">2</div>
+              <div class="alt-name">Japanese Curry</div>
+              <div class="alt-meta"><span>550</span><span>25m</span><span class="ready">READY</span></div>
+            </div>
+            <div class="alt">
+              <div class="alt-rank">3</div>
+              <div class="alt-name">Thai Stir Fry</div>
+              <div class="alt-meta"><span>380</span><span>20m</span><span class="partial">NEED 1</span></div>
+            </div>
+            <div class="alt">
+              <div class="alt-rank">4</div>
+              <div class="alt-name">Eggs + Toast</div>
+              <div class="alt-meta"><span>320</span><span>5m</span><span class="ready">READY</span></div>
+            </div>
+          </div>
+          <nav class="the-nav">
+            <button class="nav-btn active">
+              <svg viewBox="0 0 24 24"><path d="M3 14h18a1 1 0 01-1 1H4a1 1 0 01-1-1z"/><path d="M4 15c0 3.3 2.7 6 6 6h4c3.3 0 6-2.7 6-6"/><path d="M8 9c0-1.5.8-2 1.5-3M12 9c0-1.5.8-2 1.5-3M16 9c0-1.5.8-2 1.5-3"/></svg>
+              Eat
+            </button>
+            <button class="nav-btn">
+              <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 5V3M16 5V3"/><path d="M8 14h2M14 14h2M8 18h2"/></svg>
+              Plan
+            </button>
+            <button class="nav-btn">
+              <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              Shop
+            </button>
+            <button class="nav-btn">
+              <svg viewBox="0 0 24 24"><path d="M8 2h8v3H8z"/><rect x="6" y="5" width="12" height="17" rx="1"/><path d="M9 11h6M9 15h4"/></svg>
+              Pantry
+            </button>
+            <button class="nav-btn">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
               Log
             </button>
           </nav>
