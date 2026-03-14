@@ -445,42 +445,51 @@ body::after{
 .pantry-qty.num{background:var(--accent-dim);color:var(--accent-text)}
 
 /* ═══════════ SHOP PANEL ═══════════ */
-/* Shop stays full width — no max-width constraint */
-.shop-top{display:flex;gap:8px;margin-bottom:12px}
-.shop-top input{
+/* ═══════════ SHOP PANEL ═══════════ */
+@media(min-width:1024px){
+  .shop-inner{max-width:520px}
+}
+.shop-add-bar{
+  display:flex;gap:8px;margin-bottom:12px;
+}
+.shop-add-bar input{
   flex:1;padding:12px 16px;font-size:14px;
   background:var(--bg-raised);border:1px solid var(--border-hi);
   border-radius:12px;color:var(--text);transition:border-color 0.2s;
 }
-.shop-top input:focus{border-color:var(--accent-1)}
-.shop-top input::placeholder{color:var(--text-faint)}
-.shop-top .shop-add-btn{
+.shop-add-bar input:focus{border-color:var(--accent-1)}
+.shop-add-bar input::placeholder{color:var(--text-faint)}
+.shop-add-bar button{
   padding:0 16px;border-radius:12px;
   background:var(--accent-gradient);color:#0a0a0a;
   font-size:13px;font-weight:600;white-space:nowrap;
 }
-.shop-auto-btn{
-  width:100%;padding:10px;border-radius:10px;
-  font-size:12px;font-weight:600;
-  background:var(--bg-surface);color:var(--text-dim);
-  border:1px solid var(--border);margin-bottom:16px;
-  transition:all 0.15s;
+.shop-actions{
+  display:flex;gap:8px;margin-bottom:16px;
 }
-.shop-auto-btn:hover{color:var(--accent-text);border-color:var(--accent-dim)}
+.shop-action-btn{
+  flex:1;padding:9px;border-radius:10px;
+  font-size:11px;font-weight:600;
+  background:var(--bg-surface);color:var(--text-dim);
+  border:1px solid var(--border);transition:all 0.15s;
+}
+.shop-action-btn:hover{color:var(--accent-text);border-color:var(--accent-dim)}
+.shop-action-btn:active{transform:scale(0.97)}
+.shop-action-btn.primary{background:var(--accent-gradient);color:#0a0a0a;border:none}
 .shop-stats{
   font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-faint);margin-bottom:12px;
+  font-size:11px;color:var(--text-faint);margin-bottom:10px;
 }
 .shop-group-label{
   font-size:10px;font-weight:600;letter-spacing:0.08em;
-  text-transform:uppercase;color:var(--text-faint);margin:16px 0 6px;
+  text-transform:uppercase;color:var(--text-faint);margin:14px 0 6px;
 }
 .shop-group-label:first-child{margin-top:4px}
 .shop-item{
   display:flex;align-items:center;gap:10px;
   padding:10px 12px;background:var(--bg-card);
   border:1px solid var(--border);border-radius:8px;
-  margin-bottom:3px;cursor:pointer;transition:all 0.15s;
+  margin-bottom:3px;transition:all 0.15s;
 }
 .shop-item:hover{border-color:var(--border-hi)}
 .shop-item.checked{opacity:0.4}
@@ -490,6 +499,7 @@ body::after{
   border:2px solid var(--border-hi);
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;transition:all 0.15s;font-size:11px;color:transparent;
+  cursor:pointer;
 }
 .shop-item.checked .shop-check{
   background:var(--accent-gradient);border-color:transparent;color:#0a0a0a;
@@ -498,15 +508,15 @@ body::after{
 .shop-item-reason{
   font-family:'IBM Plex Mono', monospace;font-size:10px;color:var(--text-faint);white-space:nowrap;
 }
-.shop-bottom{display:flex;gap:8px;margin-top:16px}
-.shop-bottom button{
-  flex:1;padding:10px;border-radius:10px;
-  font-size:12px;font-weight:600;transition:all 0.15s;
+.shop-del{
+  color:var(--text-faint);font-size:14px;
+  width:24px;height:24px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:all 0.15s;flex-shrink:0;cursor:pointer;
 }
-.shop-bottom button:active{transform:scale(0.97)}
-.shop-pantry-btn{background:var(--accent-gradient);color:#0a0a0a}
-.shop-clear-btn{background:var(--bg-surface);color:var(--text-dim);border:1px solid var(--border)}
-.shop-empty{text-align:center;padding:60px 20px;color:var(--text-faint);font-size:14px;line-height:1.6}
+.shop-item:hover .shop-del{opacity:1}
+.shop-del:hover{color:var(--missing);background:rgba(232,80,80,0.08)}
+.shop-empty{text-align:center;padding:40px 20px;color:var(--text-faint);font-size:13px;font-style:italic}
 
 /* ═══════════ TOAST ═══════════ */
 .toast{
@@ -622,11 +632,15 @@ body::after{
     <!-- SHOP -->
     <div class="panel" id="panel-shop">
       <div class="shop-inner">
-        <div class="shop-top">
-          <input type="text" id="shop-input" placeholder="Add to list..." autocomplete="off">
-          <button class="shop-add-btn" id="shop-add-btn">Add</button>
+        <div class="shop-add-bar">
+          <input type="text" id="shop-input" placeholder="eggs, bread, tofu..." autocomplete="off">
+          <button id="shop-add-btn">Add</button>
         </div>
-        <button class="shop-auto-btn" id="shop-auto-btn">Build list from pantry + pool</button>
+        <div class="shop-actions">
+          <button class="shop-action-btn primary" id="shop-auto-btn">Auto-build from pool</button>
+          <button class="shop-action-btn" id="shop-to-pantry">Checked → Pantry</button>
+          <button class="shop-action-btn" id="shop-clear-checked">Clear done</button>
+        </div>
         <div id="shop-list-wrap"></div>
       </div>
     </div>
@@ -1223,74 +1237,66 @@ async function addPantryItems() {
 function renderShop() {
   const wrap = document.getElementById('shop-list-wrap');
   if (!shopData.length) {
-    wrap.innerHTML = '<div class="shop-empty">No items on the list. Build from pantry + pool, or add manually.</div>';
+    wrap.innerHTML = '<div class="shop-empty">No items yet. Type above to add, or auto-build from your pool.</div>';
     return;
   }
 
-  const lowItems = shopData.filter(i => i.reason === 'running low');
-  const planItems = shopData.filter(i => i.reason && i.reason !== 'running low' && i.reason !== 'manual');
-  const manualItems = shopData.filter(i => i.reason === 'manual' || !i.reason);
+  const unchecked = shopData.filter(i => !i.checked);
+  const checked = shopData.filter(i => i.checked);
   const totalCount = shopData.length;
-  const checkedCount = shopData.filter(i => i.checked).length;
+  const checkedCount = checked.length;
 
-  let h = `<div class="shop-stats">${totalCount} items \u00b7 ${checkedCount} checked</div>`;
+  let h = `<div class="shop-stats">${totalCount} items \u00b7 ${checkedCount} done</div>`;
 
-  function renderGroup(label, items) {
-    if (!items.length) return '';
-    let g = `<div class="shop-group-label">${esc(label)}</div>`;
-    items.forEach(item => {
-      const globalIdx = shopData.indexOf(item);
-      g += `<div class="shop-item${item.checked?' checked':''}" data-idx="${globalIdx}">`;
-      g += `<div class="shop-check">${item.checked?'\u2713':''}</div>`;
-      g += `<span class="shop-item-name">${esc(item.name)}</span>`;
-      if (item.reason && item.reason !== 'manual') g += `<span class="shop-item-reason">${esc(item.reason)}</span>`;
-      g += `</div>`;
-    });
-    return g;
+  function renderItem(item) {
+    const globalIdx = shopData.indexOf(item);
+    let r = `<div class="shop-item${item.checked?' checked':''}" data-idx="${globalIdx}">`;
+    r += `<div class="shop-check" data-action="check">${item.checked?'\u2713':''}</div>`;
+    r += `<span class="shop-item-name">${esc(item.name)}</span>`;
+    if (item.reason && item.reason !== 'manual') r += `<span class="shop-item-reason">${esc(item.reason)}</span>`;
+    r += `<button class="shop-del" data-action="del" data-idx="${globalIdx}">&times;</button>`;
+    r += `</div>`;
+    return r;
   }
 
-  h += renderGroup('Running low', lowItems);
-  h += renderGroup('For pooled meals', planItems);
-  h += renderGroup('Manual', manualItems);
+  // Unchecked first
+  unchecked.forEach(item => h += renderItem(item));
 
-  h += '<div class="shop-bottom">';
-  h += '<button class="shop-pantry-btn" id="shop-to-pantry">Add checked to pantry</button>';
-  h += '<button class="shop-clear-btn" id="shop-clear-checked">Clear checked</button>';
-  h += '</div>';
+  // Checked (done) at bottom
+  if (checked.length) {
+    h += `<div class="shop-group-label">Done (${checked.length})</div>`;
+    checked.forEach(item => h += renderItem(item));
+  }
 
   wrap.innerHTML = h;
 
-  wrap.querySelectorAll('.shop-item').forEach(el => {
-    el.addEventListener('click', async () => {
-      const idx = parseInt(el.dataset.idx);
+  // Check toggle — tap checkbox or item name
+  wrap.querySelectorAll('.shop-check, .shop-item-name').forEach(el => {
+    el.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const item = el.closest('.shop-item');
+      const idx = parseInt(item.dataset.idx);
       shopData[idx].checked = !shopData[idx].checked;
       await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
       renderShop();
     });
   });
 
-  document.getElementById('shop-to-pantry').addEventListener('click', async () => {
-    const checked = shopData.filter(i => i.checked);
-    if (!checked.length) { toast('Check some items first'); return; }
-    const newItems = checked.map(i => ({name: i.name, qty: 'plenty', category: 'pantry-dry'}));
-    pantryItems.push(...newItems);
-    await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(pantryItems)});
-    shopData = shopData.filter(i => !i.checked);
-    await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
-    toast(`Added ${checked.length} items to pantry`);
-    renderShop();
-  });
-
-  document.getElementById('shop-clear-checked').addEventListener('click', async () => {
-    const removed = shopData.filter(i => i.checked).length;
-    if (!removed) { toast('Nothing checked'); return; }
-    shopData = shopData.filter(i => !i.checked);
-    await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
-    toast(`Cleared ${removed} items`);
-    renderShop();
+  // Inline delete
+  wrap.querySelectorAll('.shop-del').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const idx = parseInt(btn.dataset.idx);
+      const name = shopData[idx].name;
+      shopData.splice(idx, 1);
+      await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
+      toast(`Removed ${name}`);
+      renderShop();
+    });
   });
 }
 
+// Add items — comma-separated, enter or click
 document.getElementById('shop-add-btn').addEventListener('click', addShopItems);
 document.getElementById('shop-input').addEventListener('keydown', e => { if (e.key==='Enter') addShopItems() });
 
@@ -1304,8 +1310,10 @@ async function addShopItems() {
   await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
   toast(`Added ${items.join(', ')}`);
   renderShop();
+  inp.focus(); // keep focus for rapid entry
 }
 
+// Auto-build from pool + pantry
 document.getElementById('shop-auto-btn').addEventListener('click', async () => {
   const auto = await api('/api/shop/auto');
   if (!auto || !auto.length) { toast('Nothing to add \u2014 pantry and pool look good!'); return; }
@@ -1319,7 +1327,30 @@ document.getElementById('shop-auto-btn').addEventListener('click', async () => {
     }
   });
   await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
-  toast(`Added ${added} items from pantry + pool`);
+  toast(`Added ${added} items`);
+  renderShop();
+});
+
+// Checked → Pantry
+document.getElementById('shop-to-pantry').addEventListener('click', async () => {
+  const checked = shopData.filter(i => i.checked);
+  if (!checked.length) { toast('Check some items first'); return; }
+  const newItems = checked.map(i => ({name: i.name, qty: 'plenty', category: 'pantry-dry'}));
+  pantryItems.push(...newItems);
+  await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(pantryItems)});
+  shopData = shopData.filter(i => !i.checked);
+  await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
+  toast(`${checked.length} items → pantry`);
+  renderShop();
+});
+
+// Clear done
+document.getElementById('shop-clear-checked').addEventListener('click', async () => {
+  const removed = shopData.filter(i => i.checked).length;
+  if (!removed) { toast('Nothing to clear'); return; }
+  shopData = shopData.filter(i => !i.checked);
+  await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
+  toast(`Cleared ${removed} items`);
   renderShop();
 });
 

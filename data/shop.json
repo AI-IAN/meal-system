@@ -1,0 +1,77 @@
+[
+  {
+    "name": "lemon",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "frozen chicken strips",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "frozen rice",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "collagen powder",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "honey",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "peanut butter",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "tahini",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "whole grain bread",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "canned chickpeas",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "canned salmon",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "chicken thighs",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "full-fat yogurt",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "pork belly",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "Perfect Bars",
+    "reason": "running low",
+    "checked": false
+  },
+  {
+    "name": "hemp hearts",
+    "reason": "for Yogurt Bowl",
+    "checked": false
+  }
+]
