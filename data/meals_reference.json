@@ -1,0 +1,317 @@
+{
+  "shopping_suggestions": {
+    "wholefoods": [
+      {
+        "name": "Staples",
+        "items": [
+          {
+            "name": "Eggs",
+            "why": "Always need eggs"
+          },
+          {
+            "name": "Hodo tofu (pre-marinated)",
+            "why": "Zero-prep protein"
+          },
+          {
+            "name": "Kimchi",
+            "why": "Lasts weeks, instant flavor"
+          },
+          {
+            "name": "Fresh ginger root",
+            "why": "Freeze whole, grate from frozen"
+          },
+          {
+            "name": "Gochujang",
+            "why": "One-ingredient flavor bomb"
+          },
+          {
+            "name": "Furikake",
+            "why": "Transforms plain rice"
+          },
+          {
+            "name": "White miso",
+            "why": "Soups, marinades, dressings"
+          }
+        ]
+      },
+      {
+        "name": "Worth the Premium",
+        "items": [
+          {
+            "name": "Hot bar containers (2-3)",
+            "why": "Instant meals, 2-3 days"
+          },
+          {
+            "name": "Pre-cut veg + hummus",
+            "why": "You're paying for the cutting"
+          },
+          {
+            "name": "Prepared grain salad",
+            "why": "High cal, zero effort"
+          },
+          {
+            "name": "Living herbs (basil/cilantro)",
+            "why": "Last 3 weeks vs 3 days"
+          },
+          {
+            "name": "Rotisserie chicken",
+            "why": "Protein for days"
+          }
+        ]
+      },
+      {
+        "name": "Novelty / Exploration",
+        "items": [
+          {
+            "name": "Frozen bao buns",
+            "why": "Steam from frozen, 8 min"
+          },
+          {
+            "name": "Frozen scallion pancakes",
+            "why": "Pan-fry, 4 min/side"
+          },
+          {
+            "name": "Lap cheong (Chinese sausage)",
+            "why": "Sweet/savory, high cal"
+          },
+          {
+            "name": "Interesting cheese",
+            "why": "Dopamine snack"
+          },
+          {
+            "name": "Fly By Jing chili crisp",
+            "why": "Premium upgrade"
+          },
+          {
+            "name": "Ponzu",
+            "why": "Instant acid + umami"
+          }
+        ]
+      }
+    ],
+    "amazon": [
+      {
+        "name": "Core Restock",
+        "items": [
+          {
+            "name": "Eggs (18-pack)",
+            "why": "Foundation protein"
+          },
+          {
+            "name": "Whole grain bread",
+            "why": "Toast base"
+          },
+          {
+            "name": "Full-fat yogurt / Siggi's",
+            "why": "Yogurt bowl base"
+          },
+          {
+            "name": "PB (large jar)",
+            "why": "Goes on everything"
+          },
+          {
+            "name": "Perfect Bars",
+            "why": "Zero-effort protein"
+          },
+          {
+            "name": "Frozen edamame (shelled)",
+            "why": "17g protein/cup, 2 min"
+          },
+          {
+            "name": "Frozen chicken strips",
+            "why": "Air fryer backup"
+          },
+          {
+            "name": "Apples",
+            "why": "Grab-and-eat"
+          }
+        ]
+      },
+      {
+        "name": "Pantry & Flavor",
+        "items": [
+          {
+            "name": "Rice (jasmine or short grain)",
+            "why": "Batch cook + freeze"
+          },
+          {
+            "name": "Soy sauce",
+            "why": "If running low"
+          },
+          {
+            "name": "Sesame oil",
+            "why": "If running low"
+          },
+          {
+            "name": "Chili crisp",
+            "why": "If running low"
+          },
+          {
+            "name": "Miso paste",
+            "why": "Soups + marinades"
+          },
+          {
+            "name": "Canned salmon (2-3)",
+            "why": "Shelf-stable protein"
+          },
+          {
+            "name": "Nuts / trail mix",
+            "why": "Calorie catch-up"
+          },
+          {
+            "name": "Dark chocolate",
+            "why": "Essential"
+          }
+        ]
+      },
+      {
+        "name": "Frozen Backup",
+        "items": [
+          {
+            "name": "Frozen salmon fillets",
+            "why": "Cook from frozen"
+          },
+          {
+            "name": "Frozen gyoza",
+            "why": "Pan-fry, 6 min"
+          },
+          {
+            "name": "Frozen stir-fry veg",
+            "why": "Instant vegetables"
+          },
+          {
+            "name": "Frozen blueberries",
+            "why": "Yogurt topping"
+          },
+          {
+            "name": "Curry simmer pouches",
+            "why": "Pour over rice"
+          },
+          {
+            "name": "Frozen udon",
+            "why": "Quick noodle soup"
+          }
+        ]
+      }
+    ]
+  },
+  "meal_unlocks": [
+    {
+      "ingredients": "Eggs + rice + soy sauce",
+      "unlocks": "Tamago gohan, fried rice, jammy egg bowls"
+    },
+    {
+      "ingredients": "Miso paste + edamame",
+      "unlocks": "Miso soup in 3 minutes"
+    },
+    {
+      "ingredients": "Canned salmon + bread + Everything Bagel",
+      "unlocks": "Salmon toast (450 cal, 25g protein)"
+    },
+    {
+      "ingredients": "Gochujang + sesame oil + rice",
+      "unlocks": "Korean-style bowl with any protein"
+    },
+    {
+      "ingredients": "Coconut curry pouch + rice",
+      "unlocks": "Full curry meal, 4 minutes"
+    },
+    {
+      "ingredients": "Chicken thighs + Golden Curry blocks",
+      "unlocks": "Japanese curry (freezes 6+ portions)"
+    },
+    {
+      "ingredients": "White miso + salmon fillets",
+      "unlocks": "Miso-glazed salmon, restaurant quality"
+    },
+    {
+      "ingredients": "Tahini + chickpeas + lemon",
+      "unlocks": "Mediterranean bowl, no cooking"
+    },
+    {
+      "ingredients": "Furikake + rice + nori",
+      "unlocks": "Japanese rice bowl, zero cooking"
+    }
+  ],
+  "flavor_fixes": [
+    {
+      "missing": "Umami",
+      "fix": "soy sauce · miso · fish sauce · parmesan"
+    },
+    {
+      "missing": "Acid",
+      "fix": "rice vinegar · lime · kimchi · pickled ginger"
+    },
+    {
+      "missing": "Heat",
+      "fix": "chili crisp · gochujang · sambal · jalapeño"
+    },
+    {
+      "missing": "Fat",
+      "fix": "sesame oil · olive oil · tahini · butter · nuts"
+    },
+    {
+      "missing": "Aroma",
+      "fix": "furikake · toasted sesame · ginger · herbs"
+    }
+  ],
+  "cal_boosts": [
+    {
+      "add": "Olive oil (1 tbsp)",
+      "to": "any savory food",
+      "gain": "+120 cal"
+    },
+    {
+      "add": "Hemp hearts (3 tbsp)",
+      "to": "yogurt, bowls",
+      "gain": "+170 cal +10g"
+    },
+    {
+      "add": "Extra PB (generous)",
+      "to": "toast, yogurt",
+      "gain": "+190 cal +7g"
+    },
+    {
+      "add": "Tahini drizzle",
+      "to": "bowls, veggies",
+      "gain": "+180 cal"
+    },
+    {
+      "add": "Collagen scoop",
+      "to": "yogurt, coffee",
+      "gain": "+40 cal +10g"
+    },
+    {
+      "add": "Handful of nuts",
+      "to": "anywhere",
+      "gain": "+200 cal"
+    }
+  ],
+  "bowl_profiles": [
+    {
+      "profile": "Japanese",
+      "condiments": "Soy + sesame + furikake + nori",
+      "proteins": "Salmon, tofu, jammy egg"
+    },
+    {
+      "profile": "Korean",
+      "condiments": "Gochujang + sesame + kimchi",
+      "proteins": "Bulgogi, fried egg, tofu"
+    },
+    {
+      "profile": "Thai",
+      "condiments": "Coconut curry + lime + basil",
+      "proteins": "Chicken thigh, tofu"
+    },
+    {
+      "profile": "Chinese-ish",
+      "condiments": "Chili crisp + soy + scallion",
+      "proteins": "Pork belly, egg, lap cheong"
+    },
+    {
+      "profile": "Mediterranean",
+      "condiments": "Tahini + lemon + olive oil",
+      "proteins": "Chickpeas, salmon"
+    }
+  ]
+}
