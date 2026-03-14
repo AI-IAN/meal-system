@@ -12,101 +12,95 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ── Theme system ── */
+/* ═══════════════════════════════════════════════════
+   THEME SYSTEM — 3 palettes via CSS custom properties
+   ═══════════════════════════════════════════════════ */
 :root, [data-theme="lime"] {
-  --bg: #111210;
-  --bg-raised: #1a1c18;
-  --bg-surface: #222420;
-  --bg-card: #252823;
+  --bg: #0a0c08;
+  --bg-raised: #141610;
+  --bg-surface: #1c1e18;
+  --bg-card: #1e2018;
   --text: #e8e9e4;
   --text-dim: #a0a39a;
-  --text-faint: #686b62;
-  --border: rgba(255,255,255,0.06);
-  --border-hi: rgba(255,255,255,0.12);
+  --text-faint: #5c5f56;
+  --border: rgba(144,216,64,0.06);
+  --border-hi: rgba(144,216,64,0.14);
   --accent-1: #30b860;
   --accent-2: #90d840;
   --accent-gradient: linear-gradient(135deg, #30b860, #90d840);
   --accent-text: #90d840;
-  --accent-dim: rgba(144,216,64,0.12);
+  --accent-dim: rgba(144,216,64,0.10);
+  --accent-glow: rgba(144,216,64,0.06);
   --ready: #90d840;
-  --ready-dim: rgba(144,216,64,0.15);
+  --ready-dim: rgba(144,216,64,0.12);
   --partial: #f0b840;
-  --partial-dim: rgba(240,184,64,0.12);
   --missing: #e85050;
-  --missing-dim: rgba(232,80,80,0.12);
   --nav-active: #90d840;
-  --shimmer-1: #1a1c18;
-  --shimmer-2: #252823;
-  --grain-opacity: 0.03;
-  --theme-dot-lime: #90d840;
-  --theme-dot-berry: #d040e0;
-  --theme-dot-coral: #f06050;
+  --hero-glow: radial-gradient(ellipse 600px 300px at 50% 0%, rgba(48,184,96,0.08), transparent);
+  --card-glow: radial-gradient(ellipse at 30% 0%, rgba(144,216,64,0.06), transparent 70%);
 }
 
 [data-theme="berry"] {
-  --bg: #100e14;
-  --bg-raised: #1a1620;
-  --bg-surface: #221e2a;
-  --bg-card: #282232;
+  --bg: #08060c;
+  --bg-raised: #12101a;
+  --bg-surface: #1a1624;
+  --bg-card: #1e182a;
   --text: #ece8f0;
   --text-dim: #a098b0;
-  --text-faint: #6a6080;
-  --border: rgba(255,255,255,0.06);
-  --border-hi: rgba(255,255,255,0.12);
+  --text-faint: #5a5270;
+  --border: rgba(208,64,224,0.06);
+  --border-hi: rgba(208,64,224,0.14);
   --accent-1: #d040e0;
   --accent-2: #f06090;
   --accent-gradient: linear-gradient(135deg, #d040e0, #f06090);
   --accent-text: #f06090;
-  --accent-dim: rgba(240,96,144,0.12);
+  --accent-dim: rgba(240,96,144,0.10);
+  --accent-glow: rgba(208,64,224,0.06);
   --ready: #50d8a0;
-  --ready-dim: rgba(80,216,160,0.15);
+  --ready-dim: rgba(80,216,160,0.12);
   --partial: #f0b840;
-  --partial-dim: rgba(240,184,64,0.12);
   --missing: #e85050;
-  --missing-dim: rgba(232,80,80,0.12);
   --nav-active: #f06090;
-  --shimmer-1: #1a1620;
-  --shimmer-2: #282232;
-  --grain-opacity: 0.025;
+  --hero-glow: radial-gradient(ellipse 600px 300px at 50% 0%, rgba(208,64,224,0.10), transparent);
+  --card-glow: radial-gradient(ellipse at 30% 0%, rgba(240,96,144,0.06), transparent 70%);
 }
 
 [data-theme="coral"] {
-  --bg: #111214;
-  --bg-raised: #1a1b1e;
-  --bg-surface: #222326;
-  --bg-card: #28292e;
+  --bg: #0a0a0c;
+  --bg-raised: #141416;
+  --bg-surface: #1c1c1e;
+  --bg-card: #201e22;
   --text: #e8e8ec;
   --text-dim: #a0a0a8;
-  --text-faint: #686870;
-  --border: rgba(255,255,255,0.06);
-  --border-hi: rgba(255,255,255,0.12);
+  --text-faint: #5a5a62;
+  --border: rgba(240,96,80,0.06);
+  --border-hi: rgba(240,96,80,0.14);
   --accent-1: #f06050;
   --accent-2: #f8a870;
   --accent-gradient: linear-gradient(135deg, #f06050, #f8a870);
   --accent-text: #f8a870;
-  --accent-dim: rgba(248,168,112,0.12);
+  --accent-dim: rgba(248,168,112,0.10);
+  --accent-glow: rgba(240,96,80,0.06);
   --ready: #40c8a0;
-  --ready-dim: rgba(64,200,160,0.15);
+  --ready-dim: rgba(64,200,160,0.12);
   --partial: #f0b840;
-  --partial-dim: rgba(240,184,64,0.12);
   --missing: #e85050;
-  --missing-dim: rgba(232,80,80,0.12);
   --nav-active: #f8a870;
-  --shimmer-1: #1a1b1e;
-  --shimmer-2: #28292e;
-  --grain-opacity: 0.025;
+  --hero-glow: radial-gradient(ellipse 600px 300px at 50% 0%, rgba(240,96,80,0.08), transparent);
+  --card-glow: radial-gradient(ellipse at 30% 0%, rgba(248,168,112,0.06), transparent 70%);
 }
 
-/* ── Base ── */
+/* ═══════════ RESET & BASE ═══════════ */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{
-  overscroll-behavior:none;
+html{
   font-family:'Space Grotesk', -apple-system, sans-serif;
   background:var(--bg);
   color:var(--text);
   min-height:100dvh;
   line-height:1.5;
+  overscroll-behavior:none;
 }
+body{min-height:100dvh}
 button{font-family:inherit;border:none;cursor:pointer;background:none;color:inherit}
 input{font-family:inherit;border:none;outline:none;background:none;color:inherit}
 a{color:inherit;text-decoration:none}
@@ -114,474 +108,468 @@ a{color:inherit;text-decoration:none}
 .serif{font-family:'Instrument Serif', Georgia, serif;font-style:italic}
 .mono{font-family:'IBM Plex Mono', 'SF Mono', monospace}
 
-/* ── Grain texture overlay ── */
-body::before{
-  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
-  opacity:var(--grain-opacity);
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size:128px 128px;
+/* Subtle grain */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:128px;
 }
 
-/* ── Layout ── */
-.app{
-  max-width:480px;margin:0 auto;
+/* ═══════════ LAYOUT ═══════════ */
+.scene{
   min-height:100dvh;
   display:flex;flex-direction:column;
-  padding:0 20px;
-  padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px));
+  padding-bottom:calc(72px + env(safe-area-inset-bottom, 0px));
 }
 
-@media(min-width:640px){
-  .app{max-width:560px;padding:0 32px;padding-bottom:90px}
-}
-@media(min-width:1024px){
-  .app{max-width:640px;padding:0 40px;padding-bottom:90px}
+/* Hero zone — the conversational top area */
+.hero{
+  position:relative;
+  padding:20px 24px 0;
+  background:var(--hero-glow);
 }
 
-/* ── Top bar ── */
+/* Content area below hero */
+.content{
+  flex:1;
+  padding:0 24px 24px;
+}
+
+/* Desktop: wider, two-column suggestions */
+@media(min-width:768px){
+  .hero{padding:28px 48px 0}
+  .content{padding:0 48px 32px;max-width:960px;margin:0 auto;width:100%}
+  .suggestions-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  .top-pick-col{grid-column:1/2}
+  .alts-col{grid-column:2/2}
+}
+@media(min-width:1100px){
+  .hero{padding:36px 80px 0;max-width:1100px;margin:0 auto;width:100%}
+  .content{padding:0 80px 40px;max-width:1100px}
+}
+
+/* ═══════════ TOP BAR ═══════════ */
 .top-bar{
   display:flex;align-items:center;justify-content:space-between;
-  padding:16px 0 8px;
+  margin-bottom:32px;
 }
 .back-link{
-  font-size:13px;color:var(--text-faint);
+  font-size:12px;font-weight:500;letter-spacing:0.03em;
+  color:var(--text-faint);
   transition:color 0.2s;
 }
 .back-link:hover{color:var(--text-dim)}
 
-/* ── Theme switcher ── */
-.theme-switcher{display:flex;gap:8px;align-items:center}
+.theme-switcher{display:flex;gap:6px;align-items:center}
 .theme-dot{
-  width:14px;height:14px;border-radius:50%;cursor:pointer;
-  border:2px solid transparent;
-  transition:all 0.2s;opacity:0.5;
+  width:12px;height:12px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;transition:all 0.25s;opacity:0.4;
 }
-.theme-dot:hover{opacity:0.8;transform:scale(1.15)}
-.theme-dot.active{opacity:1;border-color:var(--text);transform:scale(1.15)}
+.theme-dot:hover{opacity:0.7;transform:scale(1.2)}
+.theme-dot.active{opacity:1;border-color:rgba(255,255,255,0.4);transform:scale(1.2)}
 .theme-dot[data-t="lime"]{background:#90d840}
 .theme-dot[data-t="berry"]{background:#d040e0}
 .theme-dot[data-t="coral"]{background:#f06050}
 
-/* ── Greeting ── */
-.greeting{
-  padding:20px 0 24px;text-align:center;
-}
+/* ═══════════ GREETING ═══════════ */
+.greeting{margin-bottom:28px}
 .greeting h1{
   font-family:'Instrument Serif', Georgia, serif;
   font-style:italic;font-weight:400;
-  font-size:32px;line-height:1.2;
+  font-size:clamp(28px, 5vw, 48px);
+  line-height:1.15;
+  color:var(--text);
+}
+/* The gradient word */
+.greeting .accent{
   background:var(--accent-gradient);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   background-clip:text;
 }
-@media(min-width:640px){.greeting h1{font-size:38px}}
+.greeting .sub{
+  display:block;margin-top:6px;
+  font-family:'Space Grotesk', sans-serif;
+  font-style:normal;font-size:14px;font-weight:400;
+  color:var(--text-faint);
+  letter-spacing:0.01em;
+}
 
-/* ── Input area ── */
-.input-area{padding-bottom:16px}
+/* ═══════════ INPUT AREA ═══════════ */
+.input-area{margin-bottom:20px}
 .input-wrap{
   position:relative;
   background:var(--bg-raised);
   border:1px solid var(--border-hi);
-  border-radius:16px;
-  transition:border-color 0.2s, box-shadow 0.2s;
+  border-radius:14px;
+  transition:border-color 0.2s, box-shadow 0.3s;
 }
 .input-wrap:focus-within{
   border-color:var(--accent-1);
-  box-shadow:0 0 0 3px var(--accent-dim);
+  box-shadow:0 0 0 3px var(--accent-dim), 0 8px 32px -8px var(--accent-glow);
 }
 .input-field{
-  width:100%;padding:16px 52px 16px 20px;
-  font-size:17px;color:var(--text);
-  background:transparent;
-  font-family:'Space Grotesk', sans-serif;
+  width:100%;padding:15px 50px 15px 18px;
+  font-size:16px;color:var(--text);
 }
 .input-field::placeholder{color:var(--text-faint)}
-.input-submit{
-  position:absolute;right:8px;top:50%;transform:translateY(-50%);
-  width:36px;height:36px;border-radius:10px;
+.submit-btn{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border-radius:10px;
   background:var(--accent-gradient);
   display:flex;align-items:center;justify-content:center;
-  transition:opacity 0.2s, transform 0.15s;
-  opacity:0.7;
+  transition:opacity 0.15s, transform 0.1s;opacity:0.6;
 }
-.input-submit:hover{opacity:1}
-.input-submit:active{transform:translateY(-50%) scale(0.92)}
-.input-submit svg{width:18px;height:18px;color:#111}
+.submit-btn:hover{opacity:1}
+.submit-btn:active{transform:translateY(-50%) scale(0.92)}
+.submit-btn svg{width:16px;height:16px;color:#111;stroke-width:2.5}
 
-/* ── Hint pills ── */
-.hints{
-  display:flex;flex-wrap:wrap;gap:8px;
-  padding:12px 0 0;justify-content:center;
-}
-.hint-pill{
-  padding:6px 14px;border-radius:20px;
-  font-size:13px;font-weight:500;
-  color:var(--text-dim);
+/* Hint pills */
+.hints{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 0}
+.hint{
+  padding:5px 12px;border-radius:8px;
+  font-size:12px;font-weight:500;
+  color:var(--text-faint);
   background:var(--bg-surface);
-  border:1px solid var(--border);
-  cursor:pointer;
+  border:1px solid transparent;
   transition:all 0.2s;
 }
-.hint-pill:hover{
-  color:var(--accent-text);
-  border-color:var(--accent-1);
-  background:var(--accent-dim);
-}
+.hint:hover{color:var(--accent-text);border-color:var(--accent-dim);background:var(--accent-dim)}
 
-/* ── Context chips ── */
-.context-chips{
-  display:flex;flex-wrap:wrap;gap:8px;
-  padding:8px 0 16px;justify-content:center;
-}
-.chip{
-  display:flex;align-items:center;gap:5px;
-  padding:4px 12px;border-radius:12px;
-  font-size:12px;color:var(--text-dim);
-  background:var(--bg-surface);
+/* Context chips */
+.context{
+  display:flex;gap:16px;
+  padding:12px 0 0;
   font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-faint);
 }
-.chip .dot{width:6px;height:6px;border-radius:50%}
-.chip .dot.green{background:var(--ready)}
-.chip .dot.amber{background:var(--partial)}
+.context span{display:flex;align-items:center;gap:5px}
+.context .dot{width:5px;height:5px;border-radius:50%;background:var(--accent-1)}
+.context .dot.warn{background:var(--partial)}
 
-/* ── Suggestion cards ── */
-.suggestions{flex:1}
-.section-label{
-  font-size:12px;font-weight:600;letter-spacing:0.05em;
+/* ═══════════ PANEL SYSTEM ═══════════ */
+.panel{display:none}
+.panel.active{display:block;animation:fadeUp 0.2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════ SECTION LABELS ═══════════ */
+.label{
+  font-size:11px;font-weight:600;letter-spacing:0.08em;
   text-transform:uppercase;color:var(--text-faint);
-  padding:8px 0;
-}
-
-/* Top pick */
-.top-pick{
-  background:var(--bg-card);
-  border:1px solid var(--border-hi);
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:16px;
-  position:relative;
-  overflow:hidden;
-}
-.top-pick::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:var(--accent-gradient);
-}
-.top-pick-header{
-  display:flex;justify-content:space-between;align-items:flex-start;
-  margin-bottom:8px;
-}
-.top-pick-name{font-size:22px;font-weight:600;line-height:1.3}
-.top-pick-badge{
-  font-size:11px;font-weight:600;
-  padding:3px 10px;border-radius:8px;
-  background:var(--accent-dim);color:var(--accent-text);
-  white-space:nowrap;
-  font-family:'IBM Plex Mono', monospace;
-}
-.top-pick-meta{
-  display:flex;gap:12px;align-items:center;
-  font-family:'IBM Plex Mono', monospace;
-  font-size:13px;color:var(--text-dim);
   margin-bottom:12px;
 }
-.top-pick-meta .sep{color:var(--text-faint)}
-.top-pick-reason{
-  font-family:'Instrument Serif', Georgia, serif;
-  font-style:italic;font-size:16px;
-  color:var(--text-dim);line-height:1.5;
+
+/* ═══════════ TOP PICK CARD ═══════════ */
+.top-pick{
+  position:relative;
+  background:var(--bg-card);
+  background-image:var(--card-glow);
+  border:1px solid var(--border-hi);
+  border-radius:16px;
+  padding:24px;
+  margin-bottom:20px;
+}
+/* Gradient accent line */
+.top-pick::before{
+  content:'';position:absolute;top:-1px;left:24px;right:24px;height:2px;
+  background:var(--accent-gradient);border-radius:2px;
+}
+/* Soft glow behind card */
+.top-pick::after{
+  content:'';position:absolute;inset:-1px;border-radius:16px;z-index:-1;
+  background:var(--accent-glow);
+  filter:blur(40px);opacity:0.5;
+}
+
+.tp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px}
+.tp-name{font-size:22px;font-weight:600;line-height:1.25}
+.tp-energy{
+  font-family:'IBM Plex Mono', monospace;font-size:10px;font-weight:500;
+  padding:3px 8px;border-radius:6px;white-space:nowrap;
+  background:var(--accent-dim);color:var(--accent-text);
+  letter-spacing:0.04em;text-transform:uppercase;
+}
+
+.tp-meta{
+  display:flex;gap:10px;align-items:center;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;color:var(--text-dim);
   margin-bottom:14px;
 }
-.top-pick-note{
-  font-size:13px;color:var(--text-faint);
-  margin-bottom:14px;padding:8px 12px;
-  background:var(--bg-surface);border-radius:10px;
+.tp-meta .sep{color:var(--text-faint);font-size:10px}
+
+.tp-reason{
+  font-family:'Instrument Serif', Georgia, serif;
+  font-style:italic;
+  font-size:17px;line-height:1.5;
+  color:var(--accent-text);
+  opacity:0.8;
+  margin-bottom:14px;
+}
+
+.tp-note{
+  font-size:12px;color:var(--text-dim);
+  padding:10px 12px;margin-bottom:14px;
+  background:rgba(255,255,255,0.02);
+  border-radius:8px;
+  border-left:2px solid var(--accent-dim);
 }
 
 /* Ingredient dots */
-.ingredient-status{
-  display:flex;flex-wrap:wrap;gap:6px;
-  margin-bottom:16px;
-}
-.ing-dot{
-  display:flex;align-items:center;gap:4px;
-  font-size:12px;color:var(--text-dim);
+.ingredients{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.ing{
+  display:inline-flex;align-items:center;gap:4px;
   font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-dim);
 }
-.ing-dot .dot{
-  width:7px;height:7px;border-radius:50%;flex-shrink:0;
-}
-.ing-dot .dot.have{background:var(--ready)}
-.ing-dot .dot.need{background:var(--missing)}
+.ing .d{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.ing .d.y{background:var(--ready)}
+.ing .d.n{background:var(--missing)}
 
-/* Actions */
-.top-pick-actions{display:flex;gap:10px}
+/* Action buttons */
+.actions{display:flex;gap:10px}
 .btn{
-  flex:1;padding:12px;border-radius:12px;
-  font-size:14px;font-weight:600;
-  text-align:center;
-  transition:all 0.15s;
+  flex:1;padding:11px;border-radius:10px;
+  font-size:13px;font-weight:600;
+  text-align:center;transition:all 0.15s;
 }
 .btn:active{transform:scale(0.97)}
-.btn-primary{
-  background:var(--accent-gradient);
-  color:#111;
+.btn-go{background:var(--accent-gradient);color:#0a0a0a}
+.btn-go:hover{filter:brightness(1.1)}
+.btn-skip{
+  background:var(--bg-surface);color:var(--text-dim);
+  border:1px solid var(--border);
 }
-.btn-primary:hover{opacity:0.9}
-.btn-secondary{
-  background:var(--bg-surface);
-  color:var(--text-dim);
-  border:1px solid var(--border-hi);
-}
-.btn-secondary:hover{color:var(--text);border-color:var(--text-faint)}
+.btn-skip:hover{color:var(--text);border-color:var(--border-hi)}
 
-/* Also works */
-.also-works{margin-bottom:20px}
-.alt-card{
-  display:flex;align-items:center;gap:12px;
-  padding:14px 16px;
+/* ═══════════ ALTERNATIVES ═══════════ */
+.alts{display:flex;flex-direction:column;gap:6px}
+.alt{
+  display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:8px;
+  padding:12px 14px;
   background:var(--bg-card);
   border:1px solid var(--border);
   border-radius:12px;
-  margin-bottom:8px;
   cursor:pointer;
   transition:all 0.2s;
 }
-.alt-card:hover{border-color:var(--border-hi);background:var(--bg-surface)}
+.alt:hover{border-color:var(--border-hi);background:var(--bg-surface)}
 .alt-rank{
-  font-size:14px;font-weight:600;color:var(--text-faint);
-  width:20px;text-align:center;
   font-family:'IBM Plex Mono', monospace;
+  font-size:12px;color:var(--text-faint);text-align:center;
 }
-.alt-info{flex:1;min-width:0}
-.alt-name{font-size:15px;font-weight:500}
-.alt-meta{
-  font-size:12px;color:var(--text-dim);
+.alt-name{font-size:14px;font-weight:500}
+.alt-detail{
   font-family:'IBM Plex Mono', monospace;
-  display:flex;gap:8px;margin-top:2px;
+  font-size:11px;color:var(--text-faint);
+  margin-top:1px;
 }
 .alt-status{
-  display:flex;align-items:center;gap:3px;
-  font-size:11px;color:var(--text-faint);
+  display:flex;align-items:center;gap:4px;
   font-family:'IBM Plex Mono', monospace;
+  font-size:10px;color:var(--text-faint);
 }
-.alt-status .dot{width:6px;height:6px;border-radius:50%}
+.alt-status .d{width:6px;height:6px;border-radius:50%}
 
-/* Expanded alt card */
-.alt-expanded{
-  padding:16px;margin-top:-8px;margin-bottom:8px;
-  background:var(--bg-card);border:1px solid var(--border-hi);
-  border-radius:0 0 12px 12px;
+/* Expanded alt detail */
+.alt-expand{
+  padding:14px;margin-top:-6px;margin-bottom:6px;
+  background:var(--bg-card);
+  border:1px solid var(--border-hi);
   border-top:none;
-  animation:slideDown 0.2s ease;
+  border-radius:0 0 12px 12px;
+  animation:fadeUp 0.15s ease;
 }
-@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.alt-expand .tp-reason{font-size:15px;margin-bottom:10px}
+.alt-expand .ingredients{margin-bottom:12px}
+.alt-expand .btn{padding:9px;font-size:12px}
 
-.alt-expanded .top-pick-reason{margin-bottom:10px}
-.alt-expanded .ingredient-status{margin-bottom:12px}
-.alt-expanded .top-pick-actions .btn{padding:10px}
+/* ═══════════ STUB PANELS ═══════════ */
+.stub{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;gap:12px;
+  padding:60px 20px;min-height:50vh;
+}
+.stub svg{width:48px;height:48px;color:var(--text-faint);opacity:0.2}
+.stub-title{font-size:18px;font-weight:600}
+.stub-desc{font-size:13px;color:var(--text-dim);max-width:260px;line-height:1.6}
+.stub-badge{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-faint);
+  padding:6px 14px;border-radius:8px;
+  background:var(--bg-surface);
+}
 
-/* ── Feedback toast ── */
+/* ═══════════ HISTORY PANEL ═══════════ */
+.history-group{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;font-weight:500;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--text-faint);
+  margin:20px 0 8px;
+}
+.history-group:first-child{margin-top:8px}
+.h-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:10px;margin-bottom:4px;
+}
+.h-dot{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;
+  background:var(--accent-gradient);
+}
+.h-info{flex:1;min-width:0}
+.h-name{font-size:13px;font-weight:500}
+.h-time{font-family:'IBM Plex Mono', monospace;font-size:11px;color:var(--text-faint)}
+.h-energy{
+  font-family:'IBM Plex Mono', monospace;font-size:10px;font-weight:500;
+  padding:2px 7px;border-radius:5px;
+}
+.h-energy.low{background:var(--ready-dim);color:var(--ready)}
+.h-energy.med{background:rgba(240,184,64,0.1);color:var(--partial)}
+.h-energy.high{background:var(--accent-dim);color:var(--accent-text)}
+.h-empty{text-align:center;padding:60px 20px;color:var(--text-faint);font-size:13px}
+
+/* ═══════════ TOAST ═══════════ */
 .toast{
-  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);
-  background:var(--bg-card);border:1px solid var(--ready);
-  color:var(--text);padding:12px 24px;border-radius:12px;
-  font-size:14px;font-weight:500;z-index:1000;
-  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);
+  background:var(--bg-card);border:1px solid var(--accent-1);
+  color:var(--text);padding:10px 20px;border-radius:10px;
+  font-size:13px;font-weight:500;z-index:1000;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
   transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
   pointer-events:none;
 }
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast.error{border-color:var(--missing)}
+.toast.err{border-color:var(--missing)}
 
-/* ── Loading skeleton ── */
-.skeleton{
-  background:linear-gradient(90deg, var(--shimmer-1) 25%, var(--shimmer-2) 50%, var(--shimmer-1) 75%);
-  background-size:200% 100%;
-  animation:shimmer 1.5s infinite;
-  border-radius:8px;
+/* ═══════════ SKELETON ═══════════ */
+.skel{
+  background:linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-card) 50%, var(--bg-surface) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:12px;
 }
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{height:240px;border-radius:16px;margin-bottom:16px}
+.skel-row{height:52px;margin-bottom:6px}
 
-.skeleton-card{
-  height:220px;border-radius:16px;margin-bottom:16px;
-}
-.skeleton-row{height:60px;border-radius:12px;margin-bottom:8px}
-
-/* ── Panels ── */
-.panel{display:none;flex:1;animation:fadeIn 0.2s ease}
-.panel.active{display:flex;flex-direction:column}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-/* Stub panel */
-.stub-panel{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;gap:16px;padding:40px 20px;
-}
-.stub-icon{opacity:0.15}
-.stub-icon svg{width:64px;height:64px;color:var(--text)}
-.stub-title{font-size:20px;font-weight:600}
-.stub-text{font-size:14px;color:var(--text-dim);max-width:280px;line-height:1.6}
-
-/* ── History panel ── */
-.history-list{flex:1}
-.history-group-label{
-  font-size:12px;font-weight:600;letter-spacing:0.05em;
-  text-transform:uppercase;color:var(--text-faint);
-  padding:16px 0 8px;
-}
-.history-item{
-  display:flex;align-items:center;gap:12px;
-  padding:12px 16px;
-  background:var(--bg-card);border:1px solid var(--border);
-  border-radius:12px;margin-bottom:6px;
-}
-.history-dot{
-  width:8px;height:8px;border-radius:50%;
-  background:var(--accent-gradient);flex-shrink:0;
-}
-.history-info{flex:1;min-width:0}
-.history-name{font-size:14px;font-weight:500}
-.history-time{
-  font-size:12px;color:var(--text-faint);
-  font-family:'IBM Plex Mono', monospace;
-}
-.history-energy{
-  font-size:11px;font-weight:500;
-  padding:3px 8px;border-radius:6px;
-  font-family:'IBM Plex Mono', monospace;
-}
-.energy-low{background:var(--ready-dim);color:var(--ready)}
-.energy-medium{background:var(--partial-dim);color:var(--partial)}
-.energy-high{background:var(--accent-dim);color:var(--accent-text)}
-.history-empty{
-  text-align:center;padding:40px 20px;color:var(--text-faint);
-  font-size:14px;
-}
-
-/* ── Bottom nav ── */
-.bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;
-  background:var(--bg-raised);
+/* ═══════════ BOTTOM NAV ═══════════ */
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:var(--bg);
   border-top:1px solid var(--border);
-  display:flex;justify-content:center;
   padding-bottom:env(safe-area-inset-bottom, 0px);
-  z-index:100;
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
 }
 .nav-inner{
-  display:flex;max-width:480px;width:100%;
+  display:flex;max-width:480px;margin:0 auto;
 }
 .nav-btn{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;gap:3px;
-  padding:10px 0 8px;
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:8px 0 6px;
   color:var(--text-faint);
+  font-size:9px;font-weight:500;letter-spacing:0.03em;
   transition:color 0.2s;
-  font-size:10px;font-weight:500;
-  letter-spacing:0.02em;
 }
-.nav-btn svg{width:24px;height:24px;transition:color 0.2s}
+.nav-btn svg{width:22px;height:22px;transition:color 0.2s}
 .nav-btn.active{color:var(--nav-active)}
-.nav-btn.active svg{color:var(--nav-active)}
-.nav-btn:hover{color:var(--text-dim)}
+.nav-btn:hover:not(.active){color:var(--text-dim)}
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar{width:4px}
+@media(min-width:768px){
+  .nav{background:rgba(10,12,8,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .nav-inner{max-width:560px}
+  .nav-btn{padding:10px 0 8px;font-size:10px;gap:3px}
+  .nav-btn svg{width:24px;height:24px}
+}
+
+/* ═══════════ SCROLLBAR ═══════════ */
+::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:4px}
+::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:3px}
 </style>
 </head>
 <body>
-<div class="app">
-  <!-- Top bar -->
-  <div class="top-bar">
-    <a href="/dashboard/index.html" class="back-link">&larr; Life OS</a>
-    <div class="theme-switcher">
-      <div class="theme-dot" data-t="lime" title="Fresh Lime"></div>
-      <div class="theme-dot" data-t="berry" title="Electric Berry"></div>
-      <div class="theme-dot" data-t="coral" title="Sunset Coral"></div>
+<div class="scene">
+  <!-- ═══════════ HERO ZONE ═══════════ -->
+  <div class="hero">
+    <div class="top-bar">
+      <a href="/dashboard/index.html" class="back-link">&larr; Life OS</a>
+      <div class="theme-switcher">
+        <div class="theme-dot" data-t="lime" title="Fresh Lime"></div>
+        <div class="theme-dot" data-t="berry" title="Electric Berry"></div>
+        <div class="theme-dot" data-t="coral" title="Sunset Coral"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- Greeting -->
-  <div class="greeting">
-    <h1>What are we eating?</h1>
-  </div>
+    <div class="greeting" id="greeting">
+      <h1>What are we <span class="accent">eating?</span>
+        <span class="sub" id="greeting-sub">Loading...</span>
+      </h1>
+    </div>
 
-  <!-- ═══════════ EAT PANEL ═══════════ -->
-  <div class="panel active" id="panel-eat">
-    <!-- Input -->
     <div class="input-area">
       <div class="input-wrap">
         <input class="input-field" type="text" id="main-input" placeholder="What sounds good?" autocomplete="off">
-        <button class="input-submit" id="input-submit" aria-label="Submit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <button class="submit-btn" id="submit-btn" aria-label="Submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
       <div class="hints">
-        <button class="hint-pill" data-hint="something quick">something quick</button>
-        <button class="hint-pill" data-hint="use what's fresh">use what's fresh</button>
-        <button class="hint-pill" data-hint="high protein">high protein</button>
-        <button class="hint-pill" data-hint="surprise me">surprise me</button>
+        <button class="hint" data-hint="something quick">something quick</button>
+        <button class="hint" data-hint="use what's fresh">use what's fresh</button>
+        <button class="hint" data-hint="high protein">high protein</button>
+        <button class="hint" data-hint="surprise me">surprise me</button>
       </div>
-    </div>
-
-    <!-- Context chips -->
-    <div class="context-chips" id="context-chips"></div>
-
-    <!-- Suggestions -->
-    <div class="suggestions" id="suggestions">
-      <div class="skeleton skeleton-card"></div>
-      <div class="skeleton skeleton-row"></div>
-      <div class="skeleton skeleton-row"></div>
+      <div class="context" id="context"></div>
     </div>
   </div>
 
-  <!-- ═══════════ PANTRY PANEL ═══════════ -->
-  <div class="panel" id="panel-pantry">
-    <div class="stub-panel">
-      <div class="stub-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/><path d="M10 3 V1 M14 3 V1"/></svg>
+  <!-- ═══════════ CONTENT ═══════════ -->
+  <div class="content">
+    <!-- EAT -->
+    <div class="panel active" id="panel-eat">
+      <div id="suggestions">
+        <div class="skel skel-card"></div>
+        <div class="skel skel-row"></div>
+        <div class="skel skel-row"></div>
       </div>
-      <div class="stub-title">Pantry</div>
-      <div class="stub-text">Quick-stock your kitchen with natural language. Type what you bought and we'll sort it out.</div>
-      <div style="font-size:13px;color:var(--text-faint);padding:8px 16px;background:var(--bg-surface);border-radius:10px">Coming in Phase 3</div>
     </div>
-  </div>
 
-  <!-- ═══════════ PLAN PANEL ═══════════ -->
-  <div class="panel" id="panel-plan">
-    <div class="stub-panel">
-      <div class="stub-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="4" x2="9" y2="1"/><line x1="15" y1="4" x2="15" y2="1"/><circle cx="8" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/><circle cx="16" cy="13" r="1" fill="currentColor"/><circle cx="8" cy="17" r="1" fill="currentColor"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+    <!-- PANTRY -->
+    <div class="panel" id="panel-pantry">
+      <div class="stub">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/><path d="M10 3V1M14 3V1"/></svg>
+        <div class="stub-title">Pantry</div>
+        <div class="stub-desc">Quick-stock your kitchen with natural language. Type what you bought and we'll sort it.</div>
+        <div class="stub-badge">Phase 3</div>
       </div>
-      <div class="stub-title">Plan</div>
-      <div class="stub-text">Your next 3-5 meals, rolling forward. No more 21-slot grids — just what's coming up.</div>
-      <div style="font-size:13px;color:var(--text-faint);padding:8px 16px;background:var(--bg-surface);border-radius:10px">Coming in Phase 3</div>
     </div>
-  </div>
 
-  <!-- ═══════════ SHOP PANEL ═══════════ -->
-  <div class="panel" id="panel-shop">
-    <div class="stub-panel">
-      <div class="stub-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 L3 6 V20 C3 21.1 3.9 22 5 22 H19 C20.1 22 21 21.1 21 20 V6 L18 2 H6Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10 C16 12.2 14.2 14 12 14 C9.8 14 8 12.2 8 10"/></svg>
+    <!-- PLAN -->
+    <div class="panel" id="panel-plan">
+      <div class="stub">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="4" x2="9" y2="1"/><line x1="15" y1="4" x2="15" y2="1"/><circle cx="8" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/><circle cx="16" cy="13" r="1" fill="currentColor"/><circle cx="8" cy="17" r="1" fill="currentColor"/></svg>
+        <div class="stub-title">Plan</div>
+        <div class="stub-desc">Your next few meals, rolling forward. No grids — just what's coming up.</div>
+        <div class="stub-badge">Phase 3</div>
       </div>
-      <div class="stub-title">Shop</div>
-      <div class="stub-text">Auto-generated lists from what's running low and what you're planning to cook.</div>
-      <div style="font-size:13px;color:var(--text-faint);padding:8px 16px;background:var(--bg-surface);border-radius:10px">Coming in Phase 3</div>
     </div>
-  </div>
 
-  <!-- ═══════════ LOG PANEL ═══════════ -->
-  <div class="panel" id="panel-log">
-    <div class="section-label" style="padding-top:8px">Meal History</div>
-    <div class="history-list" id="history-list">
-      <div class="skeleton skeleton-row"></div>
-      <div class="skeleton skeleton-row"></div>
-      <div class="skeleton skeleton-row"></div>
+    <!-- SHOP -->
+    <div class="panel" id="panel-shop">
+      <div class="stub">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <div class="stub-title">Shop</div>
+        <div class="stub-desc">Auto-generated from what's low and what you're planning to cook.</div>
+        <div class="stub-badge">Phase 3</div>
+      </div>
+    </div>
+
+    <!-- LOG -->
+    <div class="panel" id="panel-log">
+      <div class="label" style="margin-top:8px">Meal history</div>
+      <div id="history-list">
+        <div class="skel skel-row"></div>
+        <div class="skel skel-row"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -590,79 +578,56 @@ body::before{
 <div class="toast" id="toast"></div>
 
 <!-- Bottom nav -->
-<nav class="bottom-nav">
+<nav class="nav">
   <div class="nav-inner">
     <button class="nav-btn active" data-panel="eat" aria-label="Eat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 18 C3 14 6 12 12 12 C18 12 21 14 21 18 Z"/>
-        <path d="M3 18 H21" stroke-width="2"/>
-        <path d="M9 8 Q9 5 10 4" opacity="0.5"/><path d="M12 7 Q12 4 13 3" opacity="0.5"/><path d="M15 8 Q15 5 16 4" opacity="0.5"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c0-4 3-6 9-6s9 2 9 6z"/><path d="M3 18h18" stroke-width="2"/><path d="M9 8Q9 5 10 4" opacity=".4"/><path d="M12 7Q12 4 13 3" opacity=".4"/><path d="M15 8Q15 5 16 4" opacity=".4"/></svg>
       <span>Eat</span>
     </button>
     <button class="nav-btn" data-panel="pantry" aria-label="Pantry">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="6" y="3" width="12" height="18" rx="2"/>
-        <line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/>
-        <path d="M10 3 V1 M14 3 V1"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/><path d="M10 3V1M14 3V1"/></svg>
       <span>Pantry</span>
     </button>
     <button class="nav-btn" data-panel="plan" aria-label="Plan">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="4" width="18" height="17" rx="2"/>
-        <line x1="3" y1="9" x2="21" y2="9"/>
-        <line x1="9" y1="4" x2="9" y2="1"/><line x1="15" y1="4" x2="15" y2="1"/>
-        <circle cx="8" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/><circle cx="16" cy="13" r="1" fill="currentColor"/>
-        <circle cx="8" cy="17" r="1" fill="currentColor"/><circle cx="12" cy="17" r="1" fill="currentColor"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="4" x2="9" y2="1"/><line x1="15" y1="4" x2="15" y2="1"/><circle cx="8" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/><circle cx="16" cy="13" r="1" fill="currentColor"/><circle cx="8" cy="17" r="1" fill="currentColor"/></svg>
       <span>Plan</span>
     </button>
     <button class="nav-btn" data-panel="shop" aria-label="Shop">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M6 2 L3 6 V20 C3 21.1 3.9 22 5 22 H19 C20.1 22 21 21.1 21 20 V6 L18 2 H6Z"/>
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <path d="M16 10 C16 12.2 14.2 14 12 14 C9.8 14 8 12.2 8 10"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       <span>Shop</span>
     </button>
     <button class="nav-btn" data-panel="log" aria-label="Log">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <span>Log</span>
     </button>
   </div>
 </nav>
 
 <script>
-/* ── State ── */
+/* ═══════════ STATE ═══════════ */
 let suggestions = [];
 let dismissedIdx = 0;
 let pantryItems = [];
 let historyData = [];
 let mealsToday = 0;
-let pantryCount = 0;
-let lowCount = 0;
+let allMeals = [];
 
-/* ── Theme ── */
-const themeDots = document.querySelectorAll('.theme-dot');
+/* ═══════════ THEME ═══════════ */
+const dots = document.querySelectorAll('.theme-dot');
 function setTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('ms-theme', t);
-  themeDots.forEach(d => d.classList.toggle('active', d.dataset.t === t));
-  // Update meta theme-color
-  const colors = {lime:'#111210', berry:'#100e14', coral:'#111214'};
-  document.querySelector('meta[name="theme-color"]').content = colors[t] || '#111210';
+  dots.forEach(d => d.classList.toggle('active', d.dataset.t === t));
+  const bg = {lime:'#0a0c08', berry:'#08060c', coral:'#0a0a0c'};
+  document.querySelector('meta[name="theme-color"]').content = bg[t] || bg.lime;
 }
-themeDots.forEach(d => d.addEventListener('click', () => setTheme(d.dataset.t)));
+dots.forEach(d => d.addEventListener('click', () => setTheme(d.dataset.t)));
 setTheme(localStorage.getItem('ms-theme') || 'lime');
 
-/* ── Nav ── */
+/* ═══════════ NAV ═══════════ */
 const navBtns = document.querySelectorAll('.nav-btn');
 const panels = document.querySelectorAll('.panel');
-const greeting = document.querySelector('.greeting');
+const greeting = document.getElementById('greeting');
 
 function switchPanel(name) {
   panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
@@ -672,364 +637,305 @@ function switchPanel(name) {
 }
 navBtns.forEach(b => b.addEventListener('click', () => switchPanel(b.dataset.panel)));
 
-/* ── Toast ── */
-function showToast(msg, isError) {
+/* ═══════════ TOAST ═══════════ */
+function toast(msg, err) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = 'toast show' + (isError ? ' error' : '');
+  t.className = 'toast show' + (err ? ' err' : '');
   setTimeout(() => t.className = 'toast', 2500);
 }
 
-/* ── API helpers ── */
+/* ═══════════ API ═══════════ */
 async function api(path, opts) {
   try {
-    const resp = await fetch(path, opts);
-    if (!resp.ok) throw new Error(`${resp.status}`);
-    return await resp.json();
-  } catch (e) {
-    console.error('API error:', path, e);
-    return null;
-  }
+    const r = await fetch(path, opts);
+    if (!r.ok) throw new Error(r.status);
+    return await r.json();
+  } catch(e) { console.error('API:', path, e); return null }
 }
 
-/* ── Load context data ── */
+/* ═══════════ GREETING SUBTITLE ═══════════ */
+function updateGreetingSub() {
+  const el = document.getElementById('greeting-sub');
+  const parts = [];
+  if (mealsToday > 0) parts.push(`${mealsToday} meal${mealsToday>1?'s':''} logged`);
+  parts.push(`${pantryItems.length} items in pantry`);
+  const low = pantryItems.filter(p => p.qty === 'low').length;
+  if (low > 0) parts.push(`${low} running low`);
+  el.textContent = parts.join(' \u00b7 ');
+}
+
+/* ═══════════ CONTEXT CHIPS ═══════════ */
+function renderContext() {
+  const el = document.getElementById('context');
+  const low = pantryItems.filter(p => p.qty === 'low').length;
+  let h = `<span><i class="dot"></i>${mealsToday} today</span>`;
+  h += `<span><i class="dot"></i>${pantryItems.length} in pantry</span>`;
+  if (low) h += `<span><i class="dot warn"></i>${low} low</span>`;
+  el.innerHTML = h;
+}
+
+/* ═══════════ LOAD CONTEXT DATA ═══════════ */
 async function loadContext() {
-  const [pantryResp, histResp] = await Promise.all([
-    api('/api/pantry'),
-    api('/api/history')
+  const [pantry, hist, mealsResp] = await Promise.all([
+    api('/api/pantry'), api('/api/history'), api('/api/meals')
   ]);
-  if (pantryResp) {
-    pantryItems = pantryResp;
-    pantryCount = pantryItems.length;
-    lowCount = pantryItems.filter(p => p.qty === 'low' || p.qty === '1' || p.qty === 'almost out').length;
+  if (pantry) pantryItems = pantry;
+  if (hist) {
+    historyData = hist;
+    const today = new Date().toISOString().slice(0,10);
+    mealsToday = hist.filter(h => (h.logged_at||'').startsWith(today)).length;
   }
-  if (histResp) {
-    historyData = histResp;
-    const today = new Date().toISOString().slice(0, 10);
-    mealsToday = Array.isArray(histResp) ? histResp.filter(h => (h.logged_at || '').startsWith(today)).length : 0;
+  if (mealsResp) {
+    allMeals = mealsResp.meals || mealsResp || [];
   }
-  renderContextChips();
+  updateGreetingSub();
+  renderContext();
 }
 
-function renderContextChips() {
-  const el = document.getElementById('context-chips');
-  let html = '';
-  html += `<div class="chip"><span class="dot green"></span>${mealsToday} meal${mealsToday !== 1 ? 's' : ''} today</div>`;
-  html += `<div class="chip"><span class="dot green"></span>${pantryCount} in pantry</div>`;
-  if (lowCount > 0) {
-    html += `<div class="chip"><span class="dot amber"></span>${lowCount} running low</div>`;
-  }
-  el.innerHTML = html;
-}
-
-/* ── Suggestions ── */
+/* ═══════════ SUGGESTIONS ═══════════ */
 async function loadSuggestions(energy) {
   const el = document.getElementById('suggestions');
-  el.innerHTML = '<div class="skeleton skeleton-card"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div>';
+  el.innerHTML = '<div class="skel skel-card"></div><div class="skel skel-row"></div><div class="skel skel-row"></div>';
   dismissedIdx = 0;
 
   const url = energy ? `/api/suggestions?energy=${energy}` : '/api/suggestions';
   const data = await api(url);
-  if (!data || !Array.isArray(data) || data.length === 0) {
-    el.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-faint)">No suggestions right now. Try adding items to your pantry!</div>';
+  if (!data || !data.length) {
+    el.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-faint);font-size:14px">No suggestions right now. Add some items to your pantry!</div>';
     return;
   }
-  suggestions = data;
+
+  // Enrich suggestions with meal catalog data
+  suggestions = data.map(s => {
+    const meal = allMeals.find(m => m.name.toLowerCase() === (s.meal_name||'').toLowerCase());
+    return { ...s, ...(meal ? {cal: meal.cal, protein: meal.protein, time: meal.time, note: meal.note, energy: meal.energy} : {}) };
+  });
   renderSuggestions();
 }
 
 function renderSuggestions() {
   const el = document.getElementById('suggestions');
   if (dismissedIdx >= suggestions.length) {
-    el.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-faint)">That\'s all for now! Try different filters or check back later.</div>';
+    el.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-faint);font-size:14px">That\'s everything! Try a different filter.</div>';
     return;
   }
 
   const top = suggestions[dismissedIdx];
   const alts = suggestions.slice(dismissedIdx + 1, dismissedIdx + 5);
-  const pantrySet = new Set(pantryItems.map(p => p.name.toLowerCase()));
 
-  let html = '';
+  let h = '<div class="suggestions-grid">';
 
-  // Top pick
-  html += `<div class="section-label">Top pick</div>`;
-  html += renderTopPick(top, pantrySet);
+  // Top pick column
+  h += '<div class="top-pick-col">';
+  h += '<div class="label">Top pick</div>';
+  h += renderTopPick(top);
+  h += '</div>';
 
-  // Also works
-  if (alts.length > 0) {
-    html += `<div class="section-label" style="margin-top:8px">Also works</div>`;
-    html += `<div class="also-works">`;
+  // Alts column
+  if (alts.length) {
+    h += '<div class="alts-col">';
+    h += '<div class="label">Also works</div>';
+    h += '<div class="alts">';
     alts.forEach((s, i) => {
       const rank = dismissedIdx + i + 2;
-      const avail = (s.ingredients_available || []).length;
-      const miss = (s.ingredients_missing || []).length;
+      const miss = (s.ingredients_missing||[]).length;
+      const avail = (s.ingredients_available||[]).length;
       const total = avail + miss;
-      const statusColor = miss === 0 ? 'var(--ready)' : miss <= 2 ? 'var(--partial)' : 'var(--missing)';
+      const color = miss === 0 ? 'var(--ready)' : miss <= 2 ? 'var(--partial)' : 'var(--missing)';
       const statusText = miss === 0 ? 'ready' : `${avail}/${total}`;
 
-      html += `<div class="alt-card" data-alt-idx="${dismissedIdx + i + 1}">`;
-      html += `<div class="alt-rank">${rank}</div>`;
-      html += `<div class="alt-info">`;
-      html += `<div class="alt-name">${esc(s.meal_name || s.name || '')}</div>`;
-      html += `<div class="alt-meta"><span>${esc(s.cal || '')}</span><span>${esc(s.protein || '')}</span><span>${esc(s.time || '')}</span></div>`;
-      html += `</div>`;
-      html += `<div class="alt-status"><span class="dot" style="background:${statusColor}"></span>${statusText}</div>`;
-      html += `</div>`;
+      h += `<div class="alt" data-idx="${dismissedIdx+i+1}">`;
+      h += `<div class="alt-rank">${rank}</div>`;
+      h += `<div><div class="alt-name">${esc(s.meal_name)}</div>`;
+      if (s.cal || s.time) h += `<div class="alt-detail">${esc(s.cal||'')}${s.cal&&s.time?' \u00b7 ':''}${esc(s.time||'')}</div>`;
+      h += `</div>`;
+      h += `<div class="alt-status"><i class="d" style="background:${color}"></i>${statusText}</div>`;
+      h += `</div>`;
 
-      // Expandable detail (hidden by default)
-      html += `<div class="alt-expanded" id="alt-detail-${dismissedIdx + i + 1}" style="display:none">`;
-      html += renderExpandedDetail(s, pantrySet);
-      html += `</div>`;
+      // Expandable
+      h += `<div class="alt-expand" id="alt-x-${dismissedIdx+i+1}" style="display:none">`;
+      h += renderExpandedAlt(s);
+      h += `</div>`;
     });
-    html += `</div>`;
+    h += '</div></div>';
   }
 
-  el.innerHTML = html;
-  bindSuggestionEvents();
-}
+  h += '</div>';
+  el.innerHTML = h;
 
-function renderTopPick(s, pantrySet) {
-  const name = s.meal_name || s.name || 'Meal';
-  const reasons = s.reasons || [];
-  const available = s.ingredients_available || [];
-  const missing = s.ingredients_missing || [];
-  const allIngredients = [...available.map(i => ({name: i, have: true})), ...missing.map(i => ({name: i, have: false}))];
-  const energyLabel = s.energy === 'low' ? 'Easy' : s.energy === 'medium' ? 'Medium' : s.energy === 'high' ? 'Project' : '';
-
-  let html = `<div class="top-pick">`;
-  html += `<div class="top-pick-header">`;
-  html += `<div class="top-pick-name">${esc(name)}</div>`;
-  if (energyLabel) html += `<div class="top-pick-badge">${energyLabel}</div>`;
-  html += `</div>`;
-
-  html += `<div class="top-pick-meta">`;
-  if (s.cal) html += `<span>${esc(s.cal)} cal</span>`;
-  if (s.cal && s.protein) html += `<span class="sep">&middot;</span>`;
-  if (s.protein) html += `<span>${esc(s.protein)} protein</span>`;
-  if (s.time) { html += `<span class="sep">&middot;</span><span>${esc(s.time)}</span>`; }
-  html += `</div>`;
-
-  if (reasons.length > 0) {
-    html += `<div class="top-pick-reason">${esc(reasons[0])}</div>`;
-  }
-
-  if (s.note) {
-    html += `<div class="top-pick-note">${esc(s.note)}</div>`;
-  }
-
-  if (allIngredients.length > 0) {
-    html += `<div class="ingredient-status">`;
-    allIngredients.forEach(ing => {
-      html += `<div class="ing-dot"><span class="dot ${ing.have ? 'have' : 'need'}"></span>${esc(ing.name)}</div>`;
-    });
-    html += `</div>`;
-  }
-
-  html += `<div class="top-pick-actions">`;
-  html += `<button class="btn btn-primary" onclick="logMeal('${esc(name)}', '${esc(s.energy || '')}')">Ate this</button>`;
-  html += `<button class="btn btn-secondary" onclick="dismissTop()">Not that</button>`;
-  html += `</div>`;
-  html += `</div>`;
-  return html;
-}
-
-function renderExpandedDetail(s, pantrySet) {
-  const reasons = s.reasons || [];
-  const available = s.ingredients_available || [];
-  const missing = s.ingredients_missing || [];
-  const allIngredients = [...available.map(i => ({name: i, have: true})), ...missing.map(i => ({name: i, have: false}))];
-  const name = s.meal_name || s.name || 'Meal';
-
-  let html = '';
-  if (reasons.length > 0) {
-    html += `<div class="top-pick-reason">${esc(reasons[0])}</div>`;
-  }
-  if (s.note) {
-    html += `<div class="top-pick-note" style="margin-bottom:10px">${esc(s.note)}</div>`;
-  }
-  if (allIngredients.length > 0) {
-    html += `<div class="ingredient-status">`;
-    allIngredients.forEach(ing => {
-      html += `<div class="ing-dot"><span class="dot ${ing.have ? 'have' : 'need'}"></span>${esc(ing.name)}</div>`;
-    });
-    html += `</div>`;
-  }
-  html += `<div class="top-pick-actions">`;
-  html += `<button class="btn btn-primary" onclick="logMeal('${esc(name)}', '${esc(s.energy || '')}')">Ate this</button>`;
-  html += `</div>`;
-  return html;
-}
-
-function bindSuggestionEvents() {
-  document.querySelectorAll('.alt-card').forEach(card => {
+  // Bind alt clicks
+  el.querySelectorAll('.alt').forEach(card => {
     card.addEventListener('click', () => {
-      const idx = card.dataset.altIdx;
-      const detail = document.getElementById('alt-detail-' + idx);
-      if (detail) {
-        const isVisible = detail.style.display !== 'none';
-        // Close all
-        document.querySelectorAll('.alt-expanded').forEach(d => d.style.display = 'none');
-        if (!isVisible) detail.style.display = 'block';
-      }
+      const detail = document.getElementById('alt-x-' + card.dataset.idx);
+      if (!detail) return;
+      const open = detail.style.display !== 'none';
+      el.querySelectorAll('.alt-expand').forEach(d => d.style.display = 'none');
+      if (!open) detail.style.display = 'block';
     });
   });
 }
 
-/* ── Actions ── */
-async function logMeal(name, energy) {
-  const resp = await api('/api/log-meal', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({meal_name: name, energy_level: energy, notes: ''})
-  });
-  if (resp) {
-    showToast(`Logged ${name} — nice choice!`);
-    mealsToday++;
-    renderContextChips();
-  } else {
-    showToast('Failed to log meal', true);
+function renderTopPick(s) {
+  const name = s.meal_name || '';
+  const reasons = s.reasons || [];
+  const avail = s.ingredients_available || [];
+  const miss = s.ingredients_missing || [];
+  const eLbl = s.energy === 'low' ? 'easy' : s.energy === 'medium' ? 'medium' : s.energy === 'high' ? 'cooking' : '';
+
+  let h = '<div class="top-pick">';
+  h += '<div class="tp-header">';
+  h += `<div class="tp-name">${esc(name)}</div>`;
+  if (eLbl) h += `<div class="tp-energy">${eLbl}</div>`;
+  h += '</div>';
+
+  // Meta line
+  const meta = [s.cal, s.protein, s.time].filter(Boolean);
+  if (meta.length) {
+    h += '<div class="tp-meta">';
+    h += meta.map(m => `<span>${esc(m)}</span>`).join('<span class="sep">\u00b7</span>');
+    h += '</div>';
   }
+
+  // Reason (italic serif)
+  if (reasons.length) h += `<div class="tp-reason">${esc(reasons.join(' \u2014 '))}</div>`;
+
+  // Note
+  if (s.note) h += `<div class="tp-note">${esc(s.note)}</div>`;
+
+  // Ingredients
+  if (avail.length || miss.length) {
+    h += '<div class="ingredients">';
+    avail.forEach(i => h += `<span class="ing"><i class="d y"></i>${esc(i)}</span>`);
+    miss.forEach(i => h += `<span class="ing"><i class="d n"></i>${esc(i)}</span>`);
+    h += '</div>';
+  }
+
+  h += '<div class="actions">';
+  h += `<button class="btn btn-go" onclick="logMeal('${esc(name)}','${esc(s.energy||'')}')">Ate this</button>`;
+  h += `<button class="btn btn-skip" onclick="dismiss()">Not that</button>`;
+  h += '</div></div>';
+  return h;
 }
 
-function dismissTop() {
-  dismissedIdx++;
-  renderSuggestions();
+function renderExpandedAlt(s) {
+  const name = s.meal_name || '';
+  const reasons = s.reasons || [];
+  const avail = s.ingredients_available || [];
+  const miss = s.ingredients_missing || [];
+  let h = '';
+  if (reasons.length) h += `<div class="tp-reason">${esc(reasons[0])}</div>`;
+  if (s.note) h += `<div class="tp-note" style="margin-bottom:10px">${esc(s.note)}</div>`;
+  if (avail.length || miss.length) {
+    h += '<div class="ingredients">';
+    avail.forEach(i => h += `<span class="ing"><i class="d y"></i>${esc(i)}</span>`);
+    miss.forEach(i => h += `<span class="ing"><i class="d n"></i>${esc(i)}</span>`);
+    h += '</div>';
+  }
+  h += `<div class="actions"><button class="btn btn-go" onclick="logMeal('${esc(name)}','${esc(s.energy||'')}')">Ate this</button></div>`;
+  return h;
 }
 
-/* ── Input handling ── */
-const mainInput = document.getElementById('main-input');
-const submitBtn = document.getElementById('input-submit');
+/* ═══════════ ACTIONS ═══════════ */
+async function logMeal(name, energy) {
+  const r = await api('/api/log-meal', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({meal_name:name, energy_level:energy, notes:''})
+  });
+  if (r) { toast(`Logged ${name} \u2014 nice choice!`); mealsToday++; updateGreetingSub(); renderContext(); }
+  else toast('Failed to log meal', true);
+}
+
+function dismiss() { dismissedIdx++; renderSuggestions() }
+
+/* ═══════════ INPUT HANDLING ═══════════ */
+const input = document.getElementById('main-input');
+const submitBtn = document.getElementById('submit-btn');
 
 async function handleInput() {
-  const text = mainInput.value.trim();
+  const text = input.value.trim();
   if (!text) return;
-  mainInput.value = '';
+  input.value = '';
 
-  // Show thinking state
-  showToast('Thinking...');
-
-  const resp = await api('/api/parse-input', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+  const r = await api('/api/parse-input', {
+    method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({text})
   });
+  if (!r) { toast('Something went wrong', true); return }
 
-  if (!resp) {
-    showToast('Something went wrong', true);
-    return;
-  }
-
-  const intent = resp.intent || 'unknown';
-
+  const intent = r.intent || 'unknown';
   if (intent === 'log_meal') {
-    const mealName = (resp.entities && resp.entities.meal_name) || text;
-    const energy = (resp.entities && resp.entities.energy_level) || '';
-    await logMeal(mealName, energy);
+    await logMeal((r.entities&&r.entities.meal)||text, '');
   } else if (intent === 'pantry_add') {
-    const items = (resp.entities && resp.entities.items) || [];
-    if (items.length > 0) {
-      // Add items to pantry
-      const newItems = items.map(i => ({name: i, qty: 'plenty', category: 'pantry-dry'}));
-      const updated = [...pantryItems, ...newItems];
-      const postResp = await api('/api/pantry', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(updated)
-      });
-      if (postResp) {
+    const items = (r.entities&&r.entities.items)||[];
+    if (items.length) {
+      const added = items.map(i => ({name:i, qty:'plenty', category:'pantry-dry'}));
+      const updated = [...pantryItems, ...added];
+      if (await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(updated)})) {
         pantryItems = updated;
-        pantryCount = updated.length;
-        renderContextChips();
-        showToast(`Added ${items.join(', ')} to pantry`);
+        updateGreetingSub(); renderContext();
+        toast(`Added ${items.join(', ')} to pantry`);
+        await loadSuggestions(); // refresh with new pantry
       }
-    } else {
-      showToast('No items detected', true);
     }
   } else if (intent === 'suggest') {
-    switchPanel('eat');
     await loadSuggestions();
   } else if (intent === 'energy_filter') {
-    const energy = (resp.entities && resp.entities.energy) || 'low';
-    switchPanel('eat');
-    await loadSuggestions(energy);
+    await loadSuggestions((r.entities&&r.entities.energy)||'low');
   } else {
-    showToast("I didn't catch that — try \"something quick\" or \"I ate the rice bowl\"", true);
+    toast("Didn't catch that \u2014 try \"something quick\" or \"I ate the rice bowl\"", true);
   }
 }
 
 submitBtn.addEventListener('click', handleInput);
-mainInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleInput() });
+input.addEventListener('keydown', e => { if (e.key==='Enter') handleInput() });
 
 // Hint pills
-document.querySelectorAll('.hint-pill').forEach(pill => {
-  pill.addEventListener('click', () => {
-    mainInput.value = pill.dataset.hint;
-    handleInput();
-  });
+document.querySelectorAll('.hint').forEach(h => {
+  h.addEventListener('click', () => { input.value = h.dataset.hint; handleInput() });
 });
 
-/* ── History ── */
+/* ═══════════ HISTORY ═══════════ */
 async function loadHistory() {
   const el = document.getElementById('history-list');
-  el.innerHTML = '<div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div>';
-
+  el.innerHTML = '<div class="skel skel-row"></div><div class="skel skel-row"></div>';
   const data = await api('/api/history');
-  if (!data || !Array.isArray(data) || data.length === 0) {
-    el.innerHTML = '<div class="history-empty">No meals logged yet. Use the Eat tab to get started!</div>';
-    return;
-  }
+  if (!data || !data.length) { el.innerHTML = '<div class="h-empty">No meals logged yet. Eat something!</div>'; return }
 
-  // Group by date
+  const today = new Date().toISOString().slice(0,10);
+  const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
   const groups = {};
-  const today = new Date().toISOString().slice(0, 10);
-  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-
   data.forEach(item => {
-    const date = (item.logged_at || '').slice(0, 10);
-    let label = date;
-    if (date === today) label = 'Today';
-    else if (date === yesterday) label = 'Yesterday';
-    else {
-      const d = new Date(date + 'T12:00:00');
-      label = d.toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'});
-    }
-    if (!groups[label]) groups[label] = [];
-    groups[label].push(item);
+    const d = (item.logged_at||'').slice(0,10);
+    let label = d;
+    if (d === today) label = 'Today';
+    else if (d === yesterday) label = 'Yesterday';
+    else { const dt = new Date(d+'T12:00:00'); label = dt.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}) }
+    (groups[label] = groups[label]||[]).push(item);
   });
 
-  let html = '';
+  let h = '';
   for (const [label, items] of Object.entries(groups)) {
-    html += `<div class="history-group-label">${esc(label)}</div>`;
+    h += `<div class="history-group">${esc(label)}</div>`;
     items.forEach(item => {
-      const time = (item.logged_at || '').slice(11, 16) || '';
-      const energy = item.energy_level || '';
-      const energyClass = energy === 'low' ? 'energy-low' : energy === 'medium' ? 'energy-medium' : energy === 'high' ? 'energy-high' : '';
-      html += `<div class="history-item">`;
-      html += `<div class="history-dot"></div>`;
-      html += `<div class="history-info">`;
-      html += `<div class="history-name">${esc(item.meal_name || '')}</div>`;
-      if (time) html += `<div class="history-time">${time}</div>`;
-      html += `</div>`;
-      if (energy && energyClass) html += `<div class="history-energy ${energyClass}">${esc(energy)}</div>`;
-      html += `</div>`;
+      const time = (item.logged_at||'').slice(11,16);
+      const e = item.energy_level||'';
+      const cls = e==='low'?'low':e==='medium'?'med':e==='high'?'high':'';
+      h += `<div class="h-item"><i class="h-dot"></i><div class="h-info"><div class="h-name">${esc(item.meal_name)}</div>`;
+      if (time) h += `<div class="h-time">${time}</div>`;
+      h += `</div>`;
+      if (e && cls) h += `<div class="h-energy ${cls}">${esc(e)}</div>`;
+      h += `</div>`;
     });
   }
-  el.innerHTML = html;
+  el.innerHTML = h;
 }
 
-/* ── Utilities ── */
-function esc(s) {
-  if (!s) return '';
-  const d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
-}
+/* ═══════════ UTIL ═══════════ */
+function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML }
 
-/* ── Init ── */
-(async function init() {
-  await loadContext();
-  await loadSuggestions();
-})();
+/* ═══════════ INIT ═══════════ */
+(async () => { await loadContext(); await loadSuggestions() })();
 </script>
 </body>
 </html>
