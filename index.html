@@ -143,7 +143,15 @@ body::after{
 
 .content{flex:1;padding:16px 24px 24px}
 @media(min-width:768px){
-  .content{padding:16px 48px 32px;max-width:960px;margin:0 auto;width:100%}
+  .content{padding:20px 48px 32px;max-width:720px;margin:0 auto;width:100%}
+  .top-bar{max-width:720px;margin:0 auto;width:100%;padding:16px 48px 0}
+}
+@media(min-width:1024px){
+  .content{max-width:900px;padding:20px 60px 32px}
+  .top-bar{max-width:900px;padding:16px 60px 0}
+  .today-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+  .today-left{grid-column:1}
+  .today-right{grid-column:2}
 }
 
 /* ═══════════ PANEL SYSTEM ═══════════ */
@@ -557,19 +565,25 @@ body::after{
   <div class="content">
     <!-- TODAY -->
     <div class="panel active" id="panel-today">
-      <div id="tracker-wrap">
-        <div class="skel skel-card"></div>
-      </div>
-      <div class="quick-log-wrap">
-        <div class="quick-log">
-          <input type="text" id="log-input" placeholder="Log a meal..." autocomplete="off">
-          <button id="log-btn">Log</button>
+      <div class="today-grid">
+        <div class="today-left">
+          <div id="tracker-wrap">
+            <div class="skel skel-card"></div>
+          </div>
+          <div class="quick-log-wrap">
+            <div class="quick-log">
+              <input type="text" id="log-input" placeholder="Log a meal..." autocomplete="off">
+              <button id="log-btn">Log</button>
+            </div>
+            <div class="log-dropdown" id="log-dropdown" style="display:none"></div>
+          </div>
+          <div id="today-meals-wrap"></div>
+          <div id="history-wrap"></div>
         </div>
-        <div class="log-dropdown" id="log-dropdown" style="display:none"></div>
+        <div class="today-right">
+          <div id="next-section-wrap"></div>
+        </div>
       </div>
-      <div id="today-meals-wrap"></div>
-      <div id="next-section-wrap"></div>
-      <div id="history-wrap"></div>
     </div>
 
     <!-- WEEK -->
