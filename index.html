@@ -507,13 +507,27 @@ body::after{
 }
 .plan-remove:hover{color:var(--missing);background:rgba(232,80,80,0.08)}
 
+.plan-summary{
+  padding:12px 14px;
+  background:var(--bg-surface);
+  border-radius:10px;
+  margin-bottom:10px;
+  border:1px solid var(--border-hi);
+}
 .plan-totals{
   font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-faint);
-  padding:10px 14px;
-  background:var(--bg-surface);
-  border-radius:8px;
-  text-align:center;
+  font-size:13px;color:var(--accent-text);
+  font-weight:500;
+}
+.plan-coverage{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-dim);
+  margin-top:4px;
+}
+.plan-guidance{
+  font-size:12px;color:var(--text-faint);
+  margin-top:6px;
+  font-style:italic;
 }
 
 .plan-empty{
@@ -798,7 +812,7 @@ body::after{
     <!-- PLAN -->
     <div class="panel" id="panel-plan">
       <div class="plan-header">
-        <div class="label" style="margin:0">Next up</div>
+        <div class="label" style="margin:0">This week's pool</div>
         <div class="plan-actions">
           <button class="plan-btn" id="plan-suggest-btn">Suggest</button>
           <button class="plan-btn secondary" id="plan-clear-btn">Clear</button>
@@ -868,6 +882,7 @@ let mealsToday = 0;
 let allMeals = [];
 let planData = { meals: [] };
 let shopData = [];
+let userProfile = null;
 let placeholderTimer = null;
 
 /* ═══════════ UTIL ═══════════ */
@@ -995,9 +1010,9 @@ function renderContext() {
 
 /* ═══════════ LOAD CONTEXT DATA ═══════════ */
 async function loadContext() {
-  const [pantry, hist, mealsResp, plan, shop] = await Promise.all([
+  const [pantry, hist, mealsResp, plan, shop, profile] = await Promise.all([
     api('/api/pantry'), api('/api/history'), api('/api/meals'),
-    api('/api/plan'), api('/api/shop')
+    api('/api/plan'), api('/api/shop'), api('/api/profile')
   ]);
   if (pantry) pantryItems = pantry;
   if (hist) {
@@ -1010,6 +1025,7 @@ async function loadContext() {
   }
   if (plan) planData = plan.meals ? plan : { meals: plan.meals || [] };
   if (shop) shopData = Array.isArray(shop) ? shop : [];
+  if (profile && !profile.error) userProfile = profile;
   updateGreetingSub();
   renderContext();
   startPlaceholderRotation();
@@ -1031,7 +1047,7 @@ async function loadSuggestions(energy) {
   // Enrich suggestions with meal catalog data
   suggestions = data.map(s => {
     const meal = allMeals.find(m => m.name.toLowerCase() === (s.meal_name||'').toLowerCase());
-    return { ...s, ...(meal ? {cal: meal.cal, protein: meal.protein, time: meal.time, note: meal.note, energy: meal.energy} : {}) };
+    return { ...s, ...(meal ? {cal: meal.cal, protein: meal.protein, fiber: meal.fiber, time: meal.time, note: meal.note, energy: meal.energy} : {}) };
   });
   renderSuggestions();
   startPlaceholderRotation(); // refresh placeholders with new top pick
@@ -1116,10 +1132,14 @@ function renderTopPick(s) {
   h += '</div>';
 
   // Meta line
-  const meta = [s.cal, s.protein, s.time].filter(Boolean);
-  if (meta.length) {
+  const metaItems = [];
+  if (s.cal) metaItems.push(`${s.cal} cal`);
+  if (s.protein) metaItems.push(`${s.protein}g pro`);
+  if (s.fiber) metaItems.push(`${s.fiber}g fib`);
+  if (s.time) metaItems.push(s.time);
+  if (metaItems.length) {
     h += '<div class="tp-meta">';
-    h += meta.map(m => `<span>${esc(m)}</span>`).join('<span class="sep">\u00b7</span>');
+    h += metaItems.map(m => `<span>${esc(m)}</span>`).join('<span class="sep">\u00b7</span>');
     h += '</div>';
   }
 
@@ -1365,50 +1385,64 @@ function renderPlan() {
   const meals = planData.meals || [];
 
   if (meals.length === 0) {
-    wrap.innerHTML = '<div class="plan-empty">No meals planned. Hit Suggest or pick from Eat.</div>';
+    wrap.innerHTML = '<div class="plan-empty">No meals in your pool. Hit Suggest or pick from Eat.</div>';
     return;
   }
 
-  let h = '<div class="plan-list">';
-  meals.forEach((mealName, idx) => {
-    const meal = allMeals.find(m => m.name.toLowerCase() === mealName.toLowerCase());
-    const cal = meal ? meal.cal : '';
-    const protein = meal ? meal.protein : '';
-    const energy = meal ? meal.energy : '';
-    const note = meal ? meal.note : '';
-    const eLbl = energy === 'low' ? 'easy' : energy === 'medium' ? 'medium' : energy === 'high' ? 'cooking' : '';
+  let h = '';
 
-    h += `<div class="plan-item">`;
-    h += `<div class="plan-move">`;
-    if (idx > 0) h += `<button onclick="movePlan(${idx},-1)">\u25B2</button>`;
-    if (idx < meals.length - 1) h += `<button onclick="movePlan(${idx},1)">\u25BC</button>`;
-    h += `</div>`;
-    h += `<div class="plan-info">`;
-    h += `<div class="name">${esc(mealName)}</div>`;
-    const metaParts = [eLbl, cal, protein].filter(Boolean);
-    if (metaParts.length) h += `<div class="meta">${metaParts.map(m=>esc(m)).join(' \u00b7 ')}</div>`;
-    if (note) h += `<div class="note">${esc(note)}</div>`;
-    h += `</div>`;
-    h += `<button class="plan-remove" onclick="removePlan(${idx})">\u2715</button>`;
-    h += `</div>`;
-  });
-  h += '</div>';
-
-  // Totals
-  let totalCal = 0, totalProtein = 0, counted = 0;
+  // Pool summary with targets
+  let totalCal = 0, totalProtein = 0, totalFiber = 0, counted = 0;
   meals.forEach(mealName => {
     const meal = allMeals.find(m => m.name.toLowerCase() === mealName.toLowerCase());
     if (meal) {
-      const c = parseFloat((meal.cal||'').replace(/[^0-9.]/g,''));
-      const p = parseFloat((meal.protein||'').replace(/[^0-9.]/g,''));
-      if (!isNaN(c)) totalCal += c;
-      if (!isNaN(p)) totalProtein += p;
+      totalCal += meal.cal || 0;
+      totalProtein += meal.protein || 0;
+      totalFiber += meal.fiber || 0;
       counted++;
     }
   });
-  if (counted > 0) {
-    h += `<div class="plan-totals">${meals.length} meals planned \u00b7 ~${Math.round(totalCal)} cal \u00b7 ~${Math.round(totalProtein)}g protein</div>`;
+
+  if (counted > 0 && userProfile) {
+    const daysWorth = userProfile.cal_target ? (totalCal / userProfile.cal_target).toFixed(1) : '?';
+    const homeMeals = userProfile.home_meals_per_week || 16;
+    const moreNeeded = Math.max(0, homeMeals - meals.length);
+    h += `<div class="plan-summary">`;
+    h += `<div class="plan-totals">${totalCal} cal · ${totalProtein}g protein · ${totalFiber}g fiber</div>`;
+    h += `<div class="plan-coverage">Covers ~${daysWorth} days at ${userProfile.cal_target} cal/day</div>`;
+    if (moreNeeded > 0) {
+      h += `<div class="plan-guidance">${meals.length} meals pooled — add ~${moreNeeded} more for the week</div>`;
+    } else {
+      h += `<div class="plan-guidance">${meals.length} meals pooled — you're set for the week</div>`;
+    }
+    h += `</div>`;
+  } else if (counted > 0) {
+    h += `<div class="plan-totals">${totalCal} cal · ${totalProtein}g protein · ${totalFiber}g fiber</div>`;
   }
+
+  h += '<div class="plan-list">';
+  meals.forEach((mealName, idx) => {
+    const meal = allMeals.find(m => m.name.toLowerCase() === mealName.toLowerCase());
+    const cal = meal ? meal.cal : 0;
+    const protein = meal ? meal.protein : 0;
+    const fiber = meal ? meal.fiber : 0;
+    const energy = meal ? meal.energy : '';
+    const eLbl = energy === 'low' ? 'easy' : energy === 'medium' ? 'medium' : energy === 'high' ? 'cooking' : '';
+
+    h += `<div class="plan-item">`;
+    h += `<div class="plan-info">`;
+    h += `<div class="name">${esc(mealName)}</div>`;
+    const metaParts = [];
+    if (eLbl) metaParts.push(eLbl);
+    if (cal) metaParts.push(`${cal} cal`);
+    if (protein) metaParts.push(`${protein}g pro`);
+    if (fiber) metaParts.push(`${fiber}g fib`);
+    if (metaParts.length) h += `<div class="meta">${metaParts.map(m=>esc(m)).join(' · ')}</div>`;
+    h += `</div>`;
+    h += `<button class="plan-remove" onclick="removePlan(${idx})">✕</button>`;
+    h += `</div>`;
+  });
+  h += '</div>';
 
   wrap.innerHTML = h;
 }

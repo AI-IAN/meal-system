@@ -104,6 +104,7 @@ CREATE TABLE IF NOT EXISTS catalog (
     fiber TEXT,
     time TEXT,
     ingredients TEXT,
+    portions TEXT,
     notes TEXT,
     created_at TEXT DEFAULT (datetime('now')),
     updated_at TEXT DEFAULT (datetime('now'))
@@ -140,6 +141,35 @@ CREATE TABLE IF NOT EXISTS llm_calls (
     cost_cents REAL,
     duration_ms INTEGER,
     error TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS user_profile (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    height_in REAL,
+    weight_lbs REAL,
+    age INTEGER,
+    sex TEXT,
+    activity_level TEXT,
+    bmr INTEGER,
+    tdee INTEGER,
+    cal_target INTEGER,
+    protein_target_g INTEGER,
+    fiber_target_g INTEGER,
+    meals_out_lunch_per_week INTEGER DEFAULT 3,
+    meals_out_dinner_per_week INTEGER DEFAULT 2,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS ingredients (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    usda_fdc_id INTEGER,
+    cal_per_100g REAL,
+    protein_per_100g REAL,
+    fiber_per_100g REAL,
+    source TEXT DEFAULT 'usda',
+    default_unit TEXT,
+    default_grams REAL,
     created_at TEXT DEFAULT (datetime('now'))
 );
 """
@@ -237,9 +267,41 @@ async def ask_local(prompt: str, system: str = "", model: str = "qwen3.5:latest"
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
+    await load_ingredient_data()
     print(f"Meal System → http://localhost:8081")
     print(f"Tailscale   → http://<your-macbook-hostname>:8081")
     yield
+
+
+# Ingredient nutrition cache (loaded at startup)
+_ingredient_cache: dict[str, dict] = {}
+
+
+async def load_ingredient_data():
+    """Load ingredient nutrition data into memory for fast meal calculations."""
+    global _ingredient_cache
+    rows = await db_fetch_all(
+        "SELECT name, cal_per_100g, protein_per_100g, fiber_per_100g, default_unit, default_grams "
+        "FROM ingredients"
+    )
+    _ingredient_cache = {r["name"].lower(): r for r in rows}
+
+
+def calc_meal_nutrition(portions_json: str | None) -> dict:
+    """Calculate cal/protein/fiber from portions + ingredient data. Returns ints."""
+    if not portions_json:
+        return {"cal": 0, "protein_g": 0, "fiber_g": 0}
+    portions = json.loads(portions_json)
+    cal = pro = fib = 0.0
+    for p in portions:
+        ing = _ingredient_cache.get(p["ingredient"].lower())
+        if not ing:
+            continue
+        g = p["grams"]
+        cal += (ing["cal_per_100g"] or 0) * g / 100
+        pro += (ing["protein_per_100g"] or 0) * g / 100
+        fib += (ing["fiber_per_100g"] or 0) * g / 100
+    return {"cal": round(cal), "protein_g": round(pro), "fiber_g": round(fib)}
 
 
 # ---------------------------------------------------------------------------
@@ -256,20 +318,38 @@ app.add_middleware(
 )
 
 # ---------------------------------------------------------------------------
+# Profile API
+# ---------------------------------------------------------------------------
+
+@app.get("/api/profile")
+async def get_profile():
+    """Return user nutrition profile and targets."""
+    row = await db_fetch_one("SELECT * FROM user_profile WHERE id = 1")
+    if not row:
+        return JSONResponse({"error": "No profile set"}, status_code=404)
+    home_meals = 7 * 3 - (row["meals_out_lunch_per_week"] + row["meals_out_dinner_per_week"])
+    row["home_meals_per_week"] = home_meals
+    return JSONResponse(row)
+
+
+# ---------------------------------------------------------------------------
 # Catalog (meals) API — from SQLite catalog table
 # ---------------------------------------------------------------------------
 
 def _catalog_row_to_meal(row: dict) -> dict:
     """Convert a catalog DB row to the frontend meal dict format."""
+    nutrition = calc_meal_nutrition(row.get("portions"))
+    portions = json.loads(row["portions"]) if row.get("portions") else []
     return {
         "id": row["id"],
         "name": row["name"],
         "energy": row.get("energy"),
-        "cal": row.get("calories"),
-        "protein": row.get("protein"),
-        "fiber": row.get("fiber"),
+        "cal": nutrition["cal"],
+        "protein": nutrition["protein_g"],
+        "fiber": nutrition["fiber_g"],
         "time": row.get("time"),
         "ingredients": json.loads(row["ingredients"]) if row.get("ingredients") else [],
+        "portions": portions,
         "note": row.get("notes"),
     }
 
