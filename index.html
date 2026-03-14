@@ -121,45 +121,15 @@ body::after{
   display:flex;flex-direction:column;
   padding-bottom:calc(72px + env(safe-area-inset-bottom, 0px));
 }
-
-/* Hero zone — the conversational top area */
-.hero{
-  position:relative;
-  padding:20px 24px 0;
-  background:var(--hero-glow);
-}
-
-/* Content area below hero */
-.content{
-  flex:1;
-  padding:0 24px 24px;
-}
-
-/* Desktop: wider, two-column suggestions */
-@media(min-width:768px){
-  .hero{padding:28px 48px 0}
-  .content{padding:0 48px 32px;max-width:960px;margin:0 auto;width:100%}
-  .suggestions-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-  .top-pick-col{grid-column:1/2}
-  .alts-col{grid-column:2/2}
-}
-@media(min-width:1100px){
-  .hero{padding:36px 80px 0;max-width:1100px;margin:0 auto;width:100%}
-  .content{padding:0 80px 40px;max-width:1100px}
-}
-
-/* ═══════════ TOP BAR ═══════════ */
 .top-bar{
   display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:32px;
+  padding:16px 24px 0;
 }
 .back-link{
   font-size:12px;font-weight:500;letter-spacing:0.03em;
-  color:var(--text-faint);
-  transition:color 0.2s;
+  color:var(--text-faint);transition:color 0.2s;
 }
 .back-link:hover{color:var(--text-dim)}
-
 .theme-switcher{display:flex;gap:6px;align-items:center}
 .theme-dot{
   width:12px;height:12px;border-radius:50%;cursor:pointer;
@@ -171,165 +141,162 @@ body::after{
 .theme-dot[data-t="berry"]{background:#d040e0}
 .theme-dot[data-t="coral"]{background:#f06050}
 
-/* ═══════════ GREETING ═══════════ */
-.greeting{margin-bottom:28px}
-.greeting h1{
-  font-family:'Instrument Serif', Georgia, serif;
-  font-style:italic;font-weight:400;
-  font-size:clamp(28px, 5vw, 48px);
-  line-height:1.15;
-  color:var(--text);
+.content{flex:1;padding:16px 24px 24px}
+@media(min-width:768px){
+  .content{padding:16px 48px 32px;max-width:960px;margin:0 auto;width:100%}
 }
-/* The gradient word */
-.greeting .accent{
-  background:var(--accent-gradient);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-.greeting .sub{
-  display:block;margin-top:6px;
-  font-family:'Space Grotesk', sans-serif;
-  font-style:normal;font-size:14px;font-weight:400;
-  color:var(--text-faint);
-  letter-spacing:0.01em;
-}
-
-/* ═══════════ INPUT AREA ═══════════ */
-.input-area{margin-bottom:20px}
-.input-wrap{
-  position:relative;
-  background:var(--bg-raised);
-  border:1px solid var(--border-hi);
-  border-radius:14px;
-  transition:border-color 0.2s, box-shadow 0.3s;
-}
-.input-wrap:focus-within{
-  border-color:var(--accent-1);
-  box-shadow:0 0 0 3px var(--accent-dim), 0 8px 32px -8px var(--accent-glow);
-}
-.input-field{
-  width:100%;padding:15px 50px 15px 18px;
-  font-size:16px;color:var(--text);
-}
-.input-field::placeholder{color:var(--text-faint);transition:opacity 0.3s}
-.submit-btn{
-  position:absolute;right:6px;top:50%;transform:translateY(-50%);
-  width:34px;height:34px;border-radius:10px;
-  background:var(--accent-gradient);
-  display:flex;align-items:center;justify-content:center;
-  transition:opacity 0.15s, transform 0.1s;opacity:0.6;
-}
-.submit-btn:hover{opacity:1}
-.submit-btn:active{transform:translateY(-50%) scale(0.92)}
-.submit-btn svg{width:16px;height:16px;color:#111;stroke-width:2.5}
-
-/* Hint pills */
-.hints{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 0}
-.hint{
-  padding:5px 12px;border-radius:8px;
-  font-size:12px;font-weight:500;
-  color:var(--text-faint);
-  background:var(--bg-surface);
-  border:1px solid transparent;
-  transition:all 0.2s;
-}
-.hint:hover{color:var(--accent-text);border-color:var(--accent-dim);background:var(--accent-dim)}
-
-/* Context chips */
-.context{
-  display:flex;gap:16px;
-  padding:12px 0 0;
-  font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-faint);
-}
-.context span{display:flex;align-items:center;gap:5px}
-.context .dot{width:5px;height:5px;border-radius:50%;background:var(--accent-1)}
-.context .dot.warn{background:var(--partial)}
 
 /* ═══════════ PANEL SYSTEM ═══════════ */
 .panel{display:none}
 .panel.active{display:block;animation:fadeUp 0.2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ═══════════ SECTION LABELS ═══════════ */
+/* ═══════════ SECTION LABEL ═══════════ */
 .label{
   font-size:11px;font-weight:600;letter-spacing:0.08em;
   text-transform:uppercase;color:var(--text-faint);
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
-/* ═══════════ TOP PICK CARD ═══════════ */
-.top-pick{
-  position:relative;
+/* ═══════════ DAILY TRACKER ═══════════ */
+.tracker{
   background:var(--bg-card);
-  background-image:var(--card-glow);
   border:1px solid var(--border-hi);
-  border-radius:16px;
-  padding:24px;
+  border-radius:14px;
+  padding:18px 20px;
   margin-bottom:20px;
+  position:relative;
 }
-/* Gradient accent line */
-.top-pick::before{
+.tracker::before{
   content:'';position:absolute;top:-1px;left:24px;right:24px;height:2px;
   background:var(--accent-gradient);border-radius:2px;
 }
-/* Soft glow behind card */
-.top-pick::after{
-  content:'';position:absolute;inset:-1px;border-radius:16px;z-index:-1;
-  background:var(--accent-glow);
-  filter:blur(40px);opacity:0.5;
-}
-
-.tp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px}
-.tp-name{font-size:22px;font-weight:600;line-height:1.25}
-.tp-energy{
-  font-family:'IBM Plex Mono', monospace;font-size:10px;font-weight:500;
-  padding:3px 8px;border-radius:6px;white-space:nowrap;
-  background:var(--accent-dim);color:var(--accent-text);
-  letter-spacing:0.04em;text-transform:uppercase;
-}
-
-.tp-meta{
-  display:flex;gap:10px;align-items:center;
-  font-family:'IBM Plex Mono', monospace;
-  font-size:12px;color:var(--text-dim);
-  margin-bottom:14px;
-}
-.tp-meta .sep{color:var(--text-faint);font-size:10px}
-
-.tp-reason{
+.tracker-title{
   font-family:'Instrument Serif', Georgia, serif;
-  font-style:italic;
-  font-size:17px;line-height:1.5;
-  color:var(--accent-text);
-  opacity:0.8;
-  margin-bottom:14px;
+  font-style:italic;font-size:20px;
+  margin-bottom:14px;color:var(--text);
 }
-
-.tp-note{
-  font-size:12px;color:var(--text-dim);
-  padding:10px 12px;margin-bottom:14px;
-  background:rgba(255,255,255,0.02);
-  border-radius:8px;
-  border-left:2px solid var(--accent-dim);
-}
-
-/* Ingredient dots */
-.ingredients{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
-.ing{
-  display:inline-flex;align-items:center;gap:4px;
+.tracker-bars{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:flex;align-items:center;gap:12px}
+.bar-label{
   font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-dim);
+  font-size:11px;font-weight:500;color:var(--text-dim);
+  width:48px;flex-shrink:0;
 }
-.ing .d{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.ing .d.y{background:var(--ready)}
-.ing .d.n{background:var(--missing)}
+.bar-track{
+  flex:1;height:8px;background:var(--bg-surface);
+  border-radius:4px;overflow:hidden;
+}
+.bar-fill{
+  height:100%;border-radius:4px;
+  transition:width 0.5s ease;
+  min-width:2px;
+}
+.bar-fill.on-track{background:var(--accent-gradient)}
+.bar-fill.behind{background:var(--partial)}
+.bar-fill.over{background:var(--ready)}
+.bar-value{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-faint);
+  width:90px;flex-shrink:0;text-align:right;
+}
 
-/* Action buttons */
-.actions{display:flex;gap:10px}
+/* ═══════════ QUICK LOG ═══════════ */
+.quick-log{
+  display:flex;gap:8px;margin-bottom:20px;
+}
+.quick-log input{
+  flex:1;padding:12px 16px;font-size:14px;
+  background:var(--bg-raised);
+  border:1px solid var(--border-hi);
+  border-radius:12px;color:var(--text);
+  transition:border-color 0.2s;
+}
+.quick-log input:focus{border-color:var(--accent-1)}
+.quick-log input::placeholder{color:var(--text-faint)}
+.quick-log button{
+  padding:0 16px;border-radius:12px;
+  background:var(--accent-gradient);color:#0a0a0a;
+  font-size:13px;font-weight:600;white-space:nowrap;
+}
+.log-dropdown{
+  position:absolute;left:0;right:0;top:100%;
+  background:var(--bg-card);border:1px solid var(--border-hi);
+  border-radius:10px;margin-top:4px;
+  max-height:240px;overflow-y:auto;z-index:50;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+.log-dropdown-item{
+  padding:10px 16px;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;transition:background 0.1s;
+}
+.log-dropdown-item:hover{background:var(--bg-surface)}
+.log-dropdown-item .meta{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;color:var(--text-faint);
+}
+.quick-log-wrap{position:relative}
+
+/* ═══════════ TODAY'S MEALS ═══════════ */
+.today-meals{margin-bottom:20px}
+.today-meal{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:10px;margin-bottom:4px;
+  transition:all 0.15s;
+}
+.today-meal:hover{border-color:var(--border-hi)}
+.today-meal .info{flex:1;min-width:0}
+.today-meal .name{font-size:13px;font-weight:500}
+.today-meal .meta{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;color:var(--text-faint);margin-top:1px;
+}
+.today-meal .time{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;color:var(--text-faint);flex-shrink:0;
+}
+.today-meal .del{
+  color:var(--text-faint);font-size:14px;
+  width:24px;height:24px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:all 0.15s;flex-shrink:0;
+}
+.today-meal:hover .del{opacity:1}
+.today-meal .del:hover{color:var(--missing);background:rgba(232,80,80,0.08)}
+
+.today-empty{
+  text-align:center;padding:24px 20px;
+  color:var(--text-faint);font-size:13px;
+  font-style:italic;
+}
+
+/* ═══════════ SUGGESTION CARDS ═══════════ */
+.next-section{margin-bottom:20px}
+.next-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px;
+  margin-bottom:6px;transition:all 0.15s;
+}
+.next-card:hover{border-color:var(--border-hi)}
+.next-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.next-name{font-size:14px;font-weight:500;flex:1}
+.next-meta{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;color:var(--text-dim);margin-top:3px;
+}
+.next-reason{
+  font-family:'Instrument Serif', Georgia, serif;
+  font-style:italic;font-size:13px;
+  color:var(--accent-text);opacity:0.7;margin-top:4px;
+}
+.next-actions{display:flex;gap:8px;margin-top:10px}
 .btn{
-  flex:1;padding:11px;border-radius:10px;
-  font-size:13px;font-weight:600;
+  flex:1;padding:9px;border-radius:8px;
+  font-size:12px;font-weight:600;
   text-align:center;transition:all 0.15s;
 }
 .btn:active{transform:scale(0.97)}
@@ -341,59 +308,90 @@ body::after{
 }
 .btn-skip:hover{color:var(--text);border-color:var(--border-hi)}
 
-/* ═══════════ ALTERNATIVES — tight scannable list ═══════════ */
-.alts{display:flex;flex-direction:column;gap:4px}
-.alt{
-  display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;
-  padding:10px 14px;
-  background:var(--bg-card);
+/* ═══════════ HISTORY (collapsible) ═══════════ */
+.history-toggle{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 0;cursor:pointer;
+  font-size:12px;font-weight:600;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--text-faint);
+  user-select:none;
+}
+.history-toggle .arrow{transition:transform 0.2s;font-size:10px}
+.history-toggle.collapsed .arrow{transform:rotate(-90deg)}
+.history-items{display:flex;flex-direction:column;gap:4px}
+.history-items.hidden{display:none}
+
+/* ═══════════ POOL SECTION (Week tab) ═══════════ */
+.pool-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.pool-actions{display:flex;gap:8px}
+.pool-btn{
+  padding:8px 16px;border-radius:10px;
+  font-size:12px;font-weight:600;
+  background:var(--accent-gradient);color:#0a0a0a;
+  transition:all 0.15s;
+}
+.pool-btn:active{transform:scale(0.97)}
+.pool-btn.secondary{
+  background:var(--bg-surface);color:var(--text-dim);
   border:1px solid var(--border);
-  border-radius:10px;
-  cursor:pointer;
-  transition:all 0.2s;
 }
-.alt:hover{border-color:var(--border-hi);background:var(--bg-surface)}
-.alt-left{display:flex;flex-direction:column;gap:2px;min-width:0}
-.alt-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.alt-note{
-  font-size:11px;color:var(--text-faint);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  font-style:italic;
-}
-.alt-right{
-  display:flex;align-items:center;gap:8px;flex-shrink:0;
-}
-.alt-protein{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-dim);
-}
-.alt-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 
-/* Expanded alt detail */
-.alt-expand{
-  padding:14px;margin-top:-4px;margin-bottom:4px;
+.pool-summary{
+  padding:14px 16px;
   background:var(--bg-card);
-  border:1px solid var(--border-hi);
-  border-top:none;
-  border-radius:0 0 10px 10px;
-  animation:fadeUp 0.15s ease;
-}
-.alt-expand .tp-reason{font-size:15px;margin-bottom:10px}
-.alt-expand .ingredients{margin-bottom:12px}
-.alt-expand .btn{padding:9px;font-size:12px}
-
-/* ═══════════ PANTRY PANEL ═══════════ */
-.pantry-bar{
-  display:flex;gap:8px;margin-bottom:16px;
-}
-.pantry-bar input{
-  flex:1;padding:12px 16px;
-  font-size:14px;
-  background:var(--bg-raised);
   border:1px solid var(--border-hi);
   border-radius:12px;
-  color:var(--text);
-  transition:border-color 0.2s;
+  margin-bottom:12px;
+}
+.pool-totals{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px;color:var(--accent-text);font-weight:500;
+}
+.pool-coverage{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;color:var(--text-dim);margin-top:4px;
+}
+.pool-guidance{
+  font-size:12px;color:var(--text-faint);
+  margin-top:6px;font-style:italic;
+}
+
+.pool-list{display:flex;flex-direction:column;gap:4px;margin-bottom:24px}
+.pool-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:10px;transition:all 0.2s;
+}
+.pool-item:hover{border-color:var(--border-hi)}
+.pool-item .info{flex:1;min-width:0}
+.pool-item .name{font-size:13px;font-weight:500}
+.pool-item .meta{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;color:var(--text-faint);margin-top:2px;
+}
+.pool-remove{
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-faint);font-size:14px;transition:all 0.15s;
+}
+.pool-remove:hover{color:var(--missing);background:rgba(232,80,80,0.08)}
+
+.pool-empty{
+  text-align:center;padding:40px 20px;
+  color:var(--text-faint);font-size:13px;font-style:italic;
+}
+
+/* ═══════════ PANTRY (in Week tab) ═══════════ */
+.pantry-section{border-top:1px solid var(--border);padding-top:20px}
+.pantry-bar{display:flex;gap:8px;margin-bottom:12px}
+.pantry-bar input{
+  flex:1;padding:12px 16px;font-size:14px;
+  background:var(--bg-raised);border:1px solid var(--border-hi);
+  border-radius:12px;color:var(--text);transition:border-color 0.2s;
 }
 .pantry-bar input:focus{border-color:var(--accent-1)}
 .pantry-bar input::placeholder{color:var(--text-faint)}
@@ -402,149 +400,47 @@ body::after{
   background:var(--accent-gradient);color:#0a0a0a;
   font-size:13px;font-weight:600;white-space:nowrap;
 }
-
 .pantry-stats{
   font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-faint);
-  margin-bottom:16px;
+  font-size:11px;color:var(--text-faint);margin-bottom:12px;
 }
-
-.pantry-category{margin-bottom:16px}
+.pantry-category{margin-bottom:12px}
 .pantry-cat-header{
   display:flex;align-items:center;gap:8px;
-  padding:8px 0;cursor:pointer;
-  font-size:12px;font-weight:600;letter-spacing:0.06em;
-  text-transform:uppercase;color:var(--text-faint);
-  user-select:none;
+  padding:6px 0;cursor:pointer;
+  font-size:11px;font-weight:600;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--text-faint);user-select:none;
 }
-.pantry-cat-header .arrow{
-  transition:transform 0.2s;font-size:10px;
-}
+.pantry-cat-header .arrow{transition:transform 0.2s;font-size:10px}
 .pantry-cat-header.collapsed .arrow{transform:rotate(-90deg)}
 .pantry-cat-count{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:10px;color:var(--text-faint);
-  background:var(--bg-surface);
-  padding:1px 6px;border-radius:4px;
+  font-family:'IBM Plex Mono', monospace;font-size:10px;color:var(--text-faint);
+  background:var(--bg-surface);padding:1px 6px;border-radius:4px;
 }
 .pantry-items{display:flex;flex-direction:column;gap:3px}
 .pantry-items.hidden{display:none}
-
 .pantry-item{
   display:flex;align-items:center;gap:10px;
-  padding:8px 12px;
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:8px;
-  cursor:pointer;
-  transition:all 0.15s;
+  padding:8px 12px;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:8px;
+  cursor:pointer;transition:all 0.15s;
 }
 .pantry-item:hover{border-color:var(--border-hi)}
 .pantry-item-name{flex:1;font-size:13px;font-weight:500}
 .pantry-qty{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:10px;font-weight:500;
+  font-family:'IBM Plex Mono', monospace;font-size:10px;font-weight:500;
   padding:2px 7px;border-radius:5px;
 }
 .pantry-qty.plenty{background:var(--ready-dim);color:var(--ready)}
 .pantry-qty.low{background:rgba(240,184,64,0.12);color:var(--partial)}
 .pantry-qty.num{background:var(--accent-dim);color:var(--accent-text)}
 
-/* ═══════════ PLAN PANEL ═══════════ */
-.plan-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;
-}
-.plan-actions{display:flex;gap:8px}
-.plan-btn{
-  padding:8px 16px;border-radius:10px;
-  font-size:12px;font-weight:600;
-  background:var(--accent-gradient);color:#0a0a0a;
-  transition:all 0.15s;
-}
-.plan-btn:active{transform:scale(0.97)}
-.plan-btn.secondary{
-  background:var(--bg-surface);color:var(--text-dim);
-  border:1px solid var(--border);
-}
-
-.plan-list{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.plan-item{
-  display:flex;align-items:center;gap:10px;
-  padding:12px 14px;
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:10px;
-  transition:all 0.2s;
-}
-.plan-item:hover{border-color:var(--border-hi)}
-.plan-move{
-  display:flex;flex-direction:column;gap:2px;
-  color:var(--text-faint);font-size:10px;
-}
-.plan-move button{
-  padding:2px 4px;border-radius:4px;
-  color:var(--text-faint);font-size:10px;
-  transition:color 0.15s;
-}
-.plan-move button:hover{color:var(--accent-text)}
-.plan-info{flex:1;min-width:0}
-.plan-info .name{font-size:14px;font-weight:500}
-.plan-info .meta{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-faint);
-  margin-top:2px;
-}
-.plan-info .note{
-  font-size:11px;color:var(--text-faint);font-style:italic;
-  margin-top:2px;
-}
-.plan-remove{
-  width:28px;height:28px;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  color:var(--text-faint);font-size:14px;
-  transition:all 0.15s;
-}
-.plan-remove:hover{color:var(--missing);background:rgba(232,80,80,0.08)}
-
-.plan-summary{
-  padding:12px 14px;
-  background:var(--bg-surface);
-  border-radius:10px;
-  margin-bottom:10px;
-  border:1px solid var(--border-hi);
-}
-.plan-totals{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:13px;color:var(--accent-text);
-  font-weight:500;
-}
-.plan-coverage{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-dim);
-  margin-top:4px;
-}
-.plan-guidance{
-  font-size:12px;color:var(--text-faint);
-  margin-top:6px;
-  font-style:italic;
-}
-
-.plan-empty{
-  text-align:center;padding:60px 20px;
-  color:var(--text-faint);font-size:14px;line-height:1.6;
-}
-
 /* ═══════════ SHOP PANEL ═══════════ */
-.shop-top{
-  display:flex;gap:8px;margin-bottom:12px;
-}
+.shop-top{display:flex;gap:8px;margin-bottom:12px}
 .shop-top input{
   flex:1;padding:12px 16px;font-size:14px;
-  background:var(--bg-raised);
-  border:1px solid var(--border-hi);
-  border-radius:12px;color:var(--text);
-  transition:border-color 0.2s;
+  background:var(--bg-raised);border:1px solid var(--border-hi);
+  border-radius:12px;color:var(--text);transition:border-color 0.2s;
 }
 .shop-top input:focus{border-color:var(--accent-1)}
 .shop-top input::placeholder{color:var(--text-faint)}
@@ -557,34 +453,24 @@ body::after{
   width:100%;padding:10px;border-radius:10px;
   font-size:12px;font-weight:600;
   background:var(--bg-surface);color:var(--text-dim);
-  border:1px solid var(--border);
-  margin-bottom:16px;
+  border:1px solid var(--border);margin-bottom:16px;
   transition:all 0.15s;
 }
 .shop-auto-btn:hover{color:var(--accent-text);border-color:var(--accent-dim)}
-
 .shop-stats{
   font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-faint);
-  margin-bottom:12px;
+  font-size:11px;color:var(--text-faint);margin-bottom:12px;
 }
-
 .shop-group-label{
   font-size:10px;font-weight:600;letter-spacing:0.08em;
-  text-transform:uppercase;color:var(--text-faint);
-  margin:16px 0 6px;
+  text-transform:uppercase;color:var(--text-faint);margin:16px 0 6px;
 }
 .shop-group-label:first-child{margin-top:4px}
-
 .shop-item{
   display:flex;align-items:center;gap:10px;
-  padding:10px 12px;
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:8px;
-  margin-bottom:3px;
-  cursor:pointer;
-  transition:all 0.15s;
+  padding:10px 12px;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:8px;
+  margin-bottom:3px;cursor:pointer;transition:all 0.15s;
 }
 .shop-item:hover{border-color:var(--border-hi)}
 .shop-item.checked{opacity:0.4}
@@ -593,107 +479,24 @@ body::after{
   width:18px;height:18px;border-radius:5px;
   border:2px solid var(--border-hi);
   display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:all 0.15s;
-  font-size:11px;color:transparent;
+  flex-shrink:0;transition:all 0.15s;font-size:11px;color:transparent;
 }
 .shop-item.checked .shop-check{
-  background:var(--accent-gradient);
-  border-color:transparent;color:#0a0a0a;
+  background:var(--accent-gradient);border-color:transparent;color:#0a0a0a;
 }
 .shop-item-name{flex:1;font-size:13px;font-weight:500}
 .shop-item-reason{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:10px;color:var(--text-faint);
-  white-space:nowrap;
+  font-family:'IBM Plex Mono', monospace;font-size:10px;color:var(--text-faint);white-space:nowrap;
 }
-.shop-bottom{
-  display:flex;gap:8px;margin-top:16px;
-}
+.shop-bottom{display:flex;gap:8px;margin-top:16px}
 .shop-bottom button{
   flex:1;padding:10px;border-radius:10px;
-  font-size:12px;font-weight:600;
-  transition:all 0.15s;
+  font-size:12px;font-weight:600;transition:all 0.15s;
 }
 .shop-bottom button:active{transform:scale(0.97)}
 .shop-pantry-btn{background:var(--accent-gradient);color:#0a0a0a}
-.shop-clear-btn{
-  background:var(--bg-surface);color:var(--text-dim);
-  border:1px solid var(--border);
-}
-
-.shop-empty{
-  text-align:center;padding:60px 20px;
-  color:var(--text-faint);font-size:14px;line-height:1.6;
-}
-
-/* ═══════════ HISTORY PANEL ═══════════ */
-.log-summary{
-  display:flex;gap:16px;
-  padding:12px 16px;margin-bottom:16px;
-  background:var(--bg-card);border:1px solid var(--border);
-  border-radius:10px;
-  font-family:'IBM Plex Mono', monospace;
-  font-size:11px;color:var(--text-dim);
-}
-.log-summary-item{display:flex;flex-direction:column;gap:2px}
-.log-summary-item .val{font-size:18px;font-weight:600;color:var(--text)}
-.log-summary-item .lbl{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em}
-
-.variety-bar{
-  margin-bottom:16px;
-  padding:10px 14px;
-  background:var(--bg-surface);border-radius:8px;
-}
-.variety-text{
-  font-size:12px;color:var(--text-dim);margin-bottom:6px;
-}
-.variety-track{
-  height:4px;background:var(--bg-raised);border-radius:2px;overflow:hidden;
-}
-.variety-fill{
-  height:100%;background:var(--accent-gradient);border-radius:2px;
-  transition:width 0.4s ease;
-}
-
-.history-group{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:10px;font-weight:500;letter-spacing:0.08em;
-  text-transform:uppercase;color:var(--text-faint);
-  margin:20px 0 8px;
-}
-.history-group:first-child{margin-top:8px}
-.h-item{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 14px;
-  background:var(--bg-card);border:1px solid var(--border);
-  border-radius:10px;margin-bottom:4px;
-}
-.h-dot{
-  width:7px;height:7px;border-radius:50%;flex-shrink:0;
-}
-.h-dot.low{background:var(--ready)}
-.h-dot.med{background:var(--partial)}
-.h-dot.high{background:var(--accent-text)}
-.h-dot.none{background:var(--text-faint)}
-.h-info{flex:1;min-width:0}
-.h-name{font-size:13px;font-weight:500}
-.h-time{font-family:'IBM Plex Mono', monospace;font-size:11px;color:var(--text-faint)}
-.h-energy{
-  font-family:'IBM Plex Mono', monospace;font-size:10px;font-weight:500;
-  padding:2px 7px;border-radius:5px;
-}
-.h-energy.low{background:var(--ready-dim);color:var(--ready)}
-.h-energy.med{background:rgba(240,184,64,0.1);color:var(--partial)}
-.h-energy.high{background:var(--accent-dim);color:var(--accent-text)}
-.h-del{
-  color:var(--text-faint);font-size:16px;
-  width:24px;height:24px;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:all 0.15s;flex-shrink:0;
-}
-.h-item:hover .h-del{opacity:1}
-.h-del:hover{color:var(--missing);background:rgba(232,80,80,0.08)}
-.h-empty{text-align:center;padding:60px 20px;color:var(--text-faint);font-size:14px;line-height:1.6}
+.shop-clear-btn{background:var(--bg-surface);color:var(--text-dim);border:1px solid var(--border)}
+.shop-empty{text-align:center;padding:60px 20px;color:var(--text-faint);font-size:14px;line-height:1.6}
 
 /* ═══════════ TOAST ═══════════ */
 .toast{
@@ -714,25 +517,20 @@ body::after{
   background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:12px;
 }
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.skel-card{height:240px;border-radius:16px;margin-bottom:16px}
-.skel-row{height:52px;margin-bottom:6px}
+.skel-card{height:140px;border-radius:14px;margin-bottom:16px}
+.skel-row{height:48px;margin-bottom:4px}
 
 /* ═══════════ BOTTOM NAV ═══════════ */
 .nav{
   position:fixed;bottom:0;left:0;right:0;z-index:100;
-  background:var(--bg);
-  border-top:1px solid var(--border);
+  background:var(--bg);border-top:1px solid var(--border);
   padding-bottom:env(safe-area-inset-bottom, 0px);
 }
-.nav-inner{
-  display:flex;max-width:480px;margin:0 auto;
-}
+.nav-inner{display:flex;max-width:480px;margin:0 auto}
 .nav-btn{
   flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
-  padding:8px 0 6px;
-  color:var(--text-faint);
-  font-size:9px;font-weight:500;letter-spacing:0.03em;
-  transition:color 0.2s;
+  padding:8px 0 6px;color:var(--text-faint);
+  font-size:9px;font-weight:500;letter-spacing:0.03em;transition:color 0.2s;
 }
 .nav-btn svg{width:22px;height:22px;transition:color 0.2s}
 .nav-btn.active{color:var(--nav-active)}
@@ -745,7 +543,6 @@ body::after{
   .nav-btn svg{width:24px;height:24px}
 }
 
-/* ═══════════ SCROLLBAR ═══════════ */
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:3px}
@@ -753,72 +550,53 @@ body::after{
 </head>
 <body>
 <div class="scene">
-  <!-- ═══════════ HERO ZONE ═══════════ -->
-  <div class="hero">
-    <div class="top-bar">
-      <a href="/dashboard/index.html" class="back-link">&larr; Life OS</a>
-      <div class="theme-switcher">
-        <div class="theme-dot" data-t="lime" title="Fresh Lime"></div>
-        <div class="theme-dot" data-t="berry" title="Electric Berry"></div>
-        <div class="theme-dot" data-t="coral" title="Sunset Coral"></div>
-      </div>
-    </div>
-
-    <div class="greeting" id="greeting">
-      <h1>What are we <span class="accent">eating?</span>
-        <span class="sub" id="greeting-sub">Loading...</span>
-      </h1>
-    </div>
-
-    <div class="input-area" id="input-area">
-      <div class="input-wrap">
-        <input class="input-field" type="text" id="main-input" placeholder="What sounds good?" autocomplete="off">
-        <button class="submit-btn" id="submit-btn" aria-label="Submit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
-      </div>
-      <div class="hints">
-        <button class="hint" data-hint="something quick">something quick</button>
-        <button class="hint" data-hint="use what's fresh">use what's fresh</button>
-        <button class="hint" data-hint="high protein">high protein</button>
-        <button class="hint" data-hint="what can I make?">what can I make?</button>
-        <button class="hint" data-hint="surprise me">surprise me</button>
-      </div>
-      <div class="context" id="context"></div>
+  <div class="top-bar">
+    <a href="/dashboard/index.html" class="back-link">&larr; Life OS</a>
+    <div class="theme-switcher">
+      <div class="theme-dot" data-t="lime" title="Fresh Lime"></div>
+      <div class="theme-dot" data-t="berry" title="Electric Berry"></div>
+      <div class="theme-dot" data-t="coral" title="Sunset Coral"></div>
     </div>
   </div>
 
-  <!-- ═══════════ CONTENT ═══════════ -->
   <div class="content">
-    <!-- EAT -->
-    <div class="panel active" id="panel-eat">
-      <div id="suggestions">
+    <!-- TODAY -->
+    <div class="panel active" id="panel-today">
+      <div id="tracker-wrap">
         <div class="skel skel-card"></div>
-        <div class="skel skel-row"></div>
-        <div class="skel skel-row"></div>
       </div>
+      <div class="quick-log-wrap">
+        <div class="quick-log">
+          <input type="text" id="log-input" placeholder="Log a meal..." autocomplete="off">
+          <button id="log-btn">Log</button>
+        </div>
+        <div class="log-dropdown" id="log-dropdown" style="display:none"></div>
+      </div>
+      <div id="today-meals-wrap"></div>
+      <div id="next-section-wrap"></div>
+      <div id="history-wrap"></div>
     </div>
 
-    <!-- PANTRY -->
-    <div class="panel" id="panel-pantry">
-      <div class="pantry-bar">
-        <input type="text" id="pantry-input" placeholder="What did you buy?" autocomplete="off">
-        <button id="pantry-add-btn">Add</button>
-      </div>
-      <div class="pantry-stats" id="pantry-stats"></div>
-      <div id="pantry-categories"></div>
-    </div>
-
-    <!-- PLAN -->
-    <div class="panel" id="panel-plan">
-      <div class="plan-header">
+    <!-- WEEK -->
+    <div class="panel" id="panel-week">
+      <div class="pool-header">
         <div class="label" style="margin:0">This week's pool</div>
-        <div class="plan-actions">
-          <button class="plan-btn" id="plan-suggest-btn">Suggest</button>
-          <button class="plan-btn secondary" id="plan-clear-btn">Clear</button>
+        <div class="pool-actions">
+          <button class="pool-btn" id="pool-suggest-btn">Suggest</button>
+          <button class="pool-btn secondary" id="pool-clear-btn">Clear</button>
         </div>
       </div>
-      <div id="plan-list-wrap"></div>
+      <div id="pool-wrap"></div>
+
+      <div class="pantry-section">
+        <div class="label">Pantry</div>
+        <div class="pantry-bar">
+          <input type="text" id="pantry-input" placeholder="What did you buy?" autocomplete="off">
+          <button id="pantry-add-btn">Add</button>
+        </div>
+        <div class="pantry-stats" id="pantry-stats"></div>
+        <div id="pantry-categories"></div>
+      </div>
     </div>
 
     <!-- SHOP -->
@@ -827,107 +605,49 @@ body::after{
         <input type="text" id="shop-input" placeholder="Add to list..." autocomplete="off">
         <button class="shop-add-btn" id="shop-add-btn">Add</button>
       </div>
-      <button class="shop-auto-btn" id="shop-auto-btn">Build list from pantry + plan</button>
+      <button class="shop-auto-btn" id="shop-auto-btn">Build list from pantry + pool</button>
       <div id="shop-list-wrap"></div>
-    </div>
-
-    <!-- LOG -->
-    <div class="panel" id="panel-log">
-      <div id="log-summary-wrap"></div>
-      <div id="log-variety-wrap"></div>
-      <div id="history-list">
-        <div class="skel skel-row"></div>
-        <div class="skel skel-row"></div>
-      </div>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- Bottom nav -->
 <nav class="nav">
   <div class="nav-inner">
-    <button class="nav-btn active" data-panel="eat" aria-label="Eat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c0-4 3-6 9-6s9 2 9 6z"/><path d="M3 18h18" stroke-width="2"/><path d="M9 8Q9 5 10 4" opacity=".4"/><path d="M12 7Q12 4 13 3" opacity=".4"/><path d="M15 8Q15 5 16 4" opacity=".4"/></svg>
-      <span>Eat</span>
+    <button class="nav-btn active" data-panel="today" aria-label="Today">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <span>Today</span>
     </button>
-    <button class="nav-btn" data-panel="pantry" aria-label="Pantry">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/><path d="M10 3V1M14 3V1"/></svg>
-      <span>Pantry</span>
-    </button>
-    <button class="nav-btn" data-panel="plan" aria-label="Plan">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="4" x2="9" y2="1"/><line x1="15" y1="4" x2="15" y2="1"/><circle cx="8" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/><circle cx="16" cy="13" r="1" fill="currentColor"/><circle cx="8" cy="17" r="1" fill="currentColor"/></svg>
-      <span>Plan</span>
+    <button class="nav-btn" data-panel="week" aria-label="Week">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="4" x2="9" y2="1"/><line x1="15" y1="4" x2="15" y2="1"/></svg>
+      <span>Week</span>
     </button>
     <button class="nav-btn" data-panel="shop" aria-label="Shop">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       <span>Shop</span>
-    </button>
-    <button class="nav-btn" data-panel="log" aria-label="Log">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <span>Log</span>
     </button>
   </div>
 </nav>
 
 <script>
 /* ═══════════ STATE ═══════════ */
-let suggestions = [];
-let dismissedIdx = 0;
-let pantryItems = [];
-let historyData = [];
-let mealsToday = 0;
 let allMeals = [];
 let planData = { meals: [] };
+let pantryItems = [];
 let shopData = [];
+let historyData = [];
 let userProfile = null;
-let placeholderTimer = null;
+let suggestions = [];
 
 /* ═══════════ UTIL ═══════════ */
 function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML }
-
-/* ═══════════ THEME ═══════════ */
-const dots = document.querySelectorAll('.theme-dot');
-function setTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
-  localStorage.setItem('ms-theme', t);
-  dots.forEach(d => d.classList.toggle('active', d.dataset.t === t));
-  const bg = {lime:'#0a0c08', berry:'#08060c', coral:'#0a0a0c'};
-  document.querySelector('meta[name="theme-color"]').content = bg[t] || bg.lime;
-}
-dots.forEach(d => d.addEventListener('click', () => setTheme(d.dataset.t)));
-setTheme(localStorage.getItem('ms-theme') || 'lime');
-
-/* ═══════════ NAV ═══════════ */
-const navBtns = document.querySelectorAll('.nav-btn');
-const panels = document.querySelectorAll('.panel');
-const greeting = document.getElementById('greeting');
-const inputArea = document.getElementById('input-area');
-
-function switchPanel(name) {
-  panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
-  navBtns.forEach(b => b.classList.toggle('active', b.dataset.panel === name));
-  // Show greeting + input only on Eat
-  greeting.style.display = name === 'eat' ? '' : 'none';
-  inputArea.style.display = name === 'eat' ? '' : 'none';
-  if (name === 'log') loadHistory();
-  if (name === 'pantry') renderPantry();
-  if (name === 'plan') renderPlan();
-  if (name === 'shop') renderShop();
-}
-navBtns.forEach(b => b.addEventListener('click', () => switchPanel(b.dataset.panel)));
-
-/* ═══════════ TOAST ═══════════ */
 function toast(msg, err) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'toast show' + (err ? ' err' : '');
   setTimeout(() => t.className = 'toast', 2500);
 }
-
-/* ═══════════ API ═══════════ */
 async function api(path, opts) {
   try {
     const r = await fetch(path, opts);
@@ -936,327 +656,452 @@ async function api(path, opts) {
   } catch(e) { console.error('API:', path, e); return null }
 }
 
-/* ═══════════ DYNAMIC PLACEHOLDER ═══════════ */
-function getPlaceholders() {
-  const hr = new Date().getHours();
-  const hints = [];
-
-  // Time-based
-  if (hr >= 5 && hr < 11) hints.push('Breakfast ideas?');
-  else if (hr >= 11 && hr < 14) hints.push('Something for lunch?');
-  else if (hr >= 17 && hr < 21) hints.push("What's for dinner?");
-  else if (hr >= 21 || hr < 5) hints.push('Late-night snack?');
-
-  // Pantry-aware
-  const proteins = pantryItems.filter(p =>
-    p.category === 'proteins-dairy' && p.qty !== 'low' && p.qty !== '0'
-  );
-  if (proteins.length > 0) {
-    const pick = proteins[Math.floor(Math.random() * proteins.length)];
-    hints.push(`You've got ${pick.name} \u2014 use it tonight?`);
-  }
-
-  // Based on top suggestion
-  if (suggestions.length > dismissedIdx) {
-    const top = suggestions[dismissedIdx];
-    hints.push(`How about ${top.meal_name}?`);
-  }
-
-  // Always include the classic
-  hints.push('What sounds good?');
-
-  return hints;
+/* ═══════════ THEME ═══════════ */
+const dots = document.querySelectorAll('.theme-dot');
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('ms-theme', t);
+  dots.forEach(d => d.classList.toggle('active', d.dataset.t === t));
 }
+dots.forEach(d => d.addEventListener('click', () => setTheme(d.dataset.t)));
+setTheme(localStorage.getItem('ms-theme') || 'lime');
 
-let currentPlaceholderIdx = 0;
-function rotatePlaceholder() {
-  const el = document.getElementById('main-input');
-  if (document.activeElement === el && el.value) return; // don't rotate while typing
-  const hints = getPlaceholders();
-  currentPlaceholderIdx = (currentPlaceholderIdx + 1) % hints.length;
-  el.style.opacity = '1';
-  el.setAttribute('placeholder', hints[currentPlaceholderIdx]);
-  // Fade effect via a class would be complex; just swap instantly — the 5s interval is smooth enough
+/* ═══════════ NAV ═══════════ */
+const navBtns = document.querySelectorAll('.nav-btn');
+const panels = document.querySelectorAll('.panel');
+function switchPanel(name) {
+  panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  navBtns.forEach(b => b.classList.toggle('active', b.dataset.panel === name));
+  if (name === 'today') renderToday();
+  if (name === 'week') { renderPool(); renderPantry(); }
+  if (name === 'shop') renderShop();
 }
+navBtns.forEach(b => b.addEventListener('click', () => switchPanel(b.dataset.panel)));
 
-function startPlaceholderRotation() {
-  // Set initial
-  const hints = getPlaceholders();
-  if (hints.length) document.getElementById('main-input').setAttribute('placeholder', hints[0]);
-  if (placeholderTimer) clearInterval(placeholderTimer);
-  placeholderTimer = setInterval(rotatePlaceholder, 5000);
-}
-
-/* ═══════════ GREETING SUBTITLE ═══════════ */
-function updateGreetingSub() {
-  const el = document.getElementById('greeting-sub');
-  const parts = [];
-  if (mealsToday > 0) parts.push(`${mealsToday} meal${mealsToday>1?'s':''} logged`);
-  parts.push(`${pantryItems.length} items in pantry`);
-  const low = pantryItems.filter(p => p.qty === 'low').length;
-  if (low > 0) parts.push(`${low} running low`);
-  el.textContent = parts.join(' \u00b7 ');
-}
-
-/* ═══════════ CONTEXT CHIPS ═══════════ */
-function renderContext() {
-  const el = document.getElementById('context');
-  const low = pantryItems.filter(p => p.qty === 'low').length;
-  let h = `<span><i class="dot"></i>${mealsToday} today</span>`;
-  h += `<span><i class="dot"></i>${pantryItems.length} in pantry</span>`;
-  if (low) h += `<span><i class="dot warn"></i>${low} low</span>`;
-  el.innerHTML = h;
-}
-
-/* ═══════════ LOAD CONTEXT DATA ═══════════ */
-async function loadContext() {
-  const [pantry, hist, mealsResp, plan, shop, profile] = await Promise.all([
-    api('/api/pantry'), api('/api/history'), api('/api/meals'),
-    api('/api/plan'), api('/api/shop'), api('/api/profile')
+/* ═══════════ LOAD ALL DATA ═══════════ */
+async function loadAll() {
+  const [mealsResp, plan, pantry, hist, shop, profile, sugg] = await Promise.all([
+    api('/api/meals'), api('/api/plan'), api('/api/pantry'),
+    api('/api/history'), api('/api/shop'), api('/api/profile'),
+    api('/api/suggestions')
   ]);
-  if (pantry) pantryItems = pantry;
-  if (hist) {
-    historyData = hist;
-    const today = new Date().toISOString().slice(0,10);
-    mealsToday = hist.filter(h => (h.logged_at||'').startsWith(today)).length;
-  }
-  if (mealsResp) {
-    allMeals = mealsResp.meals || mealsResp || [];
-  }
+  if (mealsResp) allMeals = mealsResp.meals || mealsResp || [];
   if (plan) planData = plan.meals ? plan : { meals: plan.meals || [] };
+  if (pantry) pantryItems = pantry;
+  if (hist) historyData = hist;
   if (shop) shopData = Array.isArray(shop) ? shop : [];
   if (profile && !profile.error) userProfile = profile;
-  updateGreetingSub();
-  renderContext();
-  startPlaceholderRotation();
+  if (sugg) suggestions = sugg;
+  renderToday();
 }
-
-/* ═══════════ SUGGESTIONS ═══════════ */
-async function loadSuggestions(energy) {
-  const el = document.getElementById('suggestions');
-  el.innerHTML = '<div class="skel skel-card"></div><div class="skel skel-row"></div><div class="skel skel-row"></div>';
-  dismissedIdx = 0;
-
-  const url = energy ? `/api/suggestions?energy=${energy}` : '/api/suggestions';
-  const data = await api(url);
-  if (!data || !data.length) {
-    el.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-faint);font-size:14px">No suggestions right now. Add some items to your pantry!</div>';
-    return;
-  }
-
-  // Enrich suggestions with meal catalog data
-  suggestions = data.map(s => {
-    const meal = allMeals.find(m => m.name.toLowerCase() === (s.meal_name||'').toLowerCase());
-    return { ...s, ...(meal ? {cal: meal.cal, protein: meal.protein, fiber: meal.fiber, time: meal.time, note: meal.note, energy: meal.energy} : {}) };
-  });
-  renderSuggestions();
-  startPlaceholderRotation(); // refresh placeholders with new top pick
-}
-
-function renderSuggestions() {
-  const el = document.getElementById('suggestions');
-  if (dismissedIdx >= suggestions.length) {
-    el.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-faint);font-size:14px">That\'s everything! Try a different filter.</div>';
-    return;
-  }
-
-  const top = suggestions[dismissedIdx];
-  const alts = suggestions.slice(dismissedIdx + 1, dismissedIdx + 5);
-
-  let h = '<div class="suggestions-grid">';
-
-  // Top pick column
-  h += '<div class="top-pick-col">';
-  h += '<div class="label">Top pick</div>';
-  h += renderTopPick(top);
-  h += '</div>';
-
-  // Alts column
-  if (alts.length) {
-    h += '<div class="alts-col">';
-    h += '<div class="label">Also works</div>';
-    h += '<div class="alts">';
-    alts.forEach((s, i) => {
-      const miss = (s.ingredients_missing||[]).length;
-      const avail = (s.ingredients_available||[]).length;
-      const total = avail + miss;
-      const color = miss === 0 ? 'var(--ready)' : miss <= 2 ? 'var(--partial)' : 'var(--missing)';
-      const note = s.note || '';
-      const protein = s.protein || '';
-
-      h += `<div class="alt" data-idx="${dismissedIdx+i+1}">`;
-      h += `<div class="alt-left">`;
-      h += `<div class="alt-name">${esc(s.meal_name)}</div>`;
-      if (note) h += `<div class="alt-note">${esc(note)}</div>`;
-      h += `</div>`;
-      h += `<div class="alt-right">`;
-      if (protein) h += `<span class="alt-protein">${esc(protein)}</span>`;
-      h += `<i class="alt-dot" style="background:${color}"></i>`;
-      h += `</div>`;
-      h += `</div>`;
-
-      // Expandable
-      h += `<div class="alt-expand" id="alt-x-${dismissedIdx+i+1}" style="display:none">`;
-      h += renderExpandedAlt(s);
-      h += `</div>`;
-    });
-    h += '</div></div>';
-  }
-
-  h += '</div>';
-  el.innerHTML = h;
-
-  // Bind alt clicks
-  el.querySelectorAll('.alt').forEach(card => {
-    card.addEventListener('click', () => {
-      const detail = document.getElementById('alt-x-' + card.dataset.idx);
-      if (!detail) return;
-      const open = detail.style.display !== 'none';
-      el.querySelectorAll('.alt-expand').forEach(d => d.style.display = 'none');
-      if (!open) detail.style.display = 'block';
-    });
-  });
-}
-
-function renderTopPick(s) {
-  const name = s.meal_name || '';
-  const reasons = s.reasons || [];
-  const avail = s.ingredients_available || [];
-  const miss = s.ingredients_missing || [];
-  const eLbl = s.energy === 'low' ? 'easy' : s.energy === 'medium' ? 'medium' : s.energy === 'high' ? 'cooking' : '';
-
-  let h = '<div class="top-pick">';
-  h += '<div class="tp-header">';
-  h += `<div class="tp-name">${esc(name)}</div>`;
-  if (eLbl) h += `<div class="tp-energy">${eLbl}</div>`;
-  h += '</div>';
-
-  // Meta line
-  const metaItems = [];
-  if (s.cal) metaItems.push(`${s.cal} cal`);
-  if (s.protein) metaItems.push(`${s.protein}g pro`);
-  if (s.fiber) metaItems.push(`${s.fiber}g fib`);
-  if (s.time) metaItems.push(s.time);
-  if (metaItems.length) {
-    h += '<div class="tp-meta">';
-    h += metaItems.map(m => `<span>${esc(m)}</span>`).join('<span class="sep">\u00b7</span>');
-    h += '</div>';
-  }
-
-  // Reason (italic serif)
-  if (reasons.length) h += `<div class="tp-reason">${esc(reasons.join(' \u2014 '))}</div>`;
-
-  // Note
-  if (s.note) h += `<div class="tp-note">${esc(s.note)}</div>`;
-
-  // Ingredients
-  if (avail.length || miss.length) {
-    h += '<div class="ingredients">';
-    avail.forEach(i => h += `<span class="ing"><i class="d y"></i>${esc(i)}</span>`);
-    miss.forEach(i => h += `<span class="ing"><i class="d n"></i>${esc(i)}</span>`);
-    h += '</div>';
-  }
-
-  h += '<div class="actions">';
-  h += `<button class="btn btn-go" onclick="logMeal('${esc(name)}','${esc(s.energy||'')}')">Ate this</button>`;
-  h += `<button class="btn btn-skip" onclick="addToPlan('${esc(name)}')">Plan it</button>`;
-  h += `<button class="btn btn-skip" onclick="dismiss()">Not that</button>`;
-  h += '</div></div>';
-  return h;
-}
-
-function renderExpandedAlt(s) {
-  const name = s.meal_name || '';
-  const reasons = s.reasons || [];
-  const avail = s.ingredients_available || [];
-  const miss = s.ingredients_missing || [];
-  let h = '';
-  if (reasons.length) h += `<div class="tp-reason">${esc(reasons[0])}</div>`;
-  if (s.note) h += `<div class="tp-note" style="margin-bottom:10px">${esc(s.note)}</div>`;
-  if (avail.length || miss.length) {
-    h += '<div class="ingredients">';
-    avail.forEach(i => h += `<span class="ing"><i class="d y"></i>${esc(i)}</span>`);
-    miss.forEach(i => h += `<span class="ing"><i class="d n"></i>${esc(i)}</span>`);
-    h += '</div>';
-  }
-  h += '<div class="actions">';
-  h += `<button class="btn btn-go" onclick="logMeal('${esc(name)}','${esc(s.energy||'')}')">Ate this</button>`;
-  h += `<button class="btn btn-skip" onclick="addToPlan('${esc(name)}')">Plan it</button>`;
-  h += '</div>';
-  return h;
-}
-
-/* ═══════════ ACTIONS ═══════════ */
-async function logMeal(name, energy) {
-  const r = await api('/api/log-meal', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({meal_name:name, energy_level:energy, notes:''})
-  });
-  if (r) { toast(`Logged ${name} \u2014 nice choice!`); mealsToday++; updateGreetingSub(); renderContext(); }
-  else toast('Failed to log meal', true);
-}
-
-function dismiss() { dismissedIdx++; renderSuggestions() }
-
-/* ═══════════ INPUT HANDLING ═══════════ */
-const input = document.getElementById('main-input');
-const submitBtn = document.getElementById('submit-btn');
-
-async function handleInput() {
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-
-  const r = await api('/api/parse-input', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({text})
-  });
-  if (!r) { toast('Something went wrong', true); return }
-
-  const intent = r.intent || 'unknown';
-  if (intent === 'log_meal') {
-    await logMeal((r.entities&&r.entities.meal)||text, '');
-  } else if (intent === 'pantry_add') {
-    const items = (r.entities&&r.entities.items)||[];
-    if (items.length) {
-      const added = items.map(i => ({name:i, qty:'plenty', category:'pantry-dry'}));
-      const updated = [...pantryItems, ...added];
-      if (await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(updated)})) {
-        pantryItems = updated;
-        updateGreetingSub(); renderContext();
-        toast(`Added ${items.join(', ')} to pantry`);
-        await loadSuggestions(); // refresh with new pantry
-      }
-    }
-  } else if (intent === 'suggest') {
-    await loadSuggestions();
-  } else if (intent === 'energy_filter') {
-    await loadSuggestions((r.entities&&r.entities.energy)||'low');
-  } else if (intent === 'shop_add') {
-    const items = (r.entities&&r.entities.items)||[];
-    if (items.length) {
-      items.forEach(name => {
-        shopData.push({name, reason:'manual', checked:false});
-      });
-      await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
-      toast(`Added ${items.join(', ')} to shopping list`);
-    }
-  } else {
-    toast("Didn't catch that \u2014 try \"something quick\" or \"I ate the rice bowl\"", true);
-  }
-}
-
-submitBtn.addEventListener('click', handleInput);
-input.addEventListener('keydown', e => { if (e.key==='Enter') handleInput() });
-
-// Hint pills
-document.querySelectorAll('.hint').forEach(h => {
-  h.addEventListener('click', () => { input.value = h.dataset.hint; handleInput() });
-});
 
 /* ═══════════════════════════════════════════
-   PANTRY PANEL
+   TODAY TAB
    ═══════════════════════════════════════════ */
+function getTodayMeals() {
+  const today = new Date().toISOString().slice(0,10);
+  return historyData.filter(h => (h.logged_at||'').startsWith(today));
+}
+
+function getTodayNutrition() {
+  const todayMeals = getTodayMeals();
+  let cal = 0, pro = 0, fib = 0;
+  todayMeals.forEach(h => {
+    const meal = allMeals.find(m => m.name.toLowerCase() === h.meal_name.toLowerCase());
+    if (meal) {
+      cal += meal.cal || 0;
+      pro += meal.protein || 0;
+      fib += meal.fiber || 0;
+    }
+  });
+  return { cal, pro, fib };
+}
+
+function renderToday() {
+  renderTracker();
+  renderTodayMeals();
+  renderNextSuggestions();
+  renderHistory();
+}
+
+function renderTracker() {
+  const wrap = document.getElementById('tracker-wrap');
+  const n = getTodayNutrition();
+  const p = userProfile || { cal_target: 2700, protein_target_g: 150, fiber_target_g: 38 };
+
+  const calPct = Math.min(100, Math.round(n.cal / p.cal_target * 100));
+  const proPct = Math.min(100, Math.round(n.pro / p.protein_target_g * 100));
+  const fibPct = Math.min(100, Math.round(n.fib / p.fiber_target_g * 100));
+
+  function barClass(pct) {
+    if (pct >= 100) return 'over';
+    if (pct >= 60) return 'on-track';
+    return 'behind';
+  }
+
+  const todayCount = getTodayMeals().length;
+  const greeting = todayCount === 0 ? "Nothing logged yet today" :
+    `${todayCount} meal${todayCount>1?'s':''} logged`;
+
+  wrap.innerHTML = `
+    <div class="tracker">
+      <div class="tracker-title">${greeting}</div>
+      <div class="tracker-bars">
+        <div class="bar-row">
+          <span class="bar-label">Cal</span>
+          <div class="bar-track"><div class="bar-fill ${barClass(calPct)}" style="width:${calPct}%"></div></div>
+          <span class="bar-value">${n.cal} / ${p.cal_target}</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Protein</span>
+          <div class="bar-track"><div class="bar-fill ${barClass(proPct)}" style="width:${proPct}%"></div></div>
+          <span class="bar-value">${n.pro}g / ${p.protein_target_g}g</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Fiber</span>
+          <div class="bar-track"><div class="bar-fill ${barClass(fibPct)}" style="width:${fibPct}%"></div></div>
+          <span class="bar-value">${n.fib}g / ${p.fiber_target_g}g</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderTodayMeals() {
+  const wrap = document.getElementById('today-meals-wrap');
+  const todayMeals = getTodayMeals();
+
+  if (!todayMeals.length) {
+    wrap.innerHTML = '';
+    return;
+  }
+
+  let h = '<div class="label">Eaten today</div><div class="today-meals">';
+  todayMeals.forEach(item => {
+    const meal = allMeals.find(m => m.name.toLowerCase() === item.meal_name.toLowerCase());
+    const cal = meal ? meal.cal : '';
+    const pro = meal ? meal.protein : '';
+    const fib = meal ? meal.fiber : '';
+    const time = (item.logged_at||'').slice(11,16);
+    const metaParts = [];
+    if (cal) metaParts.push(`${cal} cal`);
+    if (pro) metaParts.push(`${pro}g pro`);
+    if (fib) metaParts.push(`${fib}g fib`);
+
+    h += `<div class="today-meal">
+      <div class="info">
+        <div class="name">${esc(item.meal_name)}</div>
+        ${metaParts.length ? `<div class="meta">${metaParts.join(' \u00b7 ')}</div>` : ''}
+      </div>
+      ${time ? `<span class="time">${time}</span>` : ''}
+      <button class="del" data-id="${item.id}" title="Remove">&times;</button>
+    </div>`;
+  });
+  h += '</div>';
+  wrap.innerHTML = h;
+
+  // Bind delete
+  wrap.querySelectorAll('.del').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      if (await api(`/api/history/${btn.dataset.id}`, {method:'DELETE'})) {
+        toast('Removed');
+        historyData = historyData.filter(h => h.id != btn.dataset.id);
+        renderToday();
+      }
+    });
+  });
+}
+
+function renderNextSuggestions() {
+  const wrap = document.getElementById('next-section-wrap');
+  const todayNames = new Set(getTodayMeals().map(m => m.meal_name.toLowerCase()));
+  const poolMeals = (planData.meals || []);
+  const n = getTodayNutrition();
+  const p = userProfile || { cal_target: 2700, protein_target_g: 150, fiber_target_g: 38 };
+  const calRemaining = p.cal_target - n.cal;
+
+  // Pool meals not yet eaten today, then general suggestions
+  let nextMeals = [];
+  poolMeals.forEach(name => {
+    if (!todayNames.has(name.toLowerCase())) {
+      const meal = allMeals.find(m => m.name.toLowerCase() === name.toLowerCase());
+      if (meal) nextMeals.push({ ...meal, source: 'pool' });
+    }
+  });
+  // Add suggestions not in pool and not eaten today
+  const poolSet = new Set(poolMeals.map(n => n.toLowerCase()));
+  suggestions.forEach(s => {
+    if (!todayNames.has(s.meal_name.toLowerCase()) && !poolSet.has(s.meal_name.toLowerCase())) {
+      const meal = allMeals.find(m => m.name.toLowerCase() === s.meal_name.toLowerCase());
+      if (meal) nextMeals.push({ ...meal, source: 'suggestion', reasons: s.reasons });
+    }
+  });
+
+  // Limit to 5
+  nextMeals = nextMeals.slice(0, 5);
+
+  if (!nextMeals.length) {
+    wrap.innerHTML = '';
+    return;
+  }
+
+  let h = `<div class="label">What's next${calRemaining > 0 ? ` \u00b7 ~${calRemaining} cal remaining` : ''}</div>`;
+  h += '<div class="next-section">';
+  nextMeals.forEach(meal => {
+    const metaParts = [];
+    if (meal.cal) metaParts.push(`${meal.cal} cal`);
+    if (meal.protein) metaParts.push(`${meal.protein}g pro`);
+    if (meal.fiber) metaParts.push(`${meal.fiber}g fib`);
+    if (meal.time) metaParts.push(meal.time);
+
+    const reason = meal.source === 'pool' ? 'From your pool' :
+      (meal.reasons && meal.reasons[0]) || '';
+
+    h += `<div class="next-card">
+      <div class="next-top">
+        <div>
+          <div class="next-name">${esc(meal.name)}</div>
+          ${metaParts.length ? `<div class="next-meta">${metaParts.join(' \u00b7 ')}</div>` : ''}
+          ${reason ? `<div class="next-reason">${esc(reason)}</div>` : ''}
+        </div>
+      </div>
+      <div class="next-actions">
+        <button class="btn btn-go" onclick="logMeal('${esc(meal.name)}')">Ate this</button>
+        ${meal.source !== 'pool' ? `<button class="btn btn-skip" onclick="addToPool('${esc(meal.name)}')">Pool it</button>` : ''}
+      </div>
+    </div>`;
+  });
+  h += '</div>';
+  wrap.innerHTML = h;
+}
+
+function renderHistory() {
+  const wrap = document.getElementById('history-wrap');
+  const today = new Date().toISOString().slice(0,10);
+  const past = historyData.filter(h => !(h.logged_at||'').startsWith(today));
+
+  if (!past.length) { wrap.innerHTML = ''; return; }
+
+  const collapsed = wrap.dataset.collapsed !== 'false';
+
+  let h = `<div class="history-toggle ${collapsed?'collapsed':''}" id="history-toggle">
+    <span class="arrow">\u25BC</span> Recent history (${past.length})
+  </div>`;
+  h += `<div class="history-items ${collapsed?'hidden':''}" id="history-items">`;
+
+  // Group by date
+  const groups = {};
+  past.forEach(item => {
+    const d = (item.logged_at||'').slice(0,10);
+    const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+    let label = d;
+    if (d === yesterday) label = 'Yesterday';
+    else { const dt = new Date(d+'T12:00:00'); label = dt.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}) }
+    (groups[label] = groups[label]||[]).push(item);
+  });
+
+  for (const [label, items] of Object.entries(groups)) {
+    h += `<div style="font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-faint);margin:12px 0 6px">${esc(label)}</div>`;
+    items.forEach(item => {
+      const time = (item.logged_at||'').slice(11,16);
+      const meal = allMeals.find(m => m.name.toLowerCase() === item.meal_name.toLowerCase());
+      const metaParts = [];
+      if (meal && meal.cal) metaParts.push(`${meal.cal} cal`);
+      if (meal && meal.protein) metaParts.push(`${meal.protein}g pro`);
+
+      h += `<div class="today-meal">
+        <div class="info">
+          <div class="name">${esc(item.meal_name)}</div>
+          ${metaParts.length ? `<div class="meta">${metaParts.join(' \u00b7 ')}</div>` : ''}
+        </div>
+        ${time ? `<span class="time">${time}</span>` : ''}
+      </div>`;
+    });
+  }
+  h += '</div>';
+  wrap.innerHTML = h;
+
+  document.getElementById('history-toggle').addEventListener('click', () => {
+    const items = document.getElementById('history-items');
+    const toggle = document.getElementById('history-toggle');
+    const isHidden = items.classList.contains('hidden');
+    items.classList.toggle('hidden');
+    toggle.classList.toggle('collapsed');
+    wrap.dataset.collapsed = isHidden ? 'false' : 'true';
+  });
+}
+
+/* ═══════════ QUICK LOG ═══════════ */
+const logInput = document.getElementById('log-input');
+const logDropdown = document.getElementById('log-dropdown');
+
+logInput.addEventListener('input', () => {
+  const q = logInput.value.trim().toLowerCase();
+  if (q.length < 1) { logDropdown.style.display = 'none'; return; }
+  const matches = allMeals.filter(m => m.name.toLowerCase().includes(q)).slice(0, 8);
+  if (!matches.length) { logDropdown.style.display = 'none'; return; }
+
+  logDropdown.innerHTML = matches.map(m => {
+    const meta = [];
+    if (m.cal) meta.push(`${m.cal} cal`);
+    if (m.protein) meta.push(`${m.protein}g pro`);
+    return `<div class="log-dropdown-item" data-name="${esc(m.name)}">
+      <span>${esc(m.name)}</span>
+      <span class="meta">${meta.join(' \u00b7 ')}</span>
+    </div>`;
+  }).join('');
+  logDropdown.style.display = 'block';
+
+  logDropdown.querySelectorAll('.log-dropdown-item').forEach(el => {
+    el.addEventListener('click', () => {
+      logMeal(el.dataset.name);
+      logDropdown.style.display = 'none';
+      logInput.value = '';
+    });
+  });
+});
+
+logInput.addEventListener('blur', () => setTimeout(() => logDropdown.style.display = 'none', 200));
+logInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const q = logInput.value.trim();
+    if (!q) return;
+    const match = allMeals.find(m => m.name.toLowerCase() === q.toLowerCase());
+    if (match) { logMeal(match.name); logInput.value = ''; logDropdown.style.display = 'none'; }
+    else toast('Meal not found — try searching', true);
+  }
+});
+
+document.getElementById('log-btn').addEventListener('click', () => {
+  const q = logInput.value.trim();
+  if (!q) return;
+  const match = allMeals.find(m => m.name.toLowerCase() === q.toLowerCase());
+  if (match) { logMeal(match.name); logInput.value = ''; logDropdown.style.display = 'none'; }
+  else toast('Meal not found — try searching', true);
+});
+
+async function logMeal(name) {
+  const r = await api('/api/log-meal', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({meal_name:name, energy_level:'', notes:''})
+  });
+  if (r) {
+    toast(`Logged ${name}`);
+    // Add to local history
+    historyData.unshift({ id: Date.now(), meal_name: name, logged_at: new Date().toISOString() });
+    // Auto-remove from pool if present
+    const poolIdx = (planData.meals||[]).findIndex(m => m.toLowerCase() === name.toLowerCase());
+    if (poolIdx !== -1) {
+      planData.meals.splice(poolIdx, 1);
+      await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+    }
+    renderToday();
+  } else toast('Failed to log', true);
+}
+
+/* ═══════════════════════════════════════════
+   WEEK TAB — Pool + Pantry
+   ═══════════════════════════════════════════ */
+function renderPool() {
+  const wrap = document.getElementById('pool-wrap');
+  const meals = planData.meals || [];
+
+  if (!meals.length) {
+    wrap.innerHTML = '<div class="pool-empty">No meals in your pool. Hit Suggest to build your week.</div>';
+    return;
+  }
+
+  let h = '';
+
+  // Summary
+  let totalCal = 0, totalPro = 0, totalFib = 0;
+  meals.forEach(name => {
+    const meal = allMeals.find(m => m.name.toLowerCase() === name.toLowerCase());
+    if (meal) { totalCal += meal.cal||0; totalPro += meal.protein||0; totalFib += meal.fiber||0; }
+  });
+
+  if (userProfile) {
+    const days = userProfile.cal_target ? (totalCal / userProfile.cal_target).toFixed(1) : '?';
+    const homeMeals = userProfile.home_meals_per_week || 16;
+    const more = Math.max(0, homeMeals - meals.length);
+    h += `<div class="pool-summary">
+      <div class="pool-totals">${totalCal} cal \u00b7 ${totalPro}g protein \u00b7 ${totalFib}g fiber</div>
+      <div class="pool-coverage">Covers ~${days} days at ${userProfile.cal_target} cal/day</div>
+      <div class="pool-guidance">${meals.length} meals pooled${more > 0 ? ` \u2014 add ~${more} more for the week` : ' \u2014 you\'re set for the week'}</div>
+    </div>`;
+  }
+
+  h += '<div class="pool-list">';
+  meals.forEach((name, idx) => {
+    const meal = allMeals.find(m => m.name.toLowerCase() === name.toLowerCase());
+    const metaParts = [];
+    if (meal) {
+      if (meal.cal) metaParts.push(`${meal.cal} cal`);
+      if (meal.protein) metaParts.push(`${meal.protein}g pro`);
+      if (meal.fiber) metaParts.push(`${meal.fiber}g fib`);
+    }
+    h += `<div class="pool-item">
+      <div class="info">
+        <div class="name">${esc(name)}</div>
+        ${metaParts.length ? `<div class="meta">${metaParts.join(' \u00b7 ')}</div>` : ''}
+      </div>
+      <button class="pool-remove" onclick="removePool(${idx})">\u2715</button>
+    </div>`;
+  });
+  h += '</div>';
+  wrap.innerHTML = h;
+}
+
+async function addToPool(name) {
+  if (!planData.meals) planData.meals = [];
+  if (planData.meals.length >= 15) { toast('Pool is full (15 max)', true); return; }
+  if (planData.meals.some(m => m.toLowerCase() === name.toLowerCase())) { toast('Already in pool'); return; }
+  planData.meals.push(name);
+  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+  toast(`Added ${name} to pool`);
+  renderToday(); // refresh suggestions
+}
+
+async function removePool(idx) {
+  const name = planData.meals[idx];
+  planData.meals.splice(idx, 1);
+  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+  toast(`Removed ${name}`);
+  renderPool();
+}
+
+// Suggest button
+document.getElementById('pool-suggest-btn').addEventListener('click', async () => {
+  const data = await api('/api/suggestions');
+  if (!data || !data.length) { toast('No suggestions available', true); return; }
+  const good = data.filter(s => s.score > 0.3).slice(0, 7);
+  if (!good.length) { toast('Nothing scored high enough. Stock your pantry!', true); return; }
+  if (!planData.meals) planData.meals = [];
+  const added = [];
+  for (const s of good) {
+    if (planData.meals.length >= 15) break;
+    if (!planData.meals.some(m => m.toLowerCase() === s.meal_name.toLowerCase())) {
+      planData.meals.push(s.meal_name);
+      added.push(s.meal_name);
+    }
+  }
+  if (added.length) {
+    await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+    toast(`Added ${added.length} meals`);
+    renderPool();
+  } else {
+    toast('Those are already in your pool');
+  }
+});
+
+// Clear button
+document.getElementById('pool-clear-btn').addEventListener('click', async () => {
+  planData.meals = [];
+  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
+  toast('Pool cleared');
+  renderPool();
+});
+
+/* ═══════════ PANTRY ═══════════ */
 const PANTRY_CATEGORIES = {
   'fresh': 'Fresh',
   'proteins-dairy': 'Proteins & Dairy',
@@ -1267,12 +1112,10 @@ const PANTRY_CATEGORIES = {
 const pantryCollapsed = {};
 
 function renderPantry() {
-  // Stats
   const stocked = pantryItems.filter(p => p.qty !== '0' && p.qty !== 0).length;
   const low = pantryItems.filter(p => p.qty === 'low').length;
   document.getElementById('pantry-stats').textContent = `${stocked} items stocked \u00b7 ${low} running low`;
 
-  // Group by category
   const groups = {};
   for (const cat of Object.keys(PANTRY_CATEGORIES)) groups[cat] = [];
   pantryItems.forEach(item => {
@@ -1281,7 +1124,6 @@ function renderPantry() {
     groups[cat].push(item);
   });
 
-  // Sort within category: available first, then low
   for (const cat of Object.keys(groups)) {
     groups[cat].sort((a, b) => {
       const aLow = a.qty === 'low' || a.qty === '0' || a.qty === 0 ? 1 : 0;
@@ -1294,30 +1136,26 @@ function renderPantry() {
   let h = '';
   for (const [cat, label] of Object.entries(PANTRY_CATEGORIES)) {
     const items = groups[cat] || [];
-    if (items.length === 0) continue;
-
+    if (!items.length) continue;
     const collapsed = pantryCollapsed[cat];
     h += `<div class="pantry-category">`;
     h += `<div class="pantry-cat-header${collapsed?' collapsed':''}" data-cat="${esc(cat)}">`;
-    h += `<span class="arrow">\u25BC</span>`;
-    h += `<span>${esc(label)}</span>`;
-    h += `<span class="pantry-cat-count">${items.length}</span>`;
+    h += `<span class="arrow">\u25BC</span> <span>${esc(label)}</span>`;
+    h += ` <span class="pantry-cat-count">${items.length}</span>`;
     h += `</div>`;
     h += `<div class="pantry-items${collapsed?' hidden':''}">`;
-    items.forEach((item, idx) => {
+    items.forEach(item => {
       const qtyClass = item.qty === 'plenty' ? 'plenty' : item.qty === 'low' ? 'low' : 'num';
       const qtyLabel = typeof item.qty === 'number' ? `\u00d7${item.qty}` : item.qty || 'plenty';
-      h += `<div class="pantry-item" data-name="${esc(item.name)}" data-cat="${esc(cat)}">`;
+      h += `<div class="pantry-item" data-name="${esc(item.name)}">`;
       h += `<span class="pantry-item-name">${esc(item.name)}</span>`;
       h += `<span class="pantry-qty ${qtyClass}">${esc(qtyLabel)}</span>`;
       h += `</div>`;
     });
     h += `</div></div>`;
   }
-
   document.getElementById('pantry-categories').innerHTML = h;
 
-  // Bind collapse
   document.querySelectorAll('.pantry-cat-header').forEach(hdr => {
     hdr.addEventListener('click', () => {
       const cat = hdr.dataset.cat;
@@ -1326,8 +1164,6 @@ function renderPantry() {
       hdr.nextElementSibling.classList.toggle('hidden');
     });
   });
-
-  // Bind item tap to cycle qty
   document.querySelectorAll('.pantry-item').forEach(el => {
     el.addEventListener('click', () => cyclePantryQty(el.dataset.name));
   });
@@ -1337,23 +1173,13 @@ async function cyclePantryQty(name) {
   const idx = pantryItems.findIndex(p => p.name === name);
   if (idx === -1) return;
   const item = pantryItems[idx];
-  if (item.qty === 'plenty') {
-    item.qty = 'low';
-    toast(`${name} marked low`);
-  } else if (item.qty === 'low') {
-    pantryItems.splice(idx, 1);
-    toast(`${name} removed`);
-  } else {
-    item.qty = 'low';
-    toast(`${name} marked low`);
-  }
+  if (item.qty === 'plenty') { item.qty = 'low'; toast(`${name} marked low`); }
+  else if (item.qty === 'low') { pantryItems.splice(idx, 1); toast(`${name} removed`); }
+  else { item.qty = 'low'; toast(`${name} marked low`); }
   await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(pantryItems)});
-  updateGreetingSub();
-  renderContext();
   renderPantry();
 }
 
-// Pantry add bar
 document.getElementById('pantry-add-btn').addEventListener('click', addPantryItems);
 document.getElementById('pantry-input').addEventListener('keydown', e => { if (e.key==='Enter') addPantryItems() });
 
@@ -1362,169 +1188,29 @@ async function addPantryItems() {
   const text = input.value.trim();
   if (!text) return;
   input.value = '';
-
   const items = text.split(',').map(s => s.trim()).filter(Boolean);
   if (!items.length) return;
-
   const added = items.map(name => ({name, qty:'plenty', category:'pantry-dry'}));
   pantryItems.push(...added);
-
   if (await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(pantryItems)})) {
     toast(`Added ${items.join(', ')}`);
-    updateGreetingSub();
-    renderContext();
     renderPantry();
   }
 }
 
 /* ═══════════════════════════════════════════
-   PLAN PANEL
-   ═══════════════════════════════════════════ */
-function renderPlan() {
-  const wrap = document.getElementById('plan-list-wrap');
-  const meals = planData.meals || [];
-
-  if (meals.length === 0) {
-    wrap.innerHTML = '<div class="plan-empty">No meals in your pool. Hit Suggest or pick from Eat.</div>';
-    return;
-  }
-
-  let h = '';
-
-  // Pool summary with targets
-  let totalCal = 0, totalProtein = 0, totalFiber = 0, counted = 0;
-  meals.forEach(mealName => {
-    const meal = allMeals.find(m => m.name.toLowerCase() === mealName.toLowerCase());
-    if (meal) {
-      totalCal += meal.cal || 0;
-      totalProtein += meal.protein || 0;
-      totalFiber += meal.fiber || 0;
-      counted++;
-    }
-  });
-
-  if (counted > 0 && userProfile) {
-    const daysWorth = userProfile.cal_target ? (totalCal / userProfile.cal_target).toFixed(1) : '?';
-    const homeMeals = userProfile.home_meals_per_week || 16;
-    const moreNeeded = Math.max(0, homeMeals - meals.length);
-    h += `<div class="plan-summary">`;
-    h += `<div class="plan-totals">${totalCal} cal · ${totalProtein}g protein · ${totalFiber}g fiber</div>`;
-    h += `<div class="plan-coverage">Covers ~${daysWorth} days at ${userProfile.cal_target} cal/day</div>`;
-    if (moreNeeded > 0) {
-      h += `<div class="plan-guidance">${meals.length} meals pooled — add ~${moreNeeded} more for the week</div>`;
-    } else {
-      h += `<div class="plan-guidance">${meals.length} meals pooled — you're set for the week</div>`;
-    }
-    h += `</div>`;
-  } else if (counted > 0) {
-    h += `<div class="plan-totals">${totalCal} cal · ${totalProtein}g protein · ${totalFiber}g fiber</div>`;
-  }
-
-  h += '<div class="plan-list">';
-  meals.forEach((mealName, idx) => {
-    const meal = allMeals.find(m => m.name.toLowerCase() === mealName.toLowerCase());
-    const cal = meal ? meal.cal : 0;
-    const protein = meal ? meal.protein : 0;
-    const fiber = meal ? meal.fiber : 0;
-    const energy = meal ? meal.energy : '';
-    const eLbl = energy === 'low' ? 'easy' : energy === 'medium' ? 'medium' : energy === 'high' ? 'cooking' : '';
-
-    h += `<div class="plan-item">`;
-    h += `<div class="plan-info">`;
-    h += `<div class="name">${esc(mealName)}</div>`;
-    const metaParts = [];
-    if (eLbl) metaParts.push(eLbl);
-    if (cal) metaParts.push(`${cal} cal`);
-    if (protein) metaParts.push(`${protein}g pro`);
-    if (fiber) metaParts.push(`${fiber}g fib`);
-    if (metaParts.length) h += `<div class="meta">${metaParts.map(m=>esc(m)).join(' · ')}</div>`;
-    h += `</div>`;
-    h += `<button class="plan-remove" onclick="removePlan(${idx})">✕</button>`;
-    h += `</div>`;
-  });
-  h += '</div>';
-
-  wrap.innerHTML = h;
-}
-
-async function addToPlan(name) {
-  if (!planData.meals) planData.meals = [];
-  if (planData.meals.length >= 15) {
-    toast('Plan is full (15 meals max). Remove one first.', true);
-    return;
-  }
-  planData.meals.push(name);
-  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
-  toast(`Added ${name} to plan`);
-  renderPlan();
-}
-
-async function removePlan(idx) {
-  const name = planData.meals[idx];
-  planData.meals.splice(idx, 1);
-  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
-  toast(`Removed ${name}`);
-  renderPlan();
-}
-
-async function movePlan(idx, dir) {
-  const newIdx = idx + dir;
-  if (newIdx < 0 || newIdx >= planData.meals.length) return;
-  const tmp = planData.meals[idx];
-  planData.meals[idx] = planData.meals[newIdx];
-  planData.meals[newIdx] = tmp;
-  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
-  renderPlan();
-}
-
-// Suggest button
-document.getElementById('plan-suggest-btn').addEventListener('click', async () => {
-  const data = await api('/api/suggestions');
-  if (!data || !data.length) { toast('No suggestions available', true); return }
-  const good = data.filter(s => s.score > 0.5).slice(0, 7);
-  if (!good.length) { toast('Nothing scored high enough. Stock your pantry!', true); return }
-  if (!planData.meals) planData.meals = [];
-  const added = [];
-  for (const s of good) {
-    if (planData.meals.length >= 15) break;
-    if (!planData.meals.some(m => m.toLowerCase() === s.meal_name.toLowerCase())) {
-      planData.meals.push(s.meal_name);
-      added.push(s.meal_name);
-    }
-  }
-  if (added.length) {
-    await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
-    toast(`Added ${added.join(', ')}`);
-    renderPlan();
-  } else {
-    toast('Those are already in your plan');
-  }
-});
-
-// Clear button
-document.getElementById('plan-clear-btn').addEventListener('click', async () => {
-  planData.meals = [];
-  await api('/api/plan', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(planData)});
-  toast('Plan cleared');
-  renderPlan();
-});
-
-/* ═══════════════════════════════════════════
-   SHOP PANEL
+   SHOP TAB
    ═══════════════════════════════════════════ */
 function renderShop() {
   const wrap = document.getElementById('shop-list-wrap');
-
   if (!shopData.length) {
-    wrap.innerHTML = '<div class="shop-empty">No items on the list. Build from pantry + plan, or add manually.</div>';
+    wrap.innerHTML = '<div class="shop-empty">No items on the list. Build from pantry + pool, or add manually.</div>';
     return;
   }
 
-  // Group by reason type
   const lowItems = shopData.filter(i => i.reason === 'running low');
   const planItems = shopData.filter(i => i.reason && i.reason !== 'running low' && i.reason !== 'manual');
   const manualItems = shopData.filter(i => i.reason === 'manual' || !i.reason);
-
   const totalCount = shopData.length;
   const checkedCount = shopData.filter(i => i.checked).length;
 
@@ -1533,7 +1219,7 @@ function renderShop() {
   function renderGroup(label, items) {
     if (!items.length) return '';
     let g = `<div class="shop-group-label">${esc(label)}</div>`;
-    items.forEach((item, i) => {
+    items.forEach(item => {
       const globalIdx = shopData.indexOf(item);
       g += `<div class="shop-item${item.checked?' checked':''}" data-idx="${globalIdx}">`;
       g += `<div class="shop-check">${item.checked?'\u2713':''}</div>`;
@@ -1545,7 +1231,7 @@ function renderShop() {
   }
 
   h += renderGroup('Running low', lowItems);
-  h += renderGroup('For planned meals', planItems);
+  h += renderGroup('For pooled meals', planItems);
   h += renderGroup('Manual', manualItems);
 
   h += '<div class="shop-bottom">';
@@ -1555,7 +1241,6 @@ function renderShop() {
 
   wrap.innerHTML = h;
 
-  // Bind check toggles
   wrap.querySelectorAll('.shop-item').forEach(el => {
     el.addEventListener('click', async () => {
       const idx = parseInt(el.dataset.idx);
@@ -1565,25 +1250,21 @@ function renderShop() {
     });
   });
 
-  // Add checked to pantry
   document.getElementById('shop-to-pantry').addEventListener('click', async () => {
     const checked = shopData.filter(i => i.checked);
-    if (!checked.length) { toast('Check some items first'); return }
+    if (!checked.length) { toast('Check some items first'); return; }
     const newItems = checked.map(i => ({name: i.name, qty: 'plenty', category: 'pantry-dry'}));
     pantryItems.push(...newItems);
     await api('/api/pantry', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(pantryItems)});
     shopData = shopData.filter(i => !i.checked);
     await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
     toast(`Added ${checked.length} items to pantry`);
-    updateGreetingSub();
-    renderContext();
     renderShop();
   });
 
-  // Clear checked
   document.getElementById('shop-clear-checked').addEventListener('click', async () => {
     const removed = shopData.filter(i => i.checked).length;
-    if (!removed) { toast('Nothing checked'); return }
+    if (!removed) { toast('Nothing checked'); return; }
     shopData = shopData.filter(i => !i.checked);
     await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
     toast(`Cleared ${removed} items`);
@@ -1591,7 +1272,6 @@ function renderShop() {
   });
 }
 
-// Shop manual add
 document.getElementById('shop-add-btn').addEventListener('click', addShopItems);
 document.getElementById('shop-input').addEventListener('keydown', e => { if (e.key==='Enter') addShopItems() });
 
@@ -1607,11 +1287,9 @@ async function addShopItems() {
   renderShop();
 }
 
-// Auto-generate
 document.getElementById('shop-auto-btn').addEventListener('click', async () => {
   const auto = await api('/api/shop/auto');
-  if (!auto || !auto.length) { toast('Nothing to add \u2014 pantry and plan look good!'); return }
-  // Merge without duplicates
+  if (!auto || !auto.length) { toast('Nothing to add \u2014 pantry and pool look good!'); return; }
   const existing = new Set(shopData.map(i => i.name.toLowerCase()));
   let added = 0;
   auto.forEach(item => {
@@ -1622,98 +1300,12 @@ document.getElementById('shop-auto-btn').addEventListener('click', async () => {
     }
   });
   await api('/api/shop', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shopData)});
-  toast(`Added ${added} items from pantry + plan`);
+  toast(`Added ${added} items from pantry + pool`);
   renderShop();
 });
 
-/* ═══════════════════════════════════════════
-   LOG / HISTORY PANEL
-   ═══════════════════════════════════════════ */
-async function loadHistory() {
-  const el = document.getElementById('history-list');
-  const summaryWrap = document.getElementById('log-summary-wrap');
-  const varietyWrap = document.getElementById('log-variety-wrap');
-  el.innerHTML = '<div class="skel skel-row"></div><div class="skel skel-row"></div>';
-
-  const data = await api('/api/history');
-  if (!data || !data.length) {
-    summaryWrap.innerHTML = '';
-    varietyWrap.innerHTML = '';
-    el.innerHTML = '<div class="h-empty">No meals logged yet. Eat something and tell me about it!</div>';
-    return;
-  }
-
-  // Summary stats
-  const now = new Date();
-  const weekAgo = new Date(now.getTime() - 7 * 86400000).toISOString().slice(0,10);
-  const monthAgo = new Date(now.getTime() - 30 * 86400000).toISOString().slice(0,10);
-  const thisWeek = data.filter(h => (h.logged_at||'').slice(0,10) >= weekAgo);
-  const thisMonth = data.filter(h => (h.logged_at||'').slice(0,10) >= monthAgo);
-
-  summaryWrap.innerHTML = `
-    <div class="log-summary">
-      <div class="log-summary-item"><span class="val">${thisWeek.length}</span><span class="lbl">this week</span></div>
-      <div class="log-summary-item"><span class="val">${thisMonth.length}</span><span class="lbl">this month</span></div>
-    </div>`;
-
-  // Variety indicator
-  const uniqueThisWeek = new Set(thisWeek.map(h => h.meal_name.toLowerCase())).size;
-  const totalMeals = allMeals.length || 21;
-  const varietyPct = Math.min(100, Math.round((uniqueThisWeek / Math.min(totalMeals, 10)) * 100));
-  varietyWrap.innerHTML = `
-    <div class="variety-bar">
-      <div class="variety-text">${uniqueThisWeek} different meal${uniqueThisWeek!==1?'s':''} this week</div>
-      <div class="variety-track"><div class="variety-fill" style="width:${varietyPct}%"></div></div>
-    </div>`;
-
-  // Grouped list
-  const today = new Date().toISOString().slice(0,10);
-  const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
-  const groups = {};
-  data.forEach(item => {
-    const d = (item.logged_at||'').slice(0,10);
-    let label = d;
-    if (d === today) label = 'Today';
-    else if (d === yesterday) label = 'Yesterday';
-    else { const dt = new Date(d+'T12:00:00'); label = dt.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}) }
-    (groups[label] = groups[label]||[]).push(item);
-  });
-
-  let h = '';
-  for (const [label, items] of Object.entries(groups)) {
-    h += `<div class="history-group">${esc(label)}</div>`;
-    items.forEach(item => {
-      const time = (item.logged_at||'').slice(11,16);
-      const e = item.energy_level||'';
-      const cls = e==='low'?'low':e==='medium'?'med':e==='high'?'high':'none';
-      const badgeCls = e==='low'?'low':e==='medium'?'med':e==='high'?'high':'';
-      h += `<div class="h-item"><i class="h-dot ${cls}"></i><div class="h-info"><div class="h-name">${esc(item.meal_name)}</div>`;
-      if (time) h += `<div class="h-time">${time}</div>`;
-      h += `</div>`;
-      if (e && badgeCls) h += `<div class="h-energy ${badgeCls}">${esc(e)}</div>`;
-      h += `<button class="h-del" data-id="${item.id}" title="Remove">&times;</button>`;
-      h += `</div>`;
-    });
-  }
-  el.innerHTML = h;
-
-  // Bind delete buttons
-  el.querySelectorAll('.h-del').forEach(btn => {
-    btn.addEventListener('click', async (ev) => {
-      ev.stopPropagation();
-      const id = btn.dataset.id;
-      if (await api(`/api/history/${id}`, {method:'DELETE'})) {
-        toast('Entry removed');
-        mealsToday = Math.max(0, mealsToday - 1);
-        updateGreetingSub(); renderContext();
-        loadHistory();
-      }
-    });
-  });
-}
-
 /* ═══════════ INIT ═══════════ */
-(async () => { await loadContext(); await loadSuggestions() })();
+loadAll();
 </script>
 </body>
 </html>
