@@ -57,11 +57,11 @@ Thin FastAPI backend (server.py)
 | "I bought the usual Whole Foods stuff" | **Qwen** — recall shopping patterns from history | Needs history query + inference |
 | Qwen returns garbage / times out | **Haiku** fallback | Safety net |
 
-**Model:** `qwen3:5.9b` via Ollama (`http://localhost:11434/api/generate`)
+**Model:** `qwen3.5:latest` via Ollama (`http://localhost:11434/api/generate`)
 
 **Ollama call pattern:**
 ```python
-async def ask_local(prompt, system="", model="qwen3:5.9b"):
+async def ask_local(prompt, system="", model="qwen3.5:latest"):
     """Call Qwen via Ollama. Returns parsed response or None on failure."""
     try:
         async with httpx.AsyncClient() as client:
@@ -244,7 +244,7 @@ From current system to new:
 - [ ] POST /log-meal — logs meal, depletes pantry ingredients
 - [ ] GET /suggestions — deterministic "what can I make?" (pantry intersection + history rotation)
 - [ ] POST /parse-input — intent detection (regex first, Qwen endpoint for ambiguous)
-- [ ] Ollama integration with httpx (async, qwen3:5.9b, Haiku fallback)
+- [ ] Ollama integration with httpx (async, qwen3.5:latest, Haiku fallback)
 - [ ] CORS for Tailscale cross-device
 
 **Commit checkpoint after Phase 1.**
@@ -293,7 +293,7 @@ From current system to new:
 ## Resolved Questions
 
 - ~~Visual direction~~ → The Prompt layout, 3 switchable themes (lime, berry, coral)
-- ~~Qwen model~~ → qwen3:5.9b via Ollama
+- ~~Qwen model~~ → qwen3.5:latest via Ollama
 - ~~Quantities~~ → Yes, fuzzy (×6, plenty, ½ tub, low)
 - ~~httpx vs requests~~ → httpx (async-native for FastAPI)
 - ~~Meal plan dashboard integration~~ → Keep shared localStorage for now

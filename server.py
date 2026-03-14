@@ -14,6 +14,7 @@ Access from phone via Tailscale: http://<macbook-tailscale-hostname>:8081
 """
 
 import json
+import os
 import re
 import sqlite3
 from contextlib import asynccontextmanager
@@ -33,7 +34,15 @@ from pydantic import BaseModel
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
+# Load .env (check local first, then job-tailor for shared API key)
 BASE_DIR = Path(__file__).parent
+for env_path in [BASE_DIR / ".env", Path.home() / "ij/career/job-tailor/.env"]:
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            if "=" in line and not line.startswith("#"):
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip())
+        break
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
 DB_PATH = DATA_DIR / "meal_history.db"
@@ -99,7 +108,7 @@ async def init_db():
 # Ollama stub (Phase 4 wiring)
 # ---------------------------------------------------------------------------
 
-async def ask_local(prompt: str, system: str = "", model: str = "qwen3:5.9b") -> Optional[str]:
+async def ask_local(prompt: str, system: str = "", model: str = "qwen3.5:latest") -> Optional[str]:
     """Call Qwen via Ollama. Returns parsed response or None on failure."""
     try:
         async with httpx.AsyncClient() as client:
