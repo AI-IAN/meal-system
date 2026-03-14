@@ -445,6 +445,9 @@ body::after{
 .pantry-qty.num{background:var(--accent-dim);color:var(--accent-text)}
 
 /* ═══════════ SHOP PANEL ═══════════ */
+@media(min-width:768px){
+  .shop-inner{max-width:480px}
+}
 .shop-top{display:flex;gap:8px;margin-bottom:12px}
 .shop-top input{
   flex:1;padding:12px 16px;font-size:14px;
@@ -620,12 +623,14 @@ body::after{
 
     <!-- SHOP -->
     <div class="panel" id="panel-shop">
-      <div class="shop-top">
-        <input type="text" id="shop-input" placeholder="Add to list..." autocomplete="off">
-        <button class="shop-add-btn" id="shop-add-btn">Add</button>
+      <div class="shop-inner">
+        <div class="shop-top">
+          <input type="text" id="shop-input" placeholder="Add to list..." autocomplete="off">
+          <button class="shop-add-btn" id="shop-add-btn">Add</button>
+        </div>
+        <button class="shop-auto-btn" id="shop-auto-btn">Build list from pantry + pool</button>
+        <div id="shop-list-wrap"></div>
       </div>
-      <button class="shop-auto-btn" id="shop-auto-btn">Build list from pantry + pool</button>
-      <div id="shop-list-wrap"></div>
     </div>
   </div>
 </div>
