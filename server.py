@@ -235,7 +235,8 @@ async def log_meal(req: LogMealRequest):
         await db.commit()
 
     # Deplete pantry ingredients for this meal
-    meals = read_json("meals.json") or []
+    meals_data = read_json("meals.json") or {}
+    meals = meals_data.get("meals", []) if isinstance(meals_data, dict) else meals_data
     pantry = read_json("pantry.json") or []
 
     # Find the meal in catalog
@@ -299,7 +300,8 @@ async def get_suggestions(energy: Optional[str] = None):
     Deterministic "what can I make?" logic.
     Score = pantry match % + days-since-last-eaten bonus + energy filter.
     """
-    meals = read_json("meals.json") or []
+    meals_data = read_json("meals.json") or {}
+    meals = meals_data.get("meals", []) if isinstance(meals_data, dict) else meals_data
     pantry = read_json("pantry.json") or []
 
     if not meals:
