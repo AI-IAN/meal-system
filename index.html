@@ -1415,8 +1415,8 @@ function renderPlan() {
 
 async function addToPlan(name) {
   if (!planData.meals) planData.meals = [];
-  if (planData.meals.length >= 5) {
-    toast('Plan is full (5 meals max). Remove one first.', true);
+  if (planData.meals.length >= 15) {
+    toast('Plan is full (15 meals max). Remove one first.', true);
     return;
   }
   planData.meals.push(name);
@@ -1447,12 +1447,12 @@ async function movePlan(idx, dir) {
 document.getElementById('plan-suggest-btn').addEventListener('click', async () => {
   const data = await api('/api/suggestions');
   if (!data || !data.length) { toast('No suggestions available', true); return }
-  const good = data.filter(s => s.score > 0.5).slice(0, 3);
+  const good = data.filter(s => s.score > 0.5).slice(0, 7);
   if (!good.length) { toast('Nothing scored high enough. Stock your pantry!', true); return }
   if (!planData.meals) planData.meals = [];
   const added = [];
   for (const s of good) {
-    if (planData.meals.length >= 5) break;
+    if (planData.meals.length >= 15) break;
     if (!planData.meals.some(m => m.toLowerCase() === s.meal_name.toLowerCase())) {
       planData.meals.push(s.meal_name);
       added.push(s.meal_name);
