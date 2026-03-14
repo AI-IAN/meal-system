@@ -273,31 +273,26 @@ body::after{
   font-style:italic;
 }
 
-/* ═══════════ SUGGESTION CARDS ═══════════ */
+/* ═══════════ SUGGESTION LIST ═══════════ */
 .next-section{margin-bottom:20px}
-.next-card{
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:12px;padding:14px 16px;
-  margin-bottom:6px;transition:all 0.15s;
+.next-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:10px;margin-bottom:4px;transition:all 0.15s;
 }
-.next-card:hover{border-color:var(--border-hi)}
-.next-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.next-name{font-size:14px;font-weight:500;flex:1}
+.next-item:hover{border-color:var(--border-hi)}
+.next-info{flex:1;min-width:0}
+.next-name{font-size:13px;font-weight:500}
 .next-meta{
   font-family:'IBM Plex Mono', monospace;
-  font-size:10px;color:var(--text-dim);margin-top:3px;
+  font-size:10px;color:var(--text-faint);margin-top:1px;
 }
-.next-reason{
-  font-family:'Instrument Serif', Georgia, serif;
-  font-style:italic;font-size:13px;
-  color:var(--accent-text);opacity:0.7;margin-top:4px;
-}
-.next-actions{display:flex;gap:8px;margin-top:10px}
+.next-actions{display:flex;gap:6px;flex-shrink:0}
 .btn{
-  flex:1;padding:9px;border-radius:8px;
-  font-size:12px;font-weight:600;
-  text-align:center;transition:all 0.15s;
+  padding:6px 12px;border-radius:7px;
+  font-size:11px;font-weight:600;
+  text-align:center;transition:all 0.15s;white-space:nowrap;
 }
 .btn:active{transform:scale(0.97)}
 .btn-go{background:var(--accent-gradient);color:#0a0a0a}
@@ -856,17 +851,14 @@ function renderNextSuggestions() {
     const reason = meal.source === 'pool' ? 'From your pool' :
       (meal.reasons && meal.reasons[0]) || '';
 
-    h += `<div class="next-card">
-      <div class="next-top">
-        <div>
-          <div class="next-name">${esc(meal.name)}</div>
-          ${metaParts.length ? `<div class="next-meta">${metaParts.join(' \u00b7 ')}</div>` : ''}
-          ${reason ? `<div class="next-reason">${esc(reason)}</div>` : ''}
-        </div>
+    h += `<div class="next-item">
+      <div class="next-info">
+        <div class="next-name">${esc(meal.name)}</div>
+        ${metaParts.length ? `<div class="next-meta">${metaParts.join(' \u00b7 ')}</div>` : ''}
       </div>
       <div class="next-actions">
         <button class="btn btn-go" onclick="logMeal('${esc(meal.name)}')">Ate this</button>
-        ${meal.source !== 'pool' ? `<button class="btn btn-skip" onclick="addToPool('${esc(meal.name)}')">Pool it</button>` : ''}
+        ${meal.source !== 'pool' ? `<button class="btn btn-skip" onclick="addToPool('${esc(meal.name)}')">Pool</button>` : ''}
       </div>
     </div>`;
   });
