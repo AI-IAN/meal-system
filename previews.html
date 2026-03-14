@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meal System — Style Previews (Round 2)</title>
+<title>Meal System — Style Previews (Round 3)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Instrument+Serif:ital@0;1&family=Familjen+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -32,9 +32,9 @@
   }
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 2rem;
-    max-width: 1600px;
+    max-width: 1800px;
     margin: 0 auto;
   }
   .preview-card {
@@ -48,528 +48,323 @@
     background: #0a0a0a;
     border-bottom: 1px solid rgba(255,255,255,0.06);
   }
-  .preview-label h2 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-  .preview-label p {
-    font-size: 0.75rem;
-    color: #888;
-    line-height: 1.4;
-  }
-  .preview-frame {
-    height: 660px;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
+  .preview-label h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .preview-label p { font-size: 0.75rem; color: #888; line-height: 1.4; }
+  .preview-frame { height: 720px; overflow-y: auto; overflow-x: hidden; }
 
   /* ============================================================
-     STYLE 1: CLAY & STONE
-     Earthy mid-tones. Terracotta, warm slate, sage.
-     Not bright, not dark — like a well-lit kitchen with natural materials.
+     STYLE 1: THE PROMPT
+     Conversational / command-line hybrid. The input IS the interface.
+     Big typography, dark, the text field dominates. Cards appear
+     as responses. Feels like talking to your kitchen.
      ============================================================ */
-  .clay {
-    background: #2a2722;
-    color: #e0dbd3;
-    font-family: 'Outfit', sans-serif;
+  .prompt {
+    background: #101012;
+    color: #b8b4a8;
+    font-family: 'Familjen Grotesk', sans-serif;
     padding: 0;
+    min-height: 100%;
   }
-  .clay-header {
-    padding: 1.5rem 1.5rem 1.25rem;
-    background: linear-gradient(135deg, #3d3530 0%, #2a2722 100%);
-    border-bottom: 3px solid #c17a50;
+  .prompt-top {
+    padding: 2rem 1.5rem 0;
   }
-  .clay-header h1 {
-    font-size: 1.5rem;
+  .prompt-greeting {
+    font-size: 2rem;
     font-weight: 700;
-    color: #f0ebe3;
-    text-align: left;
-    text-transform: none;
-    letter-spacing: -0.01em;
-    margin-bottom: 0;
+    color: #e8e4d8;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
   }
-  .clay-header .clay-sub {
-    font-size: 0.75rem;
-    color: #8a7e72;
+  .prompt-greeting em {
+    font-style: italic;
+    color: #d4956a;
+    font-family: 'Instrument Serif', serif;
     font-weight: 400;
-    margin-top: 0.25rem;
   }
-  .clay-header .clay-counter {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: rgba(193,122,80,0.15);
-    padding: 0.3rem 0.7rem;
-    border-radius: 6px;
-    font-size: 0.7rem;
-    color: #c17a50;
-    font-weight: 600;
+  .prompt-context {
+    font-size: 0.72rem;
+    color: #5a5850;
     margin-top: 0.5rem;
+    line-height: 1.5;
   }
-  .clay-body { padding: 1.25rem; }
-  .clay-input-wrap {
-    background: #353029;
-    border: 1px solid #4a4238;
-    border-radius: 10px;
-    padding: 0.7rem 1rem;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  .prompt-context strong { color: #8a8478; }
+  .prompt-input-area {
+    margin: 1.5rem 1.5rem 0;
+    background: #1a1a1e;
+    border: 1.5px solid #2a2a2e;
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    transition: border-color 0.2s;
   }
-  .clay-input-icon { color: #8a7e72; font-size: 0.9rem; }
-  .clay-input {
-    flex: 1;
+  .prompt-input-area:focus-within { border-color: #d4956a; }
+  .prompt-input {
+    width: 100%;
     border: none;
     background: transparent;
-    color: #e0dbd3;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.9rem;
+    color: #e8e4d8;
+    font-family: 'Familjen Grotesk', sans-serif;
+    font-size: 1.05rem;
     outline: none;
+    resize: none;
   }
-  .clay-input::placeholder { color: #5c5347; }
-  .clay-label {
-    font-size: 0.58rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: #8a7e72;
-    font-weight: 600;
-    margin: 1.25rem 0 0.6rem;
-  }
-  .clay-card {
-    background: #353029;
-    border: 1px solid #4a4238;
-    border-radius: 12px;
-    padding: 1rem 1.1rem;
-    margin-bottom: 0.6rem;
+  .prompt-input::placeholder { color: #3a3a3e; }
+  .prompt-hints {
     display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    transition: border-color 0.15s;
+    gap: 0.4rem;
+    margin-top: 0.65rem;
+    flex-wrap: wrap;
   }
-  .clay-card.featured {
-    border-color: #c17a50;
-    background: linear-gradient(135deg, #3d3530 0%, #353029 100%);
+  .prompt-hint {
+    font-size: 0.6rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 5px;
+    background: #222226;
+    color: #6a6860;
+    cursor: pointer;
+    border: none;
+    font-family: 'Familjen Grotesk', sans-serif;
   }
-  .clay-card-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
+  .prompt-hint:hover { color: #d4956a; background: #2a2a2e; }
+  .prompt-divider {
+    margin: 1.5rem 1.5rem 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #2a2a2e 20%, #2a2a2e 80%, transparent);
+  }
+  .prompt-response {
+    padding: 1.25rem 1.5rem;
+  }
+  .prompt-response-label {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: #4a4840;
+    margin-bottom: 0.75rem;
+  }
+  .prompt-meal {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #1a1a1e;
+  }
+  .prompt-meal:last-child { border-bottom: none; }
+  .prompt-meal-rank {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.8rem;
+    color: #2a2a2e;
+    font-style: italic;
+    line-height: 1;
+    width: 28px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .prompt-meal.top .prompt-meal-rank { color: #d4956a; }
+  .prompt-meal-info { flex: 1; }
+  .prompt-meal-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #e8e4d8;
+    margin-bottom: 0.15rem;
+  }
+  .prompt-meal-why {
+    font-size: 0.72rem;
+    color: #5a5850;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  .prompt-meal-stats {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.4rem;
+    font-size: 0.65rem;
+    color: #4a4840;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .prompt-meal-stats .hl { color: #d4956a; }
+  .prompt-meal-right {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: flex-end;
+  }
+  .prompt-action {
+    font-size: 0.6rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 6px;
+    border: 1.5px solid #2a2a2e;
+    background: transparent;
+    color: #6a6860;
+    cursor: pointer;
+    font-family: 'Familjen Grotesk', sans-serif;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .prompt-action:hover { border-color: #d4956a; color: #d4956a; }
+  .prompt-action.eat { background: #d4956a; color: #101012; border-color: #d4956a; }
+  .prompt-nav {
+    display: flex;
+    margin: 1rem 1.5rem 0;
+    gap: 0;
+  }
+  .prompt-nav-btn {
+    flex: 1;
+    padding: 0.7rem 0;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: 'Familjen Grotesk', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #3a3a3e;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    flex-shrink: 0;
+    gap: 0.4rem;
   }
-  .clay-card-icon.terracotta { background: rgba(193,122,80,0.15); }
-  .clay-card-icon.sage { background: rgba(130,160,120,0.15); }
-  .clay-card-icon.slate { background: rgba(140,150,165,0.15); }
-  .clay-card-body { flex: 1; min-width: 0; }
-  .clay-card-body h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #f0ebe3;
-    margin-bottom: 0.15rem;
-  }
-  .clay-card-detail {
-    font-size: 0.7rem;
-    color: #8a7e72;
-  }
-  .clay-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.58rem;
-    font-weight: 600;
-    padding: 0.2rem 0.5rem;
-    border-radius: 5px;
-    margin-top: 0.3rem;
-  }
-  .clay-badge.ready { background: rgba(130,160,120,0.15); color: #82a078; }
-  .clay-badge.partial { background: rgba(193,170,80,0.15); color: #c1aa50; }
-  .clay-card-right {
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .clay-cal {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #c17a50;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .clay-time {
-    font-size: 0.6rem;
-    color: #6b6058;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .clay-qty {
-    font-size: 0.58rem;
-    color: #6b6058;
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 0.15rem;
-  }
-  .clay-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-    padding: 0 0.1rem;
-  }
-  .clay-btn {
-    flex: 1;
-    padding: 0.65rem;
-    border-radius: 8px;
-    border: none;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .clay-btn.primary { background: #c17a50; color: #fff; }
-  .clay-btn.secondary { background: #4a4238; color: #b5aa9e; }
-  .clay-nav {
-    display: flex;
-    justify-content: space-around;
-    padding: 0.7rem 1rem;
-    background: #232019;
-    border-top: 1px solid #3a342c;
-    margin-top: 1rem;
-  }
-  .clay-nav-item {
-    text-align: center;
-    font-size: 0.55rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #5c5347;
-    font-weight: 500;
-  }
-  .clay-nav-item.active { color: #c17a50; }
-  .clay-nav-item .nav-icon { font-size: 1.1rem; display: block; margin-bottom: 0.1rem; }
+  .prompt-nav-btn.active { color: #b8b4a8; border-bottom-color: #d4956a; }
+  .prompt-nav-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 
   /* ============================================================
-     STYLE 2: SMOKED GLASS
-     Semi-dark with frosted glass cards. Muted purple-blue base,
-     warm peach accents. Modern and soft on eyes.
+     STYLE 2: SPLIT STACK
+     Two-tone layout. Dark sidebar/header with light content area.
+     Information architecture is spatial, not just vertical scroll.
+     Terracotta + warm gray.
      ============================================================ */
-  .glass {
-    background: #1e1e2a;
-    color: #d4d0e0;
-    font-family: 'Sora', sans-serif;
+  .split {
+    background: #f0ebe2;
+    color: #2a2620;
+    font-family: 'Outfit', sans-serif;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
   }
-  .glass-header {
-    padding: 1.5rem 1.5rem 1.25rem;
-    background: linear-gradient(160deg, #262638 0%, #1e1e2a 100%);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+  .split-hero {
+    background: #2a2620;
+    padding: 1.5rem;
+    position: relative;
   }
-  .glass-header h1 {
-    font-size: 1.5rem;
+  .split-hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .split-hero h1 {
+    font-size: 1.3rem;
     font-weight: 700;
-    color: #eee8f5;
+    color: #f0ebe2;
     text-align: left;
     text-transform: none;
     letter-spacing: -0.02em;
+    line-height: 1.2;
     margin-bottom: 0;
   }
-  .glass-header .glass-sub {
-    font-size: 0.75rem;
-    color: #7a7490;
-    font-weight: 400;
-    margin-top: 0.2rem;
-  }
-  .glass-header .glass-streak {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    background: rgba(232,180,150,0.1);
-    padding: 0.3rem 0.65rem;
+  .split-hero-badge {
+    font-size: 0.6rem;
+    padding: 0.3rem 0.6rem;
     border-radius: 6px;
-    font-size: 0.65rem;
-    color: #e8b496;
-    font-weight: 500;
-    margin-top: 0.5rem;
+    background: rgba(200,130,80,0.15);
+    color: #c88250;
+    font-weight: 600;
+    white-space: nowrap;
   }
-  .glass-body { padding: 1.25rem; }
-  .glass-input-wrap {
-    background: rgba(255,255,255,0.04);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1.25rem;
+  .split-input-wrap {
+    margin-top: 1rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 0.65rem 0.9rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
-  .glass-input {
+  .split-input {
     flex: 1;
     border: none;
     background: transparent;
-    color: #d4d0e0;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.9rem;
+    color: #d4cec0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
     outline: none;
   }
-  .glass-input::placeholder { color: #4a4660; }
-  .glass-send {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    border: none;
-    background: linear-gradient(135deg, #e8b496 0%, #d4956a 100%);
-    color: #1e1e2a;
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
+  .split-input::placeholder { color: rgba(255,255,255,0.2); }
+  .split-input-icon { color: rgba(255,255,255,0.3); }
+  .split-input-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+  .split-body {
+    padding: 1rem 1.25rem;
+    flex: 1;
   }
-  .glass-label {
-    font-size: 0.58rem;
+  .split-label {
+    font-size: 0.55rem;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #7a7490;
+    color: #9a9488;
     font-weight: 600;
-    margin: 1.25rem 0 0.6rem;
+    margin-bottom: 0.6rem;
   }
-  .glass-card {
-    background: rgba(255,255,255,0.035);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px;
-    padding: 1rem 1.1rem;
+  .split-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem;
     margin-bottom: 0.6rem;
     display: flex;
-    align-items: center;
-    gap: 0.9rem;
+    gap: 0.8rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    position: relative;
+    overflow: hidden;
   }
-  .glass-card.featured {
-    border-color: rgba(232,180,150,0.25);
-    background: rgba(232,180,150,0.05);
+  .split-card.featured::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #c88250;
   }
-  .glass-card-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 11px;
+  .split-card.featured { padding-left: calc(1rem + 4px); }
+  .split-card-col {
+    width: 48px;
+    flex-shrink: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-    background: rgba(255,255,255,0.05);
+    gap: 0.2rem;
+    padding-top: 0.1rem;
   }
-  .glass-card-body { flex: 1; min-width: 0; }
-  .glass-card-body h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #eee8f5;
-    margin-bottom: 0.15rem;
+  .split-card-cal {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #c88250;
+    line-height: 1;
   }
-  .glass-card-detail {
-    font-size: 0.7rem;
-    color: #7a7490;
+  .split-card-unit {
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #b5ae9e;
   }
-  .glass-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.58rem;
-    font-weight: 600;
-    padding: 0.2rem 0.5rem;
-    border-radius: 6px;
-    margin-top: 0.3rem;
-  }
-  .glass-badge.ready { background: rgba(130,200,160,0.1); color: #82c8a0; }
-  .glass-badge.partial { background: rgba(232,180,150,0.1); color: #e8b496; }
-  .glass-card-right {
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .glass-cal {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #e8b496;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .glass-time {
-    font-size: 0.6rem;
-    color: #5a5670;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .glass-qty {
-    font-size: 0.58rem;
-    color: #5a5670;
+  .split-card-time {
+    font-size: 0.55rem;
+    color: #c4beb0;
     font-family: 'IBM Plex Mono', monospace;
     margin-top: 0.15rem;
   }
-  .glass-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-  }
-  .glass-btn {
-    flex: 1;
-    padding: 0.65rem;
-    border-radius: 10px;
-    border: none;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .glass-btn.primary { background: linear-gradient(135deg, #e8b496 0%, #d4956a 100%); color: #1e1e2a; }
-  .glass-btn.secondary { background: rgba(255,255,255,0.06); color: #a09cb0; }
-  .glass-nav {
-    display: flex;
-    justify-content: space-around;
-    padding: 0.7rem 1rem;
-    background: rgba(0,0,0,0.2);
-    border-top: 1px solid rgba(255,255,255,0.04);
-    margin-top: 1rem;
-  }
-  .glass-nav-item {
-    text-align: center;
-    font-size: 0.55rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #4a4660;
-    font-weight: 500;
-  }
-  .glass-nav-item.active { color: #e8b496; }
-  .glass-nav-item .nav-icon { font-size: 1.1rem; display: block; margin-bottom: 0.1rem; }
-
-  /* ============================================================
-     STYLE 3: MIDNIGHT EMBER
-     Very dark base, deep charcoal cards, ember-orange accent.
-     Like cooking late at night with warm overhead light.
-     ============================================================ */
-  .ember {
-    background: #121214;
-    color: #c8c4bc;
-    font-family: 'DM Sans', sans-serif;
-    padding: 0;
-  }
-  .ember-header {
-    padding: 1.5rem 1.5rem 1.25rem;
-    background: #18181c;
-    border-bottom: 1px solid #2a2a30;
-    position: relative;
-  }
-  .ember-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 1.5rem;
-    width: 40px;
-    height: 3px;
-    background: #e07840;
-    border-radius: 2px;
-  }
-  .ember-header h1 {
-    font-size: 1.4rem;
+  .split-card-body { flex: 1; }
+  .split-card-body h3 {
+    font-size: 0.95rem;
     font-weight: 700;
-    color: #f0ece4;
-    text-align: left;
-    text-transform: none;
-    letter-spacing: -0.01em;
-    margin-bottom: 0;
+    color: #2a2620;
+    margin-bottom: 0.15rem;
   }
-  .ember-header .ember-sub {
-    font-size: 0.72rem;
-    color: #5e5c56;
-    font-weight: 400;
-    margin-top: 0.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .ember-header .ember-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #e07840;
-    display: inline-block;
-  }
-  .ember-body { padding: 1.25rem; }
-  .ember-input-wrap {
-    background: #1e1e22;
-    border: 1px solid #2a2a30;
-    border-radius: 10px;
-    padding: 0.7rem 1rem;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: border-color 0.15s;
-  }
-  .ember-input-wrap:focus-within { border-color: #e07840; }
-  .ember-cursor { color: #e07840; font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; }
-  .ember-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    color: #c8c4bc;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    outline: none;
-  }
-  .ember-input::placeholder { color: #3e3c38; }
-  .ember-label {
-    font-size: 0.55rem;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: #5e5c56;
-    font-weight: 600;
-    margin: 1.25rem 0 0.6rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .ember-label-line {
-    flex: 1;
-    height: 1px;
-    background: #2a2a30;
-  }
-  .ember-card {
-    background: #1a1a1e;
-    border: 1px solid #2a2a30;
-    border-radius: 10px;
-    padding: 0.9rem 1rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-  }
-  .ember-card.featured {
-    border-left: 3px solid #e07840;
-    background: #1c1c20;
-  }
-  .ember-card-dot {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    flex-shrink: 0;
-    background: #222226;
-  }
-  .ember-card-body { flex: 1; min-width: 0; }
-  .ember-card-body h3 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #e8e4dc;
-    margin-bottom: 0.1rem;
-  }
-  .ember-card-detail {
+  .split-card-meta {
     font-size: 0.68rem;
-    color: #5e5c56;
+    color: #9a9488;
+    line-height: 1.4;
   }
-  .ember-badge {
+  .split-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.2rem;
@@ -577,902 +372,1298 @@
     font-weight: 600;
     padding: 0.2rem 0.45rem;
     border-radius: 4px;
-    margin-top: 0.25rem;
+    margin-top: 0.35rem;
   }
-  .ember-badge.ready { background: rgba(100,180,120,0.1); color: #64b478; }
-  .ember-badge.partial { background: rgba(224,120,64,0.1); color: #e07840; }
-  .ember-card-right {
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .ember-cal {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #e07840;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .ember-time {
-    font-size: 0.58rem;
-    color: #4a4844;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .ember-qty {
-    font-size: 0.55rem;
-    color: #4a4844;
-    font-family: 'IBM Plex Mono', monospace;
-    margin-top: 0.1rem;
-  }
-  .ember-actions {
+  .split-badge.ready { background: #e8f0e6; color: #4a7a40; }
+  .split-badge.partial { background: #f5ece0; color: #b08040; }
+  .split-card-actions {
     display: flex;
-    gap: 0.4rem;
-    margin-top: 0.75rem;
-  }
-  .ember-btn {
-    flex: 1;
-    padding: 0.6rem;
-    border-radius: 8px;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .ember-btn.primary { background: #e07840; color: #121214; }
-  .ember-btn.secondary { background: #222226; color: #8a8680; }
-  .ember-nav {
-    display: flex;
-    justify-content: space-around;
-    padding: 0.65rem 1rem;
-    background: #0e0e10;
-    border-top: 1px solid #2a2a30;
-    margin-top: 1rem;
-  }
-  .ember-nav-item {
-    text-align: center;
-    font-size: 0.52rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #3e3c38;
-    font-weight: 500;
-  }
-  .ember-nav-item.active { color: #e07840; }
-  .ember-nav-item .nav-icon { font-size: 1rem; display: block; margin-bottom: 0.1rem; }
-
-  /* ============================================================
-     STYLE 4: SOFT SAND
-     Muted warm light theme. Sand/linen base, not-white,
-     with soft coral accent. Calm, readable, not sterile.
-     ============================================================ */
-  .sand {
-    background: #e8e2d8;
-    color: #3a362e;
-    font-family: 'Space Grotesk', sans-serif;
-    padding: 0;
-  }
-  .sand-header {
-    padding: 1.5rem 1.5rem 1.25rem;
-    background: #3a362e;
-  }
-  .sand-header h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #e8e2d8;
-    text-align: left;
-    text-transform: none;
-    letter-spacing: -0.02em;
-    margin-bottom: 0;
-  }
-  .sand-header .sand-sub {
-    font-size: 0.72rem;
-    color: #9a9488;
-    font-weight: 400;
-    margin-top: 0.2rem;
-  }
-  .sand-header .sand-counter {
-    display: inline-flex;
-    align-items: center;
     gap: 0.35rem;
-    background: rgba(232,226,216,0.1);
-    padding: 0.3rem 0.65rem;
-    border-radius: 6px;
-    font-size: 0.65rem;
-    color: #d49878;
-    font-weight: 600;
-    margin-top: 0.5rem;
+    flex-shrink: 0;
+    align-self: center;
   }
-  .sand-body { padding: 1.25rem; }
-  .sand-input-wrap {
-    background: #f2ede4;
-    border: 2px solid #d4cec2;
-    border-radius: 10px;
-    padding: 0.7rem 1rem;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .sand-input-wrap:focus-within { border-color: #d49878; }
-  .sand-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    color: #3a362e;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.9rem;
-    outline: none;
-  }
-  .sand-input::placeholder { color: #b5ae9e; }
-  .sand-label {
-    font-size: 0.58rem;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: #9a9488;
-    font-weight: 600;
-    margin: 1.25rem 0 0.6rem;
-  }
-  .sand-card {
-    background: #f2ede4;
-    border: 1px solid #d4cec2;
-    border-radius: 12px;
-    padding: 1rem 1.1rem;
-    margin-bottom: 0.6rem;
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-  }
-  .sand-card.featured {
-    border-color: #d49878;
-    border-width: 2px;
-    background: #f5f0e8;
-  }
-  .sand-card-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
+  .split-act {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1.5px solid #e0dcd4;
+    background: #fff;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    flex-shrink: 0;
+    color: #9a9488;
+    transition: all 0.15s;
   }
-  .sand-card-icon.warm { background: rgba(212,152,120,0.15); }
-  .sand-card-icon.cool { background: rgba(120,152,180,0.12); }
-  .sand-card-icon.earth { background: rgba(150,160,120,0.15); }
-  .sand-card-body { flex: 1; min-width: 0; }
-  .sand-card-body h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #2a2620;
-    margin-bottom: 0.1rem;
-  }
-  .sand-card-detail {
-    font-size: 0.7rem;
-    color: #8a8478;
-  }
-  .sand-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.58rem;
-    font-weight: 600;
-    padding: 0.2rem 0.5rem;
-    border-radius: 5px;
-    margin-top: 0.3rem;
-  }
-  .sand-badge.ready { background: rgba(100,140,90,0.12); color: #5a8a50; }
-  .sand-badge.partial { background: rgba(212,152,120,0.15); color: #c08060; }
-  .sand-card-right {
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .sand-cal {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #d49878;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .sand-time {
-    font-size: 0.6rem;
-    color: #b5ae9e;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .sand-qty {
-    font-size: 0.58rem;
-    color: #b5ae9e;
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 0.15rem;
-  }
-  .sand-actions {
+  .split-act svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .split-act:hover { border-color: #c88250; color: #c88250; }
+  .split-act.go { background: #c88250; border-color: #c88250; color: #fff; }
+  .split-nav {
     display: flex;
-    gap: 0.5rem;
+    background: #fff;
+    border-top: 1px solid #e8e2d8;
+    padding: 0;
+  }
+  .split-nav-btn {
+    flex: 1;
+    padding: 0.65rem 0;
+    background: none;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: #c4beb0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    border-top: 2px solid transparent;
+  }
+  .split-nav-btn.active { color: #c88250; border-top-color: #c88250; }
+  .split-nav-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+  /* ============================================================
+     STYLE 3: EMBER REFINED
+     Best of round 2's Midnight Ember + Clay, but with more
+     typographic contrast and spatial interest. Layered darks,
+     warm ember accent, serif/sans pairing.
+     ============================================================ */
+  .emberx {
+    background: #131315;
+    color: #a09c90;
+    font-family: 'DM Sans', sans-serif;
+    padding: 0;
+    min-height: 100%;
+  }
+  .emberx-header {
+    padding: 1.75rem 1.5rem 1.25rem;
+    position: relative;
+  }
+  .emberx-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #e8e2d4;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .emberx-title span { color: #d47840; }
+  .emberx-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.6rem;
+    font-size: 0.65rem;
+    color: #4a4842;
+  }
+  .emberx-meta-row .dot { width: 3px; height: 3px; border-radius: 50%; background: #3a3835; }
+  .emberx-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .emberx-progress-bar {
+    width: 48px;
+    height: 3px;
+    background: #1e1e20;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .emberx-progress-fill {
+    width: 75%;
+    height: 100%;
+    background: #d47840;
+    border-radius: 2px;
+  }
+  .emberx-body { padding: 0 1.5rem 1.5rem; }
+  .emberx-input-wrap {
+    background: #1a1a1c;
+    border: 1px solid #252528;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .emberx-input-wrap:focus-within { border-color: #d47840; }
+  .emberx-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #c8c4b8;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    outline: none;
+  }
+  .emberx-input::placeholder { color: #2e2e30; }
+  .emberx-pills {
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .emberx-pill {
+    font-size: 0.58rem;
+    padding: 0.22rem 0.5rem;
+    border-radius: 4px;
+    background: #1e1e20;
+    color: #4a4842;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .emberx-pill:hover { color: #d47840; }
+  .emberx-section-label {
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #3a3835;
+    margin-bottom: 0.75rem;
+  }
+  .emberx-pick {
+    background: #1a1a1c;
+    border: 1px solid #252528;
+    border-radius: 14px;
+    padding: 1.1rem 1.15rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+  .emberx-pick::after {
+    content: '';
+    position: absolute;
+    top: 1.1rem;
+    left: 0;
+    width: 3px;
+    height: 24px;
+    background: #d47840;
+    border-radius: 0 2px 2px 0;
+  }
+  .emberx-pick-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .emberx-pick-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e8e2d4;
+    line-height: 1.2;
+  }
+  .emberx-pick-cal {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #d47840;
+  }
+  .emberx-pick-detail {
+    font-size: 0.7rem;
+    color: #5a5850;
+    margin-top: 0.35rem;
+    line-height: 1.5;
+  }
+  .emberx-pick-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-top: 0.75rem;
   }
-  .sand-btn {
-    flex: 1;
-    padding: 0.65rem;
+  .emberx-pick-stats {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    color: #3a3835;
+  }
+  .emberx-pick-stats .val { color: #6a6860; }
+  .emberx-pick-actions {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .emberx-btn {
+    padding: 0.5rem 1rem;
     border-radius: 8px;
     border: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.75rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
     font-weight: 600;
     cursor: pointer;
   }
-  .sand-btn.primary { background: #3a362e; color: #e8e2d8; }
-  .sand-btn.secondary { background: #d4cec2; color: #5a5648; }
-  .sand-nav {
+  .emberx-btn.eat { background: #d47840; color: #131315; }
+  .emberx-btn.skip { background: #1e1e20; color: #5a5850; }
+  .emberx-others {
     display: flex;
-    justify-content: space-around;
-    padding: 0.7rem 1rem;
-    background: #ddd7cc;
-    border-top: 1px solid #ccc6b8;
-    margin-top: 1rem;
+    flex-direction: column;
+    gap: 0.4rem;
   }
-  .sand-nav-item {
-    text-align: center;
-    font-size: 0.55rem;
+  .emberx-alt {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.85rem;
+    background: #1a1a1c;
+    border: 1px solid #1e1e20;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .emberx-alt:hover { border-color: #2e2e30; }
+  .emberx-alt-name {
+    flex: 1;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #c8c4b8;
+  }
+  .emberx-alt-meta {
+    font-size: 0.6rem;
+    color: #3a3835;
+    font-family: 'IBM Plex Mono', monospace;
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .emberx-alt-status {
+    font-size: 0.5rem;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #9a9488;
-    font-weight: 500;
   }
-  .sand-nav-item.active { color: #d49878; }
-  .sand-nav-item .nav-icon { font-size: 1.1rem; display: block; margin-bottom: 0.1rem; }
+  .emberx-alt-status.ready { color: #5a8a50; }
+  .emberx-alt-status.partial { color: #d47840; }
+  .emberx-nav {
+    display: flex;
+    margin-top: 1.5rem;
+    border-top: 1px solid #1e1e20;
+    padding-top: 0.1rem;
+  }
+  .emberx-nav-btn {
+    flex: 1;
+    padding: 0.6rem 0;
+    background: none;
+    border: none;
+    border-top: 2px solid transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: #2e2e30;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    margin-top: -1px;
+  }
+  .emberx-nav-btn.active { color: #a09c90; border-top-color: #d47840; }
+  .emberx-nav-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 
   /* ============================================================
-     STYLE 5: DEEP TEAL
-     Rich dark teal base, gold/amber accents.
-     Distinctive — not the usual dark-gray-with-blue.
+     STYLE 4: OPEN SHELF
+     Inspired by open kitchen shelving. Warm off-black background,
+     items arranged in visual "shelves". Quantities shown as fills.
+     Natural, tactile feeling. Different layout structure entirely.
      ============================================================ */
-  .teal {
-    background: #0f1f22;
-    color: #c4d4d0;
-    font-family: 'Outfit', sans-serif;
+  .shelf {
+    background: #1c1a17;
+    color: #c4bfb2;
+    font-family: 'Space Grotesk', sans-serif;
     padding: 0;
+    min-height: 100%;
   }
-  .teal-header {
-    padding: 1.5rem 1.5rem 1.25rem;
-    background: linear-gradient(160deg, #142a2e 0%, #0f1f22 100%);
-    border-bottom: 1px solid #1e3538;
+  .shelf-header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid #2a2720;
   }
-  .teal-header h1 {
-    font-size: 1.5rem;
+  .shelf-header h1 {
+    font-size: 1.15rem;
     font-weight: 700;
-    color: #e4ece8;
+    color: #e8e2d4;
     text-align: left;
     text-transform: none;
     letter-spacing: -0.01em;
     margin-bottom: 0;
   }
-  .teal-header .teal-sub {
-    font-size: 0.72rem;
-    color: #5a7a76;
-    font-weight: 400;
-    margin-top: 0.2rem;
-  }
-  .teal-header .teal-badge-row {
+  .shelf-header-right {
     display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-  .teal-header .teal-stat {
-    font-size: 0.6rem;
-    padding: 0.25rem 0.55rem;
-    border-radius: 5px;
-    background: rgba(212,180,100,0.1);
-    color: #d4b464;
-    font-weight: 600;
-  }
-  .teal-body { padding: 1.25rem; }
-  .teal-input-wrap {
-    background: #142a2e;
-    border: 1px solid #1e3538;
-    border-radius: 12px;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1.25rem;
-    display: flex;
+    gap: 0.6rem;
     align-items: center;
-    gap: 0.5rem;
   }
-  .teal-input-wrap:focus-within { border-color: #d4b464; }
-  .teal-input {
+  .shelf-counter {
+    font-size: 0.6rem;
+    color: #5a5648;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .shelf-counter strong { color: #c88250; }
+  .shelf-body { padding: 1.25rem 1.5rem; }
+  .shelf-input-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .shelf-input {
     flex: 1;
-    border: none;
-    background: transparent;
-    color: #c4d4d0;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.9rem;
+    background: #242220;
+    border: 1px solid #2e2c28;
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    color: #c4bfb2;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
     outline: none;
   }
-  .teal-input::placeholder { color: #3a5a56; }
-  .teal-send {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    border: none;
-    background: #d4b464;
-    color: #0f1f22;
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-  }
-  .teal-label {
-    font-size: 0.58rem;
+  .shelf-input:focus { border-color: #c88250; }
+  .shelf-input::placeholder { color: #3a3630; }
+  .shelf-row-label {
+    font-size: 0.5rem;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: #5a7a76;
-    font-weight: 600;
-    margin: 1.25rem 0 0.6rem;
-  }
-  .teal-card {
-    background: #142a2e;
-    border: 1px solid #1e3538;
-    border-radius: 12px;
-    padding: 1rem 1.1rem;
+    letter-spacing: 0.25em;
+    color: #3a3630;
     margin-bottom: 0.6rem;
     display: flex;
     align-items: center;
-    gap: 0.9rem;
+    gap: 0.5rem;
   }
-  .teal-card.featured {
-    border-color: #d4b464;
-    background: linear-gradient(135deg, #182e32 0%, #142a2e 100%);
+  .shelf-row-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #242220;
   }
-  .teal-card-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-    background: rgba(212,180,100,0.08);
-  }
-  .teal-card-body { flex: 1; min-width: 0; }
-  .teal-card-body h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #e4ece8;
-    margin-bottom: 0.15rem;
-  }
-  .teal-card-detail {
-    font-size: 0.7rem;
-    color: #5a7a76;
-  }
-  .teal-mbadge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.58rem;
-    font-weight: 600;
-    padding: 0.2rem 0.5rem;
-    border-radius: 6px;
-    margin-top: 0.3rem;
-  }
-  .teal-mbadge.ready { background: rgba(100,200,160,0.1); color: #64c8a0; }
-  .teal-mbadge.partial { background: rgba(212,180,100,0.1); color: #d4b464; }
-  .teal-card-right {
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .teal-cal {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #d4b464;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .teal-time {
-    font-size: 0.6rem;
-    color: #3a5a56;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .teal-qty {
-    font-size: 0.58rem;
-    color: #3a5a56;
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 0.15rem;
-  }
-  .teal-actions {
+  /* The "shelf" — a horizontal scrollable row of items */
+  .shelf-tray {
     display: flex;
     gap: 0.5rem;
-    margin-top: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    scrollbar-width: none;
   }
-  .teal-btn {
-    flex: 1;
-    padding: 0.65rem;
+  .shelf-tray::-webkit-scrollbar { display: none; }
+  .shelf-item {
+    min-width: 140px;
+    max-width: 160px;
+    background: #242220;
+    border: 1px solid #2e2c28;
     border-radius: 10px;
+    padding: 0.85rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    position: relative;
+  }
+  .shelf-item:hover { border-color: #4a4640; }
+  .shelf-item.pick {
+    border-color: #c88250;
+    background: #2a2620;
+  }
+  .shelf-item-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #e8e2d4;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+  }
+  .shelf-item-sub {
+    font-size: 0.6rem;
+    color: #5a5648;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 0.5rem;
+  }
+  .shelf-bar-wrap {
+    height: 4px;
+    background: #1c1a17;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.3rem;
+  }
+  .shelf-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+  .shelf-bar-fill.green { background: #5a8a50; }
+  .shelf-bar-fill.amber { background: #c88250; }
+  .shelf-bar-fill.red { background: #c85050; }
+  .shelf-item-status {
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #4a4640;
+  }
+  .shelf-item-status.ok { color: #5a8a50; }
+  .shelf-item-status.low { color: #c88250; }
+  .shelf-detail-card {
+    background: #242220;
+    border: 1px solid #c88250;
+    border-radius: 12px;
+    padding: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .shelf-detail-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+  }
+  .shelf-detail-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #e8e2d4;
+  }
+  .shelf-detail-cal {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    color: #c88250;
+    font-weight: 500;
+  }
+  .shelf-detail-row {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.62rem;
+    color: #5a5648;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 0.75rem;
+  }
+  .shelf-detail-row .val { color: #8a8478; }
+  .shelf-detail-ing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 0.75rem;
+  }
+  .shelf-ing-chip {
+    font-size: 0.58rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: #1c1a17;
+    color: #6a6658;
+  }
+  .shelf-ing-chip.have { color: #5a8a50; }
+  .shelf-ing-chip.need { color: #c88250; border: 1px dashed #c88250; background: transparent; }
+  .shelf-detail-actions {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .shelf-btn {
+    flex: 1;
+    padding: 0.6rem;
+    border-radius: 7px;
     border: none;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.75rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.7rem;
     font-weight: 600;
     cursor: pointer;
   }
-  .teal-btn.primary { background: #d4b464; color: #0f1f22; }
-  .teal-btn.secondary { background: #1e3538; color: #7a9a96; }
-  .teal-nav {
+  .shelf-btn.primary { background: #c88250; color: #1c1a17; }
+  .shelf-btn.secondary { background: #2e2c28; color: #6a6658; }
+  .shelf-nav {
     display: flex;
-    justify-content: space-around;
-    padding: 0.7rem 1rem;
-    background: #0a1618;
-    border-top: 1px solid #1e3538;
-    margin-top: 1rem;
+    padding: 0.6rem 0;
+    margin-top: 0.75rem;
+    border-top: 1px solid #242220;
   }
-  .teal-nav-item {
-    text-align: center;
+  .shelf-nav-btn {
+    flex: 1;
+    padding: 0.5rem 0;
+    background: none;
+    border: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: #2e2c28;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+  }
+  .shelf-nav-btn.active { color: #c88250; }
+  .shelf-nav-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+  /* ============================================================
+     STYLE 5: TINTED GLASS
+     Deep blue-gray base, frosted layers, with a single warm
+     copper accent. Sophisticated without being clinical.
+     Asymmetric layout with big type and spatial breathing room.
+     ============================================================ */
+  .tinted {
+    background: #15171e;
+    color: #9a9cb0;
+    font-family: 'Sora', sans-serif;
+    padding: 0;
+    min-height: 100%;
+  }
+  .tinted-header {
+    padding: 2rem 1.5rem 1rem;
+  }
+  .tinted-kicker {
     font-size: 0.55rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #3a5a56;
-    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: #3a3c50;
+    margin-bottom: 0.5rem;
   }
-  .teal-nav-item.active { color: #d4b464; }
-  .teal-nav-item .nav-icon { font-size: 1.1rem; display: block; margin-bottom: 0.1rem; }
+  .tinted-title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #e0e2f0;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+  .tinted-title .accent { color: #c8885a; }
+  .tinted-stats {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #1e2028;
+  }
+  .tinted-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+  .tinted-stat-val {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #c8885a;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .tinted-stat-label {
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #3a3c50;
+  }
+  .tinted-body { padding: 0 1.5rem 1.5rem; }
+  .tinted-input-wrap {
+    background: #1a1c24;
+    border: 1px solid #252730;
+    border-radius: 14px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .tinted-input-wrap:focus-within { border-color: #c8885a; }
+  .tinted-input-wrap svg { width: 16px; height: 16px; stroke: #3a3c50; fill: none; stroke-width: 1.5; flex-shrink: 0; }
+  .tinted-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #c0c2d0;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+  }
+  .tinted-input::placeholder { color: #2a2c38; }
+  .tinted-section {
+    margin-bottom: 1.25rem;
+  }
+  .tinted-section-label {
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: #3a3c50;
+    margin-bottom: 0.6rem;
+  }
+  .tinted-main-card {
+    background: #1a1c24;
+    border: 1px solid #252730;
+    border-radius: 16px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .tinted-main-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #c8885a, transparent 60%);
+  }
+  .tinted-main-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e0e2f0;
+    margin-bottom: 0.2rem;
+  }
+  .tinted-main-why {
+    font-size: 0.72rem;
+    color: #5a5c70;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+  }
+  .tinted-main-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+  }
+  .tinted-main-stat {
+    background: #15171e;
+    border-radius: 8px;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  .tinted-main-stat-val {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #c0c2d0;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .tinted-main-stat-label {
+    font-size: 0.45rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #3a3c50;
+    margin-top: 0.1rem;
+  }
+  .tinted-main-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .tinted-btn {
+    flex: 1;
+    padding: 0.6rem;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .tinted-btn.primary { background: #c8885a; color: #15171e; }
+  .tinted-btn.secondary { background: #1e2028; color: #6a6c80; border: 1px solid #252730; }
+  .tinted-alt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .tinted-alt {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    background: #1a1c24;
+    border: 1px solid #1e2028;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .tinted-alt:hover { border-color: #252730; }
+  .tinted-alt-rank {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #2a2c38;
+    width: 16px;
+    text-align: center;
+  }
+  .tinted-alt-name {
+    flex: 1;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #b0b2c0;
+  }
+  .tinted-alt-info {
+    font-size: 0.58rem;
+    font-family: 'IBM Plex Mono', monospace;
+    color: #3a3c50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .tinted-alt-info .ready { color: #5a8a60; }
+  .tinted-alt-info .partial { color: #c8885a; }
+  .tinted-nav {
+    display: flex;
+    margin-top: 1.25rem;
+    padding-top: 0.15rem;
+    border-top: 1px solid #1e2028;
+  }
+  .tinted-nav-btn {
+    flex: 1;
+    padding: 0.6rem 0;
+    background: none;
+    border: none;
+    border-top: 2px solid transparent;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 500;
+    color: #2a2c38;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    margin-top: -1px;
+  }
+  .tinted-nav-btn.active { color: #9a9cb0; border-top-color: #c8885a; }
+  .tinted-nav-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 </style>
 </head>
 <body>
 
-<h1>Meal System — Round 2</h1>
-<p class="subtitle">Darker, warmer, more distinctive. Same content, different vibes.</p>
+<h1>Meal System — Round 3</h1>
+<p class="subtitle">Different structures, not just different paint. SVG icons. Bolder typography.</p>
 
 <div class="grid">
 
-  <!-- ==================== CLAY & STONE ==================== -->
+  <!-- ==================== THE PROMPT ==================== -->
   <div class="preview-card">
     <div class="preview-label">
-      <h2>Clay & Stone</h2>
-      <p>Earthy dark mid-tones. Terracotta accent, warm slate surfaces. Like natural materials in low light.</p>
+      <h2>The Prompt</h2>
+      <p>Conversational. The input IS the interface. Big typography, serif/sans pairing. Meals appear as ranked responses with reasoning. Like talking to your kitchen.</p>
     </div>
     <div class="preview-frame">
-      <div class="clay">
-        <div class="clay-header">
-          <h1>What should I eat?</h1>
-          <div class="clay-sub">Friday evening</div>
-          <div class="clay-counter"><span>●</span> 3 of 4 meals today</div>
+      <div class="prompt">
+        <div class="prompt-top">
+          <div class="prompt-greeting">What are we<br><em>eating?</em></div>
+          <div class="prompt-context">
+            <strong>3 of 4</strong> meals today · <strong>18</strong> pantry items · <strong>salmon</strong> expiring soon
+          </div>
         </div>
-        <div class="clay-body">
-          <div class="clay-input-wrap">
-            <span class="clay-input-icon">›</span>
-            <input class="clay-input" placeholder="I'm tired… / bought eggs, rice / made curry" readonly>
+        <div class="prompt-input-area">
+          <input class="prompt-input" placeholder="I'm tired… bought groceries… made curry…" readonly>
+          <div class="prompt-hints">
+            <button class="prompt-hint">something quick</button>
+            <button class="prompt-hint">use up salmon</button>
+            <button class="prompt-hint">high protein</button>
+            <button class="prompt-hint">I bought stuff</button>
           </div>
+        </div>
+        <div class="prompt-divider"></div>
+        <div class="prompt-response">
+          <div class="prompt-response-label">Suggested for you</div>
+          <div class="prompt-meal top">
+            <div class="prompt-meal-rank">1</div>
+            <div class="prompt-meal-info">
+              <div class="prompt-meal-name">Rice Bowl + Salmon</div>
+              <div class="prompt-meal-why">You have everything. Salmon's been in the fridge 2 days — use it tonight.</div>
+              <div class="prompt-meal-stats">
+                <span><span class="hl">420</span> cal</span>
+                <span><span class="hl">32g</span> protein</span>
+                <span>15 min</span>
+                <span>last had 5d ago</span>
+              </div>
+            </div>
+            <div class="prompt-meal-right">
+              <button class="prompt-action eat">Ate this</button>
+              <button class="prompt-action">Skip</button>
+            </div>
+          </div>
+          <div class="prompt-meal">
+            <div class="prompt-meal-rank">2</div>
+            <div class="prompt-meal-info">
+              <div class="prompt-meal-name">Japanese Curry</div>
+              <div class="prompt-meal-why">Everything in stock. Good if you want something more filling.</div>
+              <div class="prompt-meal-stats">
+                <span><span class="hl">550</span> cal</span>
+                <span><span class="hl">24g</span> protein</span>
+                <span>25 min</span>
+              </div>
+            </div>
+            <div class="prompt-meal-right">
+              <button class="prompt-action">This one</button>
+            </div>
+          </div>
+          <div class="prompt-meal">
+            <div class="prompt-meal-rank">3</div>
+            <div class="prompt-meal-info">
+              <div class="prompt-meal-name">Thai Stir Fry</div>
+              <div class="prompt-meal-why">Need fish sauce — otherwise ready. Haven't had in 8 days.</div>
+              <div class="prompt-meal-stats">
+                <span><span class="hl">380</span> cal</span>
+                <span><span class="hl">28g</span> protein</span>
+                <span>20 min</span>
+              </div>
+            </div>
+            <div class="prompt-meal-right">
+              <button class="prompt-action">This one</button>
+            </div>
+          </div>
+        </div>
+        <div class="prompt-nav">
+          <button class="prompt-nav-btn active">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            Eat
+          </button>
+          <button class="prompt-nav-btn">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Plan
+          </button>
+          <button class="prompt-nav-btn">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            Shop
+          </button>
+          <button class="prompt-nav-btn">
+            <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+            Pantry
+          </button>
+          <button class="prompt-nav-btn">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Log
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-          <div class="clay-label">Top Pick</div>
-          <div class="clay-card featured">
-            <div class="clay-card-icon terracotta">🍚</div>
-            <div class="clay-card-body">
+  <!-- ==================== SPLIT STACK ==================== -->
+  <div class="preview-card">
+    <div class="preview-label">
+      <h2>Split Stack</h2>
+      <p>Two-tone: dark header with warm light body. Calories as big left-column numbers. Action buttons are icon circles. Spatial hierarchy, not just vertical list.</p>
+    </div>
+    <div class="preview-frame">
+      <div class="split">
+        <div class="split-hero">
+          <div class="split-hero-top">
+            <h1>What should<br>I eat?</h1>
+            <div class="split-hero-badge">3 / 4 meals</div>
+          </div>
+          <div class="split-input-wrap">
+            <div class="split-input-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+            <input class="split-input" placeholder="tired… bought eggs… use the salmon…" readonly>
+          </div>
+        </div>
+        <div class="split-body">
+          <div class="split-label">Best match</div>
+          <div class="split-card featured">
+            <div class="split-card-col">
+              <div class="split-card-cal">420</div>
+              <div class="split-card-unit">cal</div>
+              <div class="split-card-time">15m</div>
+            </div>
+            <div class="split-card-body">
               <h3>Rice Bowl + Salmon</h3>
-              <div class="clay-card-detail">32g protein · last had 5 days ago</div>
-              <div class="clay-badge ready">✓ Ready</div>
+              <div class="split-card-meta">32g protein · Salmon ×2 · last had 5 days ago</div>
+              <div class="split-badge ready">✓ Everything in stock</div>
             </div>
-            <div class="clay-card-right">
-              <div class="clay-cal">420</div>
-              <div class="clay-time">15 min</div>
-              <div class="clay-qty">Salmon ×2</div>
+            <div class="split-card-actions">
+              <button class="split-act go"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>
+              <button class="split-act"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
             </div>
           </div>
 
-          <div class="clay-actions">
-            <button class="clay-btn primary">Ate this</button>
-            <button class="clay-btn secondary">Not that</button>
-          </div>
-
-          <div class="clay-label">Also works</div>
-          <div class="clay-card">
-            <div class="clay-card-icon sage">🍛</div>
-            <div class="clay-card-body">
+          <div class="split-label" style="margin-top: 1rem;">Also available</div>
+          <div class="split-card">
+            <div class="split-card-col">
+              <div class="split-card-cal">550</div>
+              <div class="split-card-unit">cal</div>
+              <div class="split-card-time">25m</div>
+            </div>
+            <div class="split-card-body">
               <h3>Japanese Curry</h3>
-              <div class="clay-card-detail">24g protein · last had 3 days ago</div>
-              <div class="clay-badge ready">✓ Ready</div>
+              <div class="split-card-meta">24g protein · last had 3 days ago</div>
+              <div class="split-badge ready">✓ In stock</div>
             </div>
-            <div class="clay-card-right">
-              <div class="clay-cal">550</div>
-              <div class="clay-time">25 min</div>
+            <div class="split-card-actions">
+              <button class="split-act"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>
             </div>
           </div>
 
-          <div class="clay-card">
-            <div class="clay-card-icon slate">🥘</div>
-            <div class="clay-card-body">
+          <div class="split-card">
+            <div class="split-card-col">
+              <div class="split-card-cal">380</div>
+              <div class="split-card-unit">cal</div>
+              <div class="split-card-time">20m</div>
+            </div>
+            <div class="split-card-body">
               <h3>Thai Stir Fry</h3>
-              <div class="clay-card-detail">28g protein · last had 8 days ago</div>
-              <div class="clay-badge partial">Need: fish sauce</div>
+              <div class="split-card-meta">28g protein · last had 8 days ago</div>
+              <div class="split-badge partial">Need: fish sauce</div>
             </div>
-            <div class="clay-card-right">
-              <div class="clay-cal">380</div>
-              <div class="clay-time">20 min</div>
+            <div class="split-card-actions">
+              <button class="split-act"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>
             </div>
           </div>
 
-          <div class="clay-card">
-            <div class="clay-card-icon terracotta">🍳</div>
-            <div class="clay-card-body">
+          <div class="split-card">
+            <div class="split-card-col">
+              <div class="split-card-cal">320</div>
+              <div class="split-card-unit">cal</div>
+              <div class="split-card-time">5m</div>
+            </div>
+            <div class="split-card-body">
               <h3>Eggs + Toast</h3>
-              <div class="clay-card-detail">18g protein · quick breakfast</div>
-              <div class="clay-badge ready">✓ Ready</div>
+              <div class="split-card-meta">18g protein · Eggs ×6</div>
+              <div class="split-badge ready">✓ In stock</div>
             </div>
-            <div class="clay-card-right">
-              <div class="clay-cal">320</div>
-              <div class="clay-time">5 min</div>
-              <div class="clay-qty">Eggs ×6</div>
+            <div class="split-card-actions">
+              <button class="split-act"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="split-nav">
+          <button class="split-nav-btn active">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            Eat
+          </button>
+          <button class="split-nav-btn">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Plan
+          </button>
+          <button class="split-nav-btn">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            Shop
+          </button>
+          <button class="split-nav-btn">
+            <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+            Pantry
+          </button>
+          <button class="split-nav-btn">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Log
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== EMBER REFINED ==================== -->
+  <div class="preview-card">
+    <div class="preview-label">
+      <h2>Ember Refined</h2>
+      <p>Best of round 2's dark warmth + serif/sans pairing. Hero card for top pick, compact rows for rest. Accent bar, not accent border. Typographic hierarchy does the work.</p>
+    </div>
+    <div class="preview-frame">
+      <div class="emberx">
+        <div class="emberx-header">
+          <div class="emberx-title">What should<br>I eat<span>?</span></div>
+          <div class="emberx-meta-row">
+            <span>Friday evening</span>
+            <span class="dot"></span>
+            <div class="emberx-progress">
+              <div class="emberx-progress-bar"><div class="emberx-progress-fill"></div></div>
+              <span>3 / 4</span>
+            </div>
+            <span class="dot"></span>
+            <span>18 stocked</span>
+          </div>
+        </div>
+        <div class="emberx-body">
+          <div class="emberx-input-wrap">
+            <input class="emberx-input" placeholder="I'm tired… bought stuff… made curry last night…" readonly>
+            <div class="emberx-pills">
+              <button class="emberx-pill">quick meal</button>
+              <button class="emberx-pill">use salmon</button>
+              <button class="emberx-pill">high protein</button>
+              <button class="emberx-pill">add to pantry</button>
             </div>
           </div>
 
-          <div class="clay-nav">
-            <div class="clay-nav-item active"><span class="nav-icon">🍚</span>Eat</div>
-            <div class="clay-nav-item"><span class="nav-icon">📋</span>Plan</div>
-            <div class="clay-nav-item"><span class="nav-icon">🛒</span>Shop</div>
-            <div class="clay-nav-item"><span class="nav-icon">🥫</span>Pantry</div>
-            <div class="clay-nav-item"><span class="nav-icon">📊</span>Log</div>
+          <div class="emberx-section-label">Top pick</div>
+          <div class="emberx-pick">
+            <div class="emberx-pick-top">
+              <div class="emberx-pick-name">Rice Bowl + Salmon</div>
+              <div class="emberx-pick-cal">420</div>
+            </div>
+            <div class="emberx-pick-detail">
+              You have everything. Salmon's been in the fridge 2 days — tonight's the night.
+            </div>
+            <div class="emberx-pick-row">
+              <div class="emberx-pick-stats">
+                <span><span class="val">32g</span> protein</span>
+                <span><span class="val">15</span> min</span>
+                <span>last <span class="val">5d</span> ago</span>
+                <span>salmon <span class="val">×2</span></span>
+              </div>
+              <div class="emberx-pick-actions">
+                <button class="emberx-btn eat">Ate this</button>
+                <button class="emberx-btn skip">Skip</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="emberx-section-label">Also works</div>
+          <div class="emberx-others">
+            <div class="emberx-alt">
+              <div class="emberx-alt-name">Japanese Curry</div>
+              <div class="emberx-alt-meta">
+                <span>550</span>
+                <span>25m</span>
+                <span class="emberx-alt-status ready">READY</span>
+              </div>
+            </div>
+            <div class="emberx-alt">
+              <div class="emberx-alt-name">Thai Stir Fry</div>
+              <div class="emberx-alt-meta">
+                <span>380</span>
+                <span>20m</span>
+                <span class="emberx-alt-status partial">NEED 1</span>
+              </div>
+            </div>
+            <div class="emberx-alt">
+              <div class="emberx-alt-name">Eggs + Toast</div>
+              <div class="emberx-alt-meta">
+                <span>320</span>
+                <span>5m</span>
+                <span class="emberx-alt-status ready">READY</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="emberx-nav">
+            <button class="emberx-nav-btn active">
+              <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+              Eat
+            </button>
+            <button class="emberx-nav-btn">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Plan
+            </button>
+            <button class="emberx-nav-btn">
+              <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+              Shop
+            </button>
+            <button class="emberx-nav-btn">
+              <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+              Pantry
+            </button>
+            <button class="emberx-nav-btn">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Log
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== SMOKED GLASS ==================== -->
+  <!-- ==================== OPEN SHELF ==================== -->
   <div class="preview-card">
     <div class="preview-label">
-      <h2>Smoked Glass</h2>
-      <p>Dark purple-gray base, frosted glass cards, warm peach accent. Modern, soft on eyes, distinctive.</p>
+      <h2>Open Shelf</h2>
+      <p>Horizontal scroll "shelves" for meals — like browsing a pantry. Selected item expands into a detail card with ingredient chips. Stock levels shown as fill bars. Totally different layout.</p>
     </div>
     <div class="preview-frame">
-      <div class="glass">
-        <div class="glass-header">
+      <div class="shelf">
+        <div class="shelf-header">
           <h1>What should I eat?</h1>
-          <div class="glass-sub">Friday evening</div>
-          <div class="glass-streak">● 3 of 4 meals today</div>
+          <div class="shelf-header-right">
+            <div class="shelf-counter"><strong>3</strong>/4 meals</div>
+            <div class="shelf-counter"><strong>18</strong> stocked</div>
+          </div>
         </div>
-        <div class="glass-body">
-          <div class="glass-input-wrap">
-            <input class="glass-input" placeholder="I'm tired… / bought eggs, rice / made curry" readonly>
-            <button class="glass-send">→</button>
+        <div class="shelf-body">
+          <div class="shelf-input-row">
+            <input class="shelf-input" placeholder="tired… bought stuff… use the salmon…" readonly>
           </div>
 
-          <div class="glass-label">Top Pick</div>
-          <div class="glass-card featured">
-            <div class="glass-card-icon">🍚</div>
-            <div class="glass-card-body">
-              <h3>Rice Bowl + Salmon</h3>
-              <div class="glass-card-detail">32g protein · last had 5 days ago</div>
-              <div class="glass-badge ready">✓ Ready</div>
+          <div class="shelf-row-label">Ready to make</div>
+          <div class="shelf-tray">
+            <div class="shelf-item pick">
+              <div class="shelf-item-name">Rice Bowl + Salmon</div>
+              <div class="shelf-item-sub">420 cal · 15m</div>
+              <div class="shelf-bar-wrap"><div class="shelf-bar-fill green" style="width:100%"></div></div>
+              <div class="shelf-item-status ok">All stocked</div>
             </div>
-            <div class="glass-card-right">
-              <div class="glass-cal">420</div>
-              <div class="glass-time">15 min</div>
-              <div class="glass-qty">Salmon ×2</div>
+            <div class="shelf-item">
+              <div class="shelf-item-name">Japanese Curry</div>
+              <div class="shelf-item-sub">550 cal · 25m</div>
+              <div class="shelf-bar-wrap"><div class="shelf-bar-fill green" style="width:100%"></div></div>
+              <div class="shelf-item-status ok">All stocked</div>
             </div>
-          </div>
-
-          <div class="glass-actions">
-            <button class="glass-btn primary">Ate this</button>
-            <button class="glass-btn secondary">Not that</button>
-          </div>
-
-          <div class="glass-label">Also works</div>
-          <div class="glass-card">
-            <div class="glass-card-icon">🍛</div>
-            <div class="glass-card-body">
-              <h3>Japanese Curry</h3>
-              <div class="glass-card-detail">24g protein · last had 3 days ago</div>
-              <div class="glass-badge ready">✓ Ready</div>
+            <div class="shelf-item">
+              <div class="shelf-item-name">Eggs + Toast</div>
+              <div class="shelf-item-sub">320 cal · 5m</div>
+              <div class="shelf-bar-wrap"><div class="shelf-bar-fill green" style="width:85%"></div></div>
+              <div class="shelf-item-status ok">Eggs ×6</div>
             </div>
-            <div class="glass-card-right">
-              <div class="glass-cal">550</div>
-              <div class="glass-time">25 min</div>
+            <div class="shelf-item">
+              <div class="shelf-item-name">Yogurt Bowl</div>
+              <div class="shelf-item-sub">280 cal · 2m</div>
+              <div class="shelf-bar-wrap"><div class="shelf-bar-fill green" style="width:100%"></div></div>
+              <div class="shelf-item-status ok">All stocked</div>
             </div>
           </div>
 
-          <div class="glass-card">
-            <div class="glass-card-icon">🥘</div>
-            <div class="glass-card-body">
-              <h3>Thai Stir Fry</h3>
-              <div class="glass-card-detail">28g protein · last had 8 days ago</div>
-              <div class="glass-badge partial">Need: fish sauce</div>
+          <div class="shelf-detail-card">
+            <div class="shelf-detail-top">
+              <div class="shelf-detail-name">Rice Bowl + Salmon</div>
+              <div class="shelf-detail-cal">420</div>
             </div>
-            <div class="glass-card-right">
-              <div class="glass-cal">380</div>
-              <div class="glass-time">20 min</div>
+            <div class="shelf-detail-row">
+              <span>protein <span class="val">32g</span></span>
+              <span>time <span class="val">15m</span></span>
+              <span>last <span class="val">5d ago</span></span>
+              <span>salmon <span class="val">×2</span></span>
             </div>
-          </div>
-
-          <div class="glass-card">
-            <div class="glass-card-icon">🍳</div>
-            <div class="glass-card-body">
-              <h3>Eggs + Toast</h3>
-              <div class="glass-card-detail">18g protein · Eggs ×6</div>
-              <div class="glass-badge ready">✓ Ready</div>
+            <div class="shelf-detail-ing">
+              <span class="shelf-ing-chip have">rice</span>
+              <span class="shelf-ing-chip have">salmon</span>
+              <span class="shelf-ing-chip have">soy sauce</span>
+              <span class="shelf-ing-chip have">ginger</span>
+              <span class="shelf-ing-chip have">sesame oil</span>
             </div>
-            <div class="glass-card-right">
-              <div class="glass-cal">320</div>
-              <div class="glass-time">5 min</div>
+            <div class="shelf-detail-actions">
+              <button class="shelf-btn primary">Ate this</button>
+              <button class="shelf-btn secondary">Skip</button>
             </div>
           </div>
 
-          <div class="glass-nav">
-            <div class="glass-nav-item active"><span class="nav-icon">🍚</span>Eat</div>
-            <div class="glass-nav-item"><span class="nav-icon">📋</span>Plan</div>
-            <div class="glass-nav-item"><span class="nav-icon">🛒</span>Shop</div>
-            <div class="glass-nav-item"><span class="nav-icon">🥫</span>Pantry</div>
-            <div class="glass-nav-item"><span class="nav-icon">📊</span>Log</div>
+          <div class="shelf-row-label">Almost ready</div>
+          <div class="shelf-tray">
+            <div class="shelf-item">
+              <div class="shelf-item-name">Thai Stir Fry</div>
+              <div class="shelf-item-sub">380 cal · 20m</div>
+              <div class="shelf-bar-wrap"><div class="shelf-bar-fill amber" style="width:80%"></div></div>
+              <div class="shelf-item-status low">Need: fish sauce</div>
+            </div>
+            <div class="shelf-item">
+              <div class="shelf-item-name">Miso Soup + Rice</div>
+              <div class="shelf-item-sub">300 cal · 10m</div>
+              <div class="shelf-bar-wrap"><div class="shelf-bar-fill amber" style="width:70%"></div></div>
+              <div class="shelf-item-status low">Need: tofu</div>
+            </div>
+          </div>
+
+          <div class="shelf-nav">
+            <button class="shelf-nav-btn active">
+              <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+              Eat
+            </button>
+            <button class="shelf-nav-btn">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Plan
+            </button>
+            <button class="shelf-nav-btn">
+              <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+              Shop
+            </button>
+            <button class="shelf-nav-btn">
+              <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+              Pantry
+            </button>
+            <button class="shelf-nav-btn">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Log
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== MIDNIGHT EMBER ==================== -->
+  <!-- ==================== TINTED GLASS ==================== -->
   <div class="preview-card">
     <div class="preview-label">
-      <h2>Midnight Ember</h2>
-      <p>Near-black charcoal base, ember-orange accent, minimal chrome. Quiet and focused — no visual noise.</p>
+      <h2>Tinted Glass</h2>
+      <p>Deep blue-gray, copper accent, asymmetric big type. Hero card with stat grid. Sophisticated, spacious, breathes. Like a premium app that happens to be about food.</p>
     </div>
     <div class="preview-frame">
-      <div class="ember">
-        <div class="ember-header">
-          <h1>What should I eat?</h1>
-          <div class="ember-sub"><span class="ember-dot"></span> 3 of 4 meals · Friday evening</div>
-        </div>
-        <div class="ember-body">
-          <div class="ember-input-wrap">
-            <span class="ember-cursor">›</span>
-            <input class="ember-input" placeholder="I'm tired… / bought eggs, rice / made curry" readonly>
-          </div>
-
-          <div class="ember-label">Top Pick <span class="ember-label-line"></span></div>
-          <div class="ember-card featured">
-            <div class="ember-card-dot">🍚</div>
-            <div class="ember-card-body">
-              <h3>Rice Bowl + Salmon</h3>
-              <div class="ember-card-detail">32g protein · last had 5 days ago</div>
-              <div class="ember-badge ready">✓ Ready</div>
+      <div class="tinted">
+        <div class="tinted-header">
+          <div class="tinted-kicker">Friday evening</div>
+          <div class="tinted-title">What should<br>I eat<span class="accent">?</span></div>
+          <div class="tinted-stats">
+            <div class="tinted-stat">
+              <div class="tinted-stat-val">3/4</div>
+              <div class="tinted-stat-label">Meals today</div>
             </div>
-            <div class="ember-card-right">
-              <div class="ember-cal">420</div>
-              <div class="ember-time">15 min</div>
-              <div class="ember-qty">Salmon ×2</div>
+            <div class="tinted-stat">
+              <div class="tinted-stat-val">18</div>
+              <div class="tinted-stat-label">Pantry items</div>
             </div>
-          </div>
-
-          <div class="ember-actions">
-            <button class="ember-btn primary">Ate this</button>
-            <button class="ember-btn secondary">Not that</button>
-          </div>
-
-          <div class="ember-label">Also works <span class="ember-label-line"></span></div>
-          <div class="ember-card">
-            <div class="ember-card-dot">🍛</div>
-            <div class="ember-card-body">
-              <h3>Japanese Curry</h3>
-              <div class="ember-card-detail">24g protein · last had 3 days ago</div>
-              <div class="ember-badge ready">✓ Ready</div>
+            <div class="tinted-stat">
+              <div class="tinted-stat-val">2d</div>
+              <div class="tinted-stat-label">Salmon age</div>
             </div>
-            <div class="ember-card-right">
-              <div class="ember-cal">550</div>
-              <div class="ember-time">25 min</div>
-            </div>
-          </div>
-
-          <div class="ember-card">
-            <div class="ember-card-dot">🥘</div>
-            <div class="ember-card-body">
-              <h3>Thai Stir Fry</h3>
-              <div class="ember-card-detail">28g protein · last had 8 days ago</div>
-              <div class="ember-badge partial">Need: fish sauce</div>
-            </div>
-            <div class="ember-card-right">
-              <div class="ember-cal">380</div>
-              <div class="ember-time">20 min</div>
-            </div>
-          </div>
-
-          <div class="ember-card">
-            <div class="ember-card-dot">🍳</div>
-            <div class="ember-card-body">
-              <h3>Eggs + Toast</h3>
-              <div class="ember-card-detail">18g protein · quick go-to</div>
-              <div class="ember-badge ready">✓ Ready</div>
-            </div>
-            <div class="ember-card-right">
-              <div class="ember-cal">320</div>
-              <div class="ember-time">5 min</div>
-              <div class="ember-qty">Eggs ×6</div>
-            </div>
-          </div>
-
-          <div class="ember-nav">
-            <div class="ember-nav-item active"><span class="nav-icon">🍚</span>Eat</div>
-            <div class="ember-nav-item"><span class="nav-icon">📋</span>Plan</div>
-            <div class="ember-nav-item"><span class="nav-icon">🛒</span>Shop</div>
-            <div class="ember-nav-item"><span class="nav-icon">🥫</span>Pantry</div>
-            <div class="ember-nav-item"><span class="nav-icon">📊</span>Log</div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== SOFT SAND ==================== -->
-  <div class="preview-card">
-    <div class="preview-label">
-      <h2>Soft Sand</h2>
-      <p>Muted warm linen base (not white), dark header, coral accent. Calm and readable without being sterile.</p>
-    </div>
-    <div class="preview-frame">
-      <div class="sand">
-        <div class="sand-header">
-          <h1>What should I eat?</h1>
-          <div class="sand-sub">Friday evening</div>
-          <div class="sand-counter">● 3 of 4 meals today</div>
-        </div>
-        <div class="sand-body">
-          <div class="sand-input-wrap">
-            <input class="sand-input" placeholder="I'm tired… / bought eggs, rice / made curry" readonly>
+        <div class="tinted-body">
+          <div class="tinted-input-wrap">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input class="tinted-input" placeholder="tired… bought stuff… made curry last night…" readonly>
           </div>
 
-          <div class="sand-label">Top Pick</div>
-          <div class="sand-card featured">
-            <div class="sand-card-icon warm">🍚</div>
-            <div class="sand-card-body">
-              <h3>Rice Bowl + Salmon</h3>
-              <div class="sand-card-detail">32g protein · last had 5 days ago</div>
-              <div class="sand-badge ready">✓ Ready</div>
-            </div>
-            <div class="sand-card-right">
-              <div class="sand-cal">420</div>
-              <div class="sand-time">15 min</div>
-              <div class="sand-qty">Salmon ×2</div>
-            </div>
-          </div>
-
-          <div class="sand-actions">
-            <button class="sand-btn primary">Ate this</button>
-            <button class="sand-btn secondary">Not that</button>
-          </div>
-
-          <div class="sand-label">Also works</div>
-          <div class="sand-card">
-            <div class="sand-card-icon earth">🍛</div>
-            <div class="sand-card-body">
-              <h3>Japanese Curry</h3>
-              <div class="sand-card-detail">24g protein · last had 3 days ago</div>
-              <div class="sand-badge ready">✓ Ready</div>
-            </div>
-            <div class="sand-card-right">
-              <div class="sand-cal">550</div>
-              <div class="sand-time">25 min</div>
+          <div class="tinted-section">
+            <div class="tinted-section-label">Top pick</div>
+            <div class="tinted-main-card">
+              <div class="tinted-main-name">Rice Bowl + Salmon</div>
+              <div class="tinted-main-why">Salmon's been in the fridge 2 days. You have everything else.</div>
+              <div class="tinted-main-grid">
+                <div class="tinted-main-stat">
+                  <div class="tinted-main-stat-val">420</div>
+                  <div class="tinted-main-stat-label">Calories</div>
+                </div>
+                <div class="tinted-main-stat">
+                  <div class="tinted-main-stat-val">32g</div>
+                  <div class="tinted-main-stat-label">Protein</div>
+                </div>
+                <div class="tinted-main-stat">
+                  <div class="tinted-main-stat-val">15m</div>
+                  <div class="tinted-main-stat-label">Time</div>
+                </div>
+                <div class="tinted-main-stat">
+                  <div class="tinted-main-stat-val">5d</div>
+                  <div class="tinted-main-stat-label">Last had</div>
+                </div>
+              </div>
+              <div class="tinted-main-actions">
+                <button class="tinted-btn primary">Ate this</button>
+                <button class="tinted-btn secondary">Not this</button>
+              </div>
             </div>
           </div>
 
-          <div class="sand-card">
-            <div class="sand-card-icon cool">🥘</div>
-            <div class="sand-card-body">
-              <h3>Thai Stir Fry</h3>
-              <div class="sand-card-detail">28g protein · last had 8 days ago</div>
-              <div class="sand-badge partial">Need: fish sauce</div>
-            </div>
-            <div class="sand-card-right">
-              <div class="sand-cal">380</div>
-              <div class="sand-time">20 min</div>
-            </div>
-          </div>
-
-          <div class="sand-card">
-            <div class="sand-card-icon warm">🍳</div>
-            <div class="sand-card-body">
-              <h3>Eggs + Toast</h3>
-              <div class="sand-card-detail">18g protein · quick go-to</div>
-              <div class="sand-badge ready">✓ Ready</div>
-            </div>
-            <div class="sand-card-right">
-              <div class="sand-cal">320</div>
-              <div class="sand-time">5 min</div>
-              <div class="sand-qty">Eggs ×6</div>
-            </div>
-          </div>
-
-          <div class="sand-nav">
-            <div class="sand-nav-item active"><span class="nav-icon">🍚</span>Eat</div>
-            <div class="sand-nav-item"><span class="nav-icon">📋</span>Plan</div>
-            <div class="sand-nav-item"><span class="nav-icon">🛒</span>Shop</div>
-            <div class="sand-nav-item"><span class="nav-icon">🥫</span>Pantry</div>
-            <div class="sand-nav-item"><span class="nav-icon">📊</span>Log</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== DEEP TEAL ==================== -->
-  <div class="preview-card">
-    <div class="preview-label">
-      <h2>Deep Teal</h2>
-      <p>Rich dark teal base, gold/amber accent. Distinctive color territory — not the usual gray or blue dark theme.</p>
-    </div>
-    <div class="preview-frame">
-      <div class="teal">
-        <div class="teal-header">
-          <h1>What should I eat?</h1>
-          <div class="teal-sub">Friday evening</div>
-          <div class="teal-badge-row">
-            <span class="teal-stat">3 of 4 meals</span>
-            <span class="teal-stat">18 items stocked</span>
-          </div>
-        </div>
-        <div class="teal-body">
-          <div class="teal-input-wrap">
-            <input class="teal-input" placeholder="I'm tired… / bought eggs, rice / made curry" readonly>
-            <button class="teal-send">→</button>
-          </div>
-
-          <div class="teal-label">Top Pick</div>
-          <div class="teal-card featured">
-            <div class="teal-card-icon">🍚</div>
-            <div class="teal-card-body">
-              <h3>Rice Bowl + Salmon</h3>
-              <div class="teal-card-detail">32g protein · last had 5 days ago</div>
-              <div class="teal-mbadge ready">✓ Ready</div>
-            </div>
-            <div class="teal-card-right">
-              <div class="teal-cal">420</div>
-              <div class="teal-time">15 min</div>
-              <div class="teal-qty">Salmon ×2</div>
+          <div class="tinted-section">
+            <div class="tinted-section-label">Also available</div>
+            <div class="tinted-alt-list">
+              <div class="tinted-alt">
+                <div class="tinted-alt-rank">2</div>
+                <div class="tinted-alt-name">Japanese Curry</div>
+                <div class="tinted-alt-info">
+                  <span>550</span>
+                  <span>25m</span>
+                  <span class="ready">READY</span>
+                </div>
+              </div>
+              <div class="tinted-alt">
+                <div class="tinted-alt-rank">3</div>
+                <div class="tinted-alt-name">Thai Stir Fry</div>
+                <div class="tinted-alt-info">
+                  <span>380</span>
+                  <span>20m</span>
+                  <span class="partial">NEED 1</span>
+                </div>
+              </div>
+              <div class="tinted-alt">
+                <div class="tinted-alt-rank">4</div>
+                <div class="tinted-alt-name">Eggs + Toast</div>
+                <div class="tinted-alt-info">
+                  <span>320</span>
+                  <span>5m</span>
+                  <span class="ready">READY</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="teal-actions">
-            <button class="teal-btn primary">Ate this</button>
-            <button class="teal-btn secondary">Not that</button>
-          </div>
-
-          <div class="teal-label">Also works</div>
-          <div class="teal-card">
-            <div class="teal-card-icon">🍛</div>
-            <div class="teal-card-body">
-              <h3>Japanese Curry</h3>
-              <div class="teal-card-detail">24g protein · last had 3 days ago</div>
-              <div class="teal-mbadge ready">✓ Ready</div>
-            </div>
-            <div class="teal-card-right">
-              <div class="teal-cal">550</div>
-              <div class="teal-time">25 min</div>
-            </div>
-          </div>
-
-          <div class="teal-card">
-            <div class="teal-card-icon">🥘</div>
-            <div class="teal-card-body">
-              <h3>Thai Stir Fry</h3>
-              <div class="teal-card-detail">28g protein · last had 8 days ago</div>
-              <div class="teal-mbadge partial">Need: fish sauce</div>
-            </div>
-            <div class="teal-card-right">
-              <div class="teal-cal">380</div>
-              <div class="teal-time">20 min</div>
-            </div>
-          </div>
-
-          <div class="teal-card">
-            <div class="teal-card-icon">🍳</div>
-            <div class="teal-card-body">
-              <h3>Eggs + Toast</h3>
-              <div class="teal-card-detail">18g protein · quick go-to</div>
-              <div class="teal-mbadge ready">✓ Ready</div>
-            </div>
-            <div class="teal-card-right">
-              <div class="teal-cal">320</div>
-              <div class="teal-time">5 min</div>
-              <div class="teal-qty">Eggs ×6</div>
-            </div>
-          </div>
-
-          <div class="teal-nav">
-            <div class="teal-nav-item active"><span class="nav-icon">🍚</span>Eat</div>
-            <div class="teal-nav-item"><span class="nav-icon">📋</span>Plan</div>
-            <div class="teal-nav-item"><span class="nav-icon">🛒</span>Shop</div>
-            <div class="teal-nav-item"><span class="nav-icon">🥫</span>Pantry</div>
-            <div class="teal-nav-item"><span class="nav-icon">📊</span>Log</div>
+          <div class="tinted-nav">
+            <button class="tinted-nav-btn active">
+              <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+              Eat
+            </button>
+            <button class="tinted-nav-btn">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Plan
+            </button>
+            <button class="tinted-nav-btn">
+              <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+              Shop
+            </button>
+            <button class="tinted-nav-btn">
+              <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+              Pantry
+            </button>
+            <button class="tinted-nav-btn">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Log
+            </button>
           </div>
         </div>
       </div>
